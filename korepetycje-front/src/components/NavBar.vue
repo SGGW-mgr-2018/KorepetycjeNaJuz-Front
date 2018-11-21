@@ -20,6 +20,7 @@ export default {
 <style lang="scss" scoped>
   .nav {
     position: fixed;
+    z-index: 10;
     width: 100%;
 
     &__wrapper {
@@ -37,10 +38,12 @@ export default {
       font-size: 17px;
       text-decoration: none;
       color: #fff;
+
       &.log {
         border: 1px solid #fff;
         border-radius: 40px;
       }
+
       &.router-link-exact-active {
         font-weight: 500;
       }

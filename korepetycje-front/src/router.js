@@ -5,7 +5,7 @@ import Home from './views/Home.vue'
 // import authenticated from './middleware/authenticated'
 // import notAuthenticated from './middleware/notAuthenticated'
 import log from './middleware/log'
-import notAuthenticated from './middleware/notAuthenticated'
+// import notAuthenticated from './middleware/notAuthenticated'
 import { nextFactory } from './assets/js/routerUtils'
 
 Vue.use(Router)
@@ -33,18 +33,18 @@ const router = new Router({
     {
       path: '/logowanie',
       name: 'logowanie',
-      component: () => import(/* webpackChunkName: "login" */ './views/Logowanie'),
-      meta: {
-        middleware: notAuthenticated
-      }
+      component: () => import(/* webpackChunkName: "login" */ './views/Logowanie')
+      // meta: {
+      //   middleware: notAuthenticated
+      // }
     },
     {
       path: '/rejestracja',
       name: 'rejestracja',
-      component: () => import(/* webpackChunkName: "register" */ './views/Rejestracja'),
-      meta: {
-        middleware: notAuthenticated
-      }
+      component: () => import(/* webpackChunkName: "register" */ './views/Rejestracja')
+      // meta: {
+      //   middleware: notAuthenticated
+      // }
     },
     {
       path: '/map',
