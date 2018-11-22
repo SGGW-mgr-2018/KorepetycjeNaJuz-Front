@@ -1,12 +1,12 @@
 <template>
-  <div class="page--login">
-    Logowanie
-  </div>
+  <footer class="footer">
+    Stopka
+  </footer>
 </template>
 
 <script>
 export default {
-  name: 'Logowanie'
+  name: 'Footer'
 }
 </script>
 

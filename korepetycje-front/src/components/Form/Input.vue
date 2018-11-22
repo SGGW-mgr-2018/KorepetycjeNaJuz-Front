@@ -1,12 +1,10 @@
 <template>
-  <div class="page--login">
-    Logowanie
-  </div>
+  <input type="text">
 </template>
 
 <script>
 export default {
-  name: 'Logowanie'
+  name: 'Input'
 }
 </script>
 
