@@ -13,7 +13,7 @@
           Szukaj
         </button-component>
       </div>
-      <div class="search-bar__label">lub</div>
+      <div class="search-bar__label search-bar__label--smaller">lub</div>
       <button-component pink class="button-cta">
         Udziel korepetycji <strong>już teraz</strong>
       </button-component>
@@ -56,16 +56,16 @@ export default {
     text-align: center;
 
     &__label {
-      font-size: 48px;
-      font-weight: 100;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: white;
-      text-align: center;
       margin-bottom: 6vh;
       margin-top: 4vh;
+      font-size: 48px;
+      font-weight: 100;
+      color: white;
+      text-align: center;
+
+      &--smaller {
+        margin: 10vh;
+      }
     }
 
     &__container {
