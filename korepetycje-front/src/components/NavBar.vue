@@ -5,11 +5,11 @@
       <div class="nav-links">
         <router-link to="/" class="nav-links__link">Główna</router-link>
         <router-link to="/rejestracja" class="nav-links__link">Rejestracja</router-link>
-        <router-link to="/logowanie" class="nav-links__link log" @click="seen = !seen">Logowanie</router-link>
+        <router-link to="/" class="nav-links__link log" @mouseover.native="showedPopup = true" @mouseleave.native="showedPopup = false">Logowanie</router-link>
       </div>
     </grid-container>
     <grid-container>
-      <login-modal :show="seen" />
+      <login-modal v-show="showedPopup" />
     </grid-container>
   </div>
 </template>
@@ -20,6 +20,11 @@ export default {
   name: 'NavBar',
   components: {
     LoginModal
+  },
+  data () {
+    return {
+      showedPopup: false
+    }
   }
 }
 </script>

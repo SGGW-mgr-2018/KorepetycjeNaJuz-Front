@@ -8,9 +8,6 @@ Vue.config.productionTip = false
 Vue.component('GridContainer', GridContainer)
 
 new Vue({
-  data: {
-    seen: false
-  },
   router,
   store,
   render: h => h(App)
