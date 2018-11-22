@@ -61,7 +61,8 @@ export default {
 
     &__button {
       font-size: 14px;
-      margin: 9px 16px;
+      padding: 8px 30px;
+      margin: 9px auto;
     }
 
     .social-buttons {

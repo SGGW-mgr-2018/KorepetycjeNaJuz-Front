@@ -52,8 +52,9 @@ export default {
 
     &__link {
       margin: 10px 0;
-      padding: 10px 40px;
+      padding: 8px 30px;
       font-size: 17px;
+      font-weight: 500;
       text-decoration: none;
       color: #fff;
 
