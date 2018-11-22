@@ -21,8 +21,9 @@ export default {
   },
   methods: {
     searchLocation () {
-      var searchInput = this.searchContent
-      router.push({ name: 'map', params: { searchInput: searchInput } })
+      if (this.searchContent !== '') {
+        router.push({ name: 'map', params: { searchInput: this.searchContent } })
+      }
     }
   }
 }
