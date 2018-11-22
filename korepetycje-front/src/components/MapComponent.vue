@@ -79,8 +79,8 @@ export default {
       options: {
         position: 'topleft'
       },
-      onAdd: function (map) {
-        var container = Leaflet.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom')
+      onAdd (map) {
+        const container = Leaflet.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom')
         container.style.backgroundColor = 'white'
         container.style.width = '34px'
         container.style.height = '34px'
@@ -88,7 +88,7 @@ export default {
         container.title = 'Kliknij, aby pokazać twoją lokalizację'
         container.style.backgroundImage = 'url("https://image.freepik.com/free-icon/gps-map-location_318-9071.jpg")'
         container.style.backgroundSize = '30px 30px'
-        container.onclick = function () {
+        container.onclick = () => {
           const location = new Location(map)
           location.locate()
         }
@@ -97,7 +97,7 @@ export default {
     }),
 
     onLocationFound (e) {
-      var radius = e.accuracy / 2
+      const radius = e.accuracy / 2
       this.markers = []
       console.log(e.latlng.lat + ' : ' + e.latlng.lng)
       this.markers.push({
@@ -107,7 +107,7 @@ export default {
         icon: this.defaultIcon
       })
     },
-    openPopup: function (event) {
+    openPopup (event) {
       Vue.nextTick(() => {
         event.target.openPopup()
       })
