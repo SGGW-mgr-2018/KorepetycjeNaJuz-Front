@@ -30,6 +30,10 @@ export default {
     grey: {
       type: Boolean,
       default: false
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
