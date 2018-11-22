@@ -2,26 +2,40 @@
   <div class="search-bar">
     <div class="search-bar-label">Znajdź korepetycje na już</div>
     <div class="search-container">
-      <input v-model="searchContent" type="text" class="search-bar-input" placeholder="WPISZ SWOJĄ LOKALIZACJĘ">
+      <input
+        v-model="searchContent"
+        type="text"
+        class="search-bar-input"
+        placeholder="WPISZ SWOJĄ LOKALIZACJĘ"
+      >
       <button class="search-bar-button" @click="searchLocation">SZUKAJ</button>
-    <div class="search-bar__label">Znajdź korepetycje na już</div>
-    <div class="search-bar__container">
-      <input type="text" class="search-bar__input" placeholder="WPISZ SWOJĄ LOKALIZACJĘ">
-      <button-component class="search-bar__button" pink>
-        Szukaj
+      <div class="search-bar__label">Znajdź korepetycje na już</div>
+      <div class="search-bar__container">
+        <input
+          type="text"
+          class="search-bar__input"
+          placeholder="WPISZ SWOJĄ LOKALIZACJĘ"
+        >
+        <button-component class="search-bar__button" pink>
+          Szukaj
+        </button-component>
+      </div>
+      <div class="search-bar__label">lub</div>
+      <button-component pink>
+        Udziel korepetycji <strong>już teraz</strong>
       </button-component>
     </div>
-    <div class="search-bar__label">lub</div>
-    <button-component pink>
-      Udziel korepetycji <strong>już teraz</strong>
-    </button-component>
   </div>
 </template>
 
 <script>
-import router from '@/router.js'
+import ButtonComponent from '@/components/Button'
+
 export default {
   name: 'SearchBar',
+  components: {
+    ButtonComponent
+  },
   data () {
     return {
       searchContent: ''
@@ -30,15 +44,12 @@ export default {
   methods: {
     searchLocation () {
       if (this.searchContent !== '') {
-        router.push({ name: 'map', params: { searchInput: this.searchContent } })
+        this.$router.push({
+          name: 'map',
+          params: { searchInput: this.searchContent }
+        })
       }
     }
-import ButtonComponent from '@/components/Button'
-
-export default {
-  name: 'SearchBar',
-  components: {
-    ButtonComponent
   }
 }
 </script>
