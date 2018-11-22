@@ -9,7 +9,7 @@
       :center="center"
       :max-native-zoom="maxNativeZoom"
     >
-      <l-tile-layer :url="url"/>
+      <l-tile-layer :url="url" />
       <l-marker
         v-for="item in markers"
         :key="item.id"
@@ -18,7 +18,7 @@
         @mouseenter="openPopup($event)"
         @mouseout="closePopup($event)"
       >
-        <l-popup :content="item.content"/>
+        <l-popup :content="item.content" />
       </l-marker>
     </l-map>
   </div>
