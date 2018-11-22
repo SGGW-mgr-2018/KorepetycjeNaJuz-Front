@@ -23,11 +23,11 @@ export default {
       type: String,
       default: 'button'
     },
-    loading: {
+    pink: {
       type: Boolean,
       default: false
     },
-    pink: {
+    grey: {
       type: Boolean,
       default: false
     }
@@ -36,7 +36,8 @@ export default {
     styles () {
       return {
         'button--pink': this.pink,
-        'button--loading': this.loading
+        'button--loading': this.loading,
+        'button--grey': this.grey
       }
     }
   }
@@ -69,6 +70,15 @@ export default {
     &--loading {
       opacity: .8;
       pointer-events: none;
+    }
+
+    &--grey {
+      background: #3d3d3d;
+      color: white;
+
+      &:hover {
+        background: grey;
+      }
     }
   }
 </style>
