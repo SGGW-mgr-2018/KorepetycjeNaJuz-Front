@@ -12,6 +12,7 @@
     "leaflet-geosearch": "^2.7.0",
     "leaflet-gps": "^1.7.6",
     "vue": "^2.5.17",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vue2-leaflet": "^1.2.3",
     "vue2-leaflet-geosearch": "^1.0.1",

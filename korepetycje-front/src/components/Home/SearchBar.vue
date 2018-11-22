@@ -2,8 +2,8 @@
   <div class="search-bar">
     <div class="search-bar-label">Znajdź korepetycje na już</div>
     <div class="search-container">
-      <input type="text" class="search-bar-input" placeholder="WPISZ SWOJĄ LOKALIZACJĘ">
-      <button class="search-bar-button">SZUKAJ</button>
+      <input v-model="searchContent" type="text" class="search-bar-input" placeholder="WPISZ SWOJĄ LOKALIZACJĘ">
+      <button class="search-bar-button" @click="searchLocation">SZUKAJ</button>
     </div>
     <div class="search-bar-label">lub</div>
     <button class="search-bar-button button-cor">UDZIEL KOREPETYCJI TERAZ</button>
@@ -11,8 +11,20 @@
 </template>
 
 <script>
+import router from '@/router.js'
 export default {
-  name: 'SearchBar'
+  name: 'SearchBar',
+  data () {
+    return {
+      searchContent: ''
+    }
+  },
+  methods: {
+    searchLocation () {
+      var searchInput = this.searchContent
+      router.push({ name: 'map', params: { searchInput: searchInput } })
+    }
+  }
 }
 </script>
 

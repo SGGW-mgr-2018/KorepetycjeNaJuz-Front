@@ -15,7 +15,8 @@
         :key="item.id"
         :icon="item.icon"
         :lat-lng="item.latlng"
-        @add="openPopup($event)"
+        @mouseenter="openPopup($event)"
+        @mouseout="closePopup($event)"
       >
         <l-popup :content="item.content" />
       </l-marker>
@@ -29,6 +30,9 @@ import Leaflet from 'leaflet'
 import Location from '@/assets/js/location.js'
 import { LMap, LTileLayer, LPopup, LMarker } from 'vue2-leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch'
+import VueResource from 'vue-resource'
+
+Vue.use(VueResource)
 
 export default {
   name: 'MapComponent',
@@ -49,8 +53,12 @@ export default {
         iconSize: [50, 60],
         iconAnchor: [34, 59],
         popupAnchor: [-10, -43]
-      })
+      }),
+      searchLabel: ''
     }
+  },
+  created () {
+    this.searchLabel = this.$route.params.searchInput
   },
   mounted () {
     this.map = this.$refs.map.mapObject
@@ -64,6 +72,7 @@ export default {
       searchLabel: 'Wpisz adres'
     })
     this.map.addControl(searchControl)
+    this.loadData()
   },
   methods: {
     ControlGps: Leaflet.Control.extend({
@@ -90,6 +99,7 @@ export default {
     onLocationFound (e) {
       var radius = e.accuracy / 2
       this.markers = []
+      console.log(e.latlng.lat + ' : ' + e.latlng.lng)
       this.markers.push({
         id: 1,
         latlng: Leaflet.latLng(e.latlng.lat, e.latlng.lng),
@@ -100,6 +110,23 @@ export default {
     openPopup: function (event) {
       Vue.nextTick(() => {
         event.target.openPopup()
+      })
+    },
+    closePopup: function (event) {
+      Vue.nextTick(() => {
+        event.target.closePopup()
+      })
+    },
+    loadData: function () {
+      // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
+      // https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=52.2021169&lon=20.94776
+      this.$http.get('https://nominatim.openstreetmap.org/search/' + this.searchLabel + '?format=json&addressdetails=1&limit=1').then((response) => {
+        var location = response.body
+        var latLngs = [ { 'lat': location[0].lat, 'lng': location[0].lon } ]
+        this.map.fitBounds(latLngs)
+        this.map.setZoom(14)
+      }, (response) => {
+        this.error = response
       })
     }
   }
