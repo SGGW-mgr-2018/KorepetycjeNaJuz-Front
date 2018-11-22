@@ -5,15 +5,22 @@
       <div class="nav-links">
         <router-link to="/" class="nav-links__link">Główna</router-link>
         <router-link to="/rejestracja" class="nav-links__link">Rejestracja</router-link>
-        <router-link to="/logowanie" class="nav-links__link log">Logowanie</router-link>
+        <router-link to="/logowanie" class="nav-links__link log" @click="seen = !seen">Logowanie</router-link>
       </div>
+    </grid-container>
+    <grid-container>
+      <login-modal :show="seen" />
     </grid-container>
   </div>
 </template>
 
 <script>
+import LoginModal from '@/components/Login/LoginModal'
 export default {
-  name: 'NavBar'
+  name: 'NavBar',
+  components: {
+    LoginModal
+  }
 }
 </script>
 
