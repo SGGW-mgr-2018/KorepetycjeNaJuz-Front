@@ -1,22 +1,15 @@
 <template>
   <div class="search-bar">
-    <div class="search-bar-label">Znajdź korepetycje na już</div>
     <div class="search-container">
-      <input
-        v-model="searchContent"
-        type="text"
-        class="search-bar-input"
-        placeholder="WPISZ SWOJĄ LOKALIZACJĘ"
-      >
-      <button class="search-bar-button" @click="searchLocation">SZUKAJ</button>
       <div class="search-bar__label">Znajdź korepetycje na już</div>
       <div class="search-bar__container">
         <input
+          v-model="searchContent"
           type="text"
           class="search-bar__input"
           placeholder="WPISZ SWOJĄ LOKALIZACJĘ"
         >
-        <button-component class="search-bar__button" pink>
+        <button-component class="search-bar__button" pink @click="searchLocation">
           Szukaj
         </button-component>
       </div>
