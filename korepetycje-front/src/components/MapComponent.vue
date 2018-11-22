@@ -9,7 +9,7 @@
       :center="center"
       :max-native-zoom="maxNativeZoom"
     >
-      <l-tile-layer :url="url" />
+      <l-tile-layer :url="url"/>
       <l-marker
         v-for="item in markers"
         :key="item.id"
@@ -18,7 +18,7 @@
         @mouseenter="openPopup($event)"
         @mouseout="closePopup($event)"
       >
-        <l-popup :content="item.content" />
+        <l-popup :content="item.content"/>
       </l-marker>
     </l-map>
   </div>
@@ -112,21 +112,21 @@ export default {
         event.target.openPopup()
       })
     },
-    closePopup: function (event) {
+    closePopup (event) {
       Vue.nextTick(() => {
         event.target.closePopup()
       })
     },
-    loadData: function () {
+    loadData () {
       // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
       // https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=52.2021169&lon=20.94776
       this.$http.get('https://nominatim.openstreetmap.org/search/' + this.searchLabel + '?format=json&addressdetails=1&limit=1').then((response) => {
-        var location = response.body
-        var latLngs = [ { 'lat': location[0].lat, 'lng': location[0].lon } ]
+        const location = response.body
+        const latLngs = [{ 'lat': location[0].lat, 'lng': location[0].lon }]
         this.map.fitBounds(latLngs)
         this.map.setZoom(14)
       }, (response) => {
-        this.error = response
+        console.error(response)
       })
     }
   }
@@ -141,7 +141,7 @@ export default {
     height: 70vh;
   }
 
-  [v-cloak]{
+  [v-cloak] {
     visibility: hidden;
   }
 </style>
