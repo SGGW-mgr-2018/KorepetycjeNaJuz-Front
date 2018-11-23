@@ -1,12 +1,18 @@
 <template>
   <div class="page--register">
     Rejestracja
+    <success-box />
   </div>
 </template>
 
 <script>
+import SuccessBox from '@/components/Register/SuccessBox'
+
 export default {
-  name: 'Rejestracja'
+  name: 'Rejestracja',
+  components: {
+    SuccessBox
+  }
 }
 </script>
 
