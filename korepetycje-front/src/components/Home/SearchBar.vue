@@ -13,8 +13,8 @@
           Szukaj
         </button-component>
       </div>
-      <div class="search-bar__label">lub</div>
-      <button-component pink>
+      <div class="search-bar__label search-bar__label--smaller">lub</div>
+      <button-component pink class="button-cta">
         Udziel korepetycji <strong>już teraz</strong>
       </button-component>
     </div>
@@ -56,26 +56,29 @@ export default {
     text-align: center;
 
     &__label {
-      font-size: 48px;
-      font-weight: 100;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: white;
-      text-align: center;
       margin-bottom: 6vh;
       margin-top: 4vh;
+      font-size: 48px;
+      font-weight: 100;
+      color: white;
+      text-align: center;
+
+      &--smaller {
+        margin: 10vh;
+      }
     }
 
     &__container {
       margin: 30px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     &__input {
       max-width: 400px;
       width: 100%;
-      padding: 7px 28px;
+      padding: 8px 36px;
       border: none;
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
@@ -83,9 +86,14 @@ export default {
     }
 
     &__button {
+      padding: 8px 36px;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       font-size: 17px;
+    }
+
+    .button-cta {
+      padding: 17px 36px;
     }
   }
 </style>

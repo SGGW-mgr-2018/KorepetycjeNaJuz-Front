@@ -1,29 +1,29 @@
 <template>
   <div class="testimonials">
-    <div>
-      <h1> {{ title }} </h1>
-      <hr>
-    </div>
-    <div align="center">
-      <div class="float">
-        <img :src="rejUrl" :alt="rejTitle">
+    <h2 class="testimonials__title">
+      {{ title }}
+    </h2>
+    <div class="separator" />
+    <div class="testimonials__wrapper">
+      <div class="testimonial">
+        <img :src="rejUrl" :alt="rejTitle" class="testimonials__image">
         <p> {{ rejTitle }} </p>
-        <pre> {{ rejTxt }} </pre>
+        <p class="testimonial__description"> {{ rejTxt }} </p>
       </div>
-      <div class="float">
-        <img :src="firendsUrl" :alt="friendsTitle">
+      <div class="testimonial">
+        <img :src="firendsUrl" :alt="friendsTitle" class="testimonials__image">
         <p> {{ friendsTitle }} </p>
-        <pre> {{ friendsTxt }} </pre>
+        <p class="testimonial__description"> {{ friendsTxt }} </p>
       </div>
-      <div class="float">
-        <img :src="destinationUrl" :alt="destinationTitle">
-        <p> {{ destinationTitle }} </p>
-        <pre> {{ destinationTxt }} </pre>
+      <div class="testimonial">
+        <img :src="destinationUrl" :alt="destinationTitle" class="testimonials__image">
+        <p>{{ destinationTitle }}</p>
+        <p class="testimonial__description">{{ destinationTxt }}</p>
       </div>
     </div>
-    <div class="button">
-      <button-component pink>Zarejestruj się</button-component>
-    </div>
+    <button-component pink class="button-register">
+      Zarejestruj się
+    </button-component>
   </div>
 </template>
 
@@ -42,7 +42,7 @@ export default {
 
       rejUrl: 'svg/registration.svg',
       rejTitle: 'Zarejestruj się',
-      rejTxt: `Wystarczy 5 minut, aby korzystać z 
+      rejTxt: `Wystarczy 5 minut, aby korzystać z
  pełnej oferty serwisu. Formularz zawiera
  tylko podstawowe dane.`,
 
@@ -64,55 +64,61 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.testimonials{
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #3d3d3d;
-}
-.float{
-  align-content: center;
-  display: inline-block;
-  margin-left: 50px;
-  margin-right: 50px;
-}
-h1{
-  font-size: 25.5px;
-  font-weight: 300;
-}
-hr{
-  width: 153px;
-  background-color: #3d3d3d;
-  height: 2px;
-}
-img{
-  width: 198px;
-  height: 198px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: var(--cornflower);
-}
-p{
-  height: 15.5px;
-  font-size: 16.5px;
-  font-weight: 500;
-}
-pre{
-  height: 43.5px;
-  font-family: Roboto;
-  font-size: 13.25px;
-  font-weight: 300;
-}
-.button{
-  display: block;
-  width: 235px;
-  height: 26px;
-  margin: auto;
-  font-size: 14px;
-  text-align: center;
-  padding: 0px;
-}
+  .testimonials {
+    text-align: center;
+    color: #3d3d3d;
+
+    &__title {
+      font-size: 36px;
+      font-weight: 400;
+      color: $gray-darker;
+    }
+
+    &__image {
+      width: 140px;
+      height: 140px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    &__wrapper {
+      max-width: 1010px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  }
+
+  .testimonial {
+    width: 260px;
+
+    &__title {
+
+    }
+
+    &__description {
+      font-family: Roboto;
+      font-size: 16px;
+      font-weight: 300;
+    }
+  }
+
+  .separator {
+    width: 200px;
+    height: 2px;
+    margin: 10px auto 30px;
+    background-color: #3d3d3d;
+  }
+
+  p {
+    font-size: 16.5px;
+    font-weight: 500;
+  }
+
+  .button-register {
+    padding: 10px 75px;
+    margin: 20px auto;
+  }
 </style>

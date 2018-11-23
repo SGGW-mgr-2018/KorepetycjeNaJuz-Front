@@ -4,8 +4,9 @@
     <grid-container>
       <search-bar />
       <testimonials />
-      <description />
     </grid-container>
+
+    <description />
   </div>
 
 </template>
@@ -28,6 +29,9 @@ export default {
 <style lang="scss" scoped>
   .page--home {
     padding: 200px 0;
-    background: url('/img/bg.jpg') no-repeat;
+    background-image: url('/img/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
   }
 </style>
