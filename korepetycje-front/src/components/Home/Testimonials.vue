@@ -7,17 +7,17 @@
     <div class="testimonials__wrapper">
       <div class="testimonial">
         <img :src="rejUrl" :alt="rejTitle" class="testimonials__image">
-        <p> {{ rejTitle }} </p>
+        <p class="testimonial__title"> {{ rejTitle }} </p>
         <p class="testimonial__description"> {{ rejTxt }} </p>
       </div>
       <div class="testimonial">
         <img :src="firendsUrl" :alt="friendsTitle" class="testimonials__image">
-        <p> {{ friendsTitle }} </p>
+        <p class="testimonial__title"> {{ friendsTitle }} </p>
         <p class="testimonial__description"> {{ friendsTxt }} </p>
       </div>
       <div class="testimonial">
         <img :src="destinationUrl" :alt="destinationTitle" class="testimonials__image">
-        <p>{{ destinationTitle }}</p>
+        <p class="testimonial__title">{{ destinationTitle }}</p>
         <p class="testimonial__description">{{ destinationTxt }}</p>
       </div>
     </div>
@@ -72,6 +72,10 @@ export default {
       font-size: 36px;
       font-weight: 400;
       color: $gray-darker;
+
+      @include mobile {
+        font-size: 28px;
+      }
     }
 
     &__image {
@@ -79,6 +83,16 @@ export default {
       height: 140px;
       display: block;
       margin: 0 auto;
+
+      @include tablet {
+        width: 110px;
+        height: 110px;
+      }
+
+      @include mobile {
+        width: 80px;
+        height: 80px;
+      }
     }
 
     &__wrapper {
@@ -87,21 +101,26 @@ export default {
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: center;
     }
   }
 
   .testimonial {
     width: 260px;
+    margin: 20px 35px;
+
+    @include tablet {
+      margin: 10px 30px;
+    }
 
     &__title {
-
+      font-size: 18px;
     }
 
     &__description {
       font-family: Roboto;
       font-size: 16px;
-      font-weight: 300;
+      font-weight: 400;
     }
   }
 

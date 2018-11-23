@@ -20,6 +20,7 @@
 
 <script>
 import LoginModal from '@/components/Login/LoginModal'
+
 export default {
   name: 'NavBar',
   components: {
@@ -58,9 +59,22 @@ export default {
       text-decoration: none;
       color: #fff;
 
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+
       &.log {
         border: 1px solid #fff;
         border-radius: 40px;
+
+        &:hover,
+        &:focus {
+          text-decoration: none;
+          background-color: #fff;
+          color: $violet;
+          border: 1px solid $violet;
+        }
       }
 
       &.router-link-exact-active {

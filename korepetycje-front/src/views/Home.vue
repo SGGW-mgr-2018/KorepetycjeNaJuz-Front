@@ -33,5 +33,13 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+
+    @include tablet {
+      padding: 100px 0;
+    }
+
+    @include mobile {
+      padding: 50px 0;
+    }
   }
 </style>

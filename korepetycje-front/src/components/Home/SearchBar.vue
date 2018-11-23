@@ -55,6 +55,10 @@ export default {
     overflow: hidden;
     text-align: center;
 
+    @include mobile {
+      margin: 0 0 50px;
+    }
+
     &__label {
       margin-bottom: 6vh;
       margin-top: 4vh;
@@ -63,8 +67,20 @@ export default {
       color: white;
       text-align: center;
 
+      @include tablet {
+        font-size: 40px;
+      }
+
+      @include mobile {
+        font-size: 28px;
+      }
+
       &--smaller {
         margin: 10vh;
+
+        @include tablet {
+          margin: 5vh;
+        }
       }
     }
 
@@ -73,6 +89,10 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @include mobile {
+        flex-direction: column;
+      }
     }
 
     &__input {
@@ -83,6 +103,13 @@ export default {
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
       font-size: 17px;
+
+      @include mobile {
+        margin: 0 0 8px;
+        border-radius: 10px;
+        font-size: 15px;
+        text-align: center;
+      }
     }
 
     &__button {
@@ -90,6 +117,12 @@ export default {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       font-size: 17px;
+
+      @include mobile {
+        max-width: 400px;
+        width: 100%;
+        border-radius: 10px;
+      }
     }
 
     .button-cta {

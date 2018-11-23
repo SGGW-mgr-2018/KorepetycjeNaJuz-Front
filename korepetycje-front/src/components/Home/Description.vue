@@ -1,13 +1,10 @@
 <template>
   <div class="description">
     <div class="description__wrapper">
-      <h3> {{ descriptionTitle }} </h3>
-      <div class="float">
-        <p> {{ descriptionText1 }} </p>
-        <p> {{ descriptionText2 }} <br>
-          <span style="font-weight:500;margin-top:30px;display: block"> {{ descriptionText3 }} </span>
-        </p>
-      </div>
+      <h3 class="description__title">{{ descriptionTitle }}</h3>
+      <p class="description__text">{{ descriptionText1 }}</p>
+      <p class="description__text"> {{ descriptionText2 }}</p>
+      <p class="description__cta">{{ descriptionText3 }}</p>
     </div>
   </div>
 </template>
@@ -29,33 +26,41 @@ export default {
 
 <style lang="scss" scoped>
   .description {
+    margin: 50px 0;
+    padding: 20px 0;
     background-color: #8c7cff;
     text-align: center;
 
     &__wrapper {
-      max-width: 1100px;
+      max-width: 920px;
       width: 100%;
       margin: 0 auto;
+      padding: 0 50px;
+
+      @include mobile {
+        padding: 0 20px;
+      }
+    }
+
+    &__text {
+      font-family: Roboto;
+      font-size: 17px;
+      font-weight: 300;
+      color: #fff;
+      text-align: left;
+    }
+
+    &__cta {
+      margin: 33px 0 10px;
+      font-family: Roboto;
+      font-size: 17px;
+      color: #fff;
+      font-weight: 500;
     }
   }
 
   h3 {
-    height: 23.5px;
-    font-size: 24px;
-    padding-top: 30px;
-    padding-bottom: 34px;
+    font-size: 26px;
     font-weight: normal;
-  }
-
-  p {
-    font-family: Roboto;
-    font-size: 17px;
-    font-weight: 300;
-    color: #ffffff;
-  }
-
-  .float {
-    margin: 0px 100px 100px 100px;
-    padding-bottom: 48.5px;
   }
 </style>
