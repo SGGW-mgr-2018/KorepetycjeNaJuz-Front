@@ -1,10 +1,11 @@
 <template>
-  <div class="nav" @mouseleave="showedPopup = false">
+  <div ref="navbar" class="nav" @mouseleave="showedPopup = false">
     <grid-container class="nav__wrapper">
       <img src="" alt="Logo" class="nav__logo">
       <div class="nav-links">
         <router-link to="/" class="nav-links__link">Główna</router-link>
-        <router-link to="/rejestracja" class="nav-links__link">Rejestracja</router-link>
+        <router-link to="/rejestracja" class="nav-links__link">Rejestracja
+        </router-link>
         <router-link
           to="/logowanie"
           class="nav-links__link log"
@@ -28,7 +29,40 @@ export default {
   },
   data () {
     return {
-      showedPopup: false
+      showedPopup: false,
+      savedPosition: 0
+    }
+  },
+  computed: {
+    navHeight () {
+      return this.$refs.navbar.clientHeight + 100
+    }
+  },
+  mounted () {
+    document.addEventListener('scroll', this.manageNavBar)
+  },
+  beforeDestroy () {
+    document.removeEventListener('scroll', this.manageNavBar)
+  },
+  methods: {
+    manageNavBar () {
+      const windowScrollY = window.scrollY
+      if (windowScrollY <= this.navHeight) {
+        this.$refs.navbar.classList.remove('sticky')
+        this.$refs.navbar.classList.remove('slide-up')
+        this.savedPosition = 0
+        return
+      }
+      if (windowScrollY < this.savedPosition) {
+        this.$refs.navbar.classList.add('sticky')
+        this.$refs.navbar.classList.remove('slide-up')
+      } else {
+        if (this.$refs.navbar.classList.contains('sticky')) {
+          this.$refs.navbar.classList.add('slide-up')
+        }
+        this.$refs.navbar.classList.remove('sticky')
+      }
+      this.savedPosition = windowScrollY
     }
   }
 }
@@ -36,9 +70,24 @@ export default {
 
 <style lang="scss" scoped>
   .nav {
-    position: fixed;
+    position: absolute;
     z-index: 10;
     width: 100%;
+    transition: .2s ease-in-out;
+
+    &.slide-up {
+      position: fixed;
+      animation: slide-up .2s;
+      animation-fill-mode: forwards;
+    }
+
+    &.sticky {
+      position: fixed;
+      background-color: #fff;
+      color: $violet;
+      animation: slide-down .2s;
+      animation-fill-mode: forwards;
+    }
 
     &__wrapper {
       position: relative;
@@ -59,6 +108,10 @@ export default {
       text-decoration: none;
       color: #fff;
 
+      .sticky & {
+        color: $violet;
+      }
+
       &:hover,
       &:focus {
         text-decoration: underline;
@@ -67,6 +120,10 @@ export default {
       &.log {
         border: 1px solid #fff;
         border-radius: 40px;
+
+        .sticky & {
+          border: 1px solid $violet;
+        }
 
         &:hover,
         &:focus {
@@ -95,6 +152,24 @@ export default {
 
     @include mobile {
       display: none;
+    }
+  }
+
+  @keyframes slide-down {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+
+  @keyframes slide-up {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-100%);
     }
   }
 </style>
