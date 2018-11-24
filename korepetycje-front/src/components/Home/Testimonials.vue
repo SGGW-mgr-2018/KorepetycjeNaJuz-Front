@@ -105,6 +105,13 @@ export default {
     }
   }
 
+  .testimonials__wrapper {
+    @include tablet {
+        flex-flow: column;
+        align-items: center;
+      }
+  }
+
   .testimonial {
     width: 260px;
     margin: 20px 35px;
