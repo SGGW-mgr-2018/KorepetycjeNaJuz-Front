@@ -1,5 +1,7 @@
 <template>
-  <map-container />
+  <div>
+    <map-container />
+  </div>
 </template>
 
 <script>

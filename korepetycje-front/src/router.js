@@ -50,6 +50,11 @@ const router = new Router({
       path: '/map',
       name: 'map',
       component: () => import(/* webpackChunkName: "mapView" */ './views/MapView')
+    },
+    {
+      path: '/myaccount',
+      name: 'myaccount',
+      component: () => import('./views/MyAccount')
     }
   ]
 })
