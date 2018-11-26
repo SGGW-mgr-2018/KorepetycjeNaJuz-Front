@@ -1,5 +1,10 @@
 <template>
-  <div ref="navbar" class="nav" @mouseleave="showedPopup = false">
+  <div
+    ref="navbar"
+    :class="{ 'violet': isViolet }"
+    class="nav"
+    @mouseleave="showedPopup = false"
+  >
     <grid-container class="nav__wrapper">
       <img src="" alt="Logo" class="nav__logo">
       <div class="nav-links">
@@ -27,6 +32,12 @@ export default {
   components: {
     LoginModal
   },
+  props: {
+    violet: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
       showedPopup: false,
@@ -36,6 +47,9 @@ export default {
   computed: {
     navHeight () {
       return this.$refs.navbar.clientHeight + 100
+    },
+    isViolet () {
+      return this.$store.state.global.menuTheme === 'violet'
     }
   },
   mounted () {
@@ -108,7 +122,8 @@ export default {
       text-decoration: none;
       color: #fff;
 
-      .sticky & {
+      .sticky &,
+      .violet &{
         color: $violet;
       }
 
@@ -121,7 +136,8 @@ export default {
         border: 1px solid #fff;
         border-radius: 40px;
 
-        .sticky & {
+        .sticky &,
+        .violet & {
           border: 1px solid $violet;
         }
 

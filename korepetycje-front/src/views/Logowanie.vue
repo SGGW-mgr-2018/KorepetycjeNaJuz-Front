@@ -42,6 +42,9 @@ export default {
         password: ''
       }
     }
+  },
+  created () {
+    this.$store.commit('SET_MENU_THEME', 'violet')
   }
 }
 </script>
