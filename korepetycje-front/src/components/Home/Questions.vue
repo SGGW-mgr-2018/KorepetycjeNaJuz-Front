@@ -37,7 +37,7 @@ export default {
     max-width: 920px;
     width: 100%;
     padding: 0 50px;
-    margin: 0 auto;
+    margin: 50px auto 0;
     text-align: center;
 
     @include mobile {
