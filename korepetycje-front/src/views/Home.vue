@@ -7,6 +7,7 @@
     </grid-container>
 
     <description />
+    <questions />
   </div>
 
 </template>
@@ -15,20 +16,22 @@
 import SearchBar from '@/components/Home/SearchBar'
 import Testimonials from '@/components/Home/Testimonials'
 import Description from '@/components/Home/Description'
+import Questions from '@/components/Home/Questions'
 
 export default {
   name: 'Home',
   components: {
     SearchBar,
     Testimonials,
-    Description
+    Description,
+    Questions
   }
 }
 </script>
 
 <style lang="scss" scoped>
   .page--home {
-    padding: 200px 0;
+    padding: 200px 0 70px;
     background-image: url('/img/bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
