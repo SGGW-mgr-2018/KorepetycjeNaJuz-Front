@@ -2,24 +2,26 @@
   <div class="page--login">
     <div class="page-background" />
     <img src="/svg/pen_purple.svg" class="pencil left" alt="some pencil">
-    <img src="/svg/pen_purple.svg" class="pencil right" alt="some pencil">
-    <h1> {{ title }} </h1>
-    <h2> {{ info }} </h2>
-    <div class="login-form">
-      <input v-model="username" type="text" name="username" placeholder="LOGIN" class="login-input"><br>
-      <input v-model="password" type="password" name="password" placeholder="HASŁO" class="login-input"><br>
-      <router-link to="" class="forgotten-pass">Zapomniałeś hasła?</router-link><br>
-      <button-component pink style="width: 100%">ZALOGUJ SIĘ</button-component>
+    <div class="login-box">
+      <h1> {{ title }} </h1>
+      <h2> {{ info }} </h2>
+      <div class="login-form">
+        <input v-model="username" type="text" name="username" placeholder="LOGIN" class="login-input"><br>
+        <input v-model="password" type="password" name="password" placeholder="HASŁO" class="login-input"><br>
+        <router-link to="" class="forgotten-pass">Zapomniałeś hasła?</router-link><br>
+      </div>
+      <button-component pink style="width: 273px">ZALOGUJ SIĘ</button-component>
+      <h2 class="bottom"> {{ alternative }} </h2>
+      <a target="_blank" href="" class="icon">
+        <img src="/svg/facebook.svg" alt="facebook" class="icon">
+      </a>
+      <a target="_blank" href="" class="icon">
+        <img src="/svg/google-plus.svg" alt="google" class="icon">
+      </a>
+      <h3> {{ no_account }} </h3>
+      <button-component grey style="width: 273px">ZAREJESTRUJ SIĘ</button-component>
     </div>
-    <h2 class="bottom"> {{ alternative }} </h2>
-    <a target="_blank" href="" class="icon">
-      <img src="/svg/facebook.svg" alt="facebook" class="icon">
-    </a>
-    <a target="_blank" href="" class="icon">
-      <img src="/svg/google-plus.svg" alt="google" class="icon">
-    </a>
-    <h3> {{ no_account }} </h3>
-    <button-component grey style="width: 273px">ZAREJESTRUJ SIĘ</button-component>
+    <img src="/svg/pen_purple.svg" class="pencil right" alt="some pencil">
   </div>
 </template>
 
@@ -85,7 +87,6 @@ export default {
     h1 {
         font-size: 36px;
         color: #715aff;
-        padding-top: 160.5px;
         margin-bottom: 13px;
     }
 
@@ -119,30 +120,37 @@ export default {
         }
     }
 
-    .login-form {
+    .login-form, .login-box {
         width: 273px;
         margin-left: auto;
         margin-right: auto;
         text-align: right;
     }
 
+    .login-box {
+        width: 360px;
+        text-align: center;
+        display: inline-block;
+        padding-top: 160.5px;
+        padding-bottom: 20px;
+    }
+
     .pencil{
-        position: absolute;
+        display: inline-block;
         color: #ddd8ff;
+        margin: 47.5px;
 
         &.left {
             width: 78px;
             height: 90.5px;
-            left: 650px;
-            top: 450.5px;
             transform: scaleX(-1);
         }
 
         &.right {
             width: 56px;
             height: 49.5px;
-            right: 660px;
-            top: 261px;
+            vertical-align: top;
+            margin-top: 261px;
         }
     }
 
