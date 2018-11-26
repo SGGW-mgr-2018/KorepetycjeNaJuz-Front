@@ -154,6 +154,12 @@ export default {
         }
     }
 
+    @media (max-width: 700px) {
+        .pencil {
+            display: none;
+        }
+    }
+
     .page-background {
         background-color: rgb(249, 247, 255);
         height: 100%;
