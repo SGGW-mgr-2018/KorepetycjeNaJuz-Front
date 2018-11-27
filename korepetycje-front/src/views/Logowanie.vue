@@ -139,7 +139,7 @@ export default {
     color: #ddd8ff;
 
     &.left {
-      top: 500px;
+      top: 420px;
       left: -50px;
       width: 78px;
       height: 90px;

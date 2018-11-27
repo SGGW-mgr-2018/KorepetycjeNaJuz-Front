@@ -16,7 +16,7 @@
   }
 }
 
-@mixin font-primary {
+@mixin font-primary($font-size: 14px) {
   font-family: Roboto;
   font-weight: 300;
   font-style: normal;
@@ -24,6 +24,7 @@
   line-height: normal;
   letter-spacing: normal;
   text-decoration: none;
+  font-size: $font-size;
 }
 
 @mixin reset-button {
