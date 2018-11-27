@@ -1,32 +1,35 @@
 <template>
   <div class="page--login">
-    <div class="page-background"/>
-    <img src="/svg/pen_purple.svg" class="pencil left" alt="some pencil">
-    <img src="/svg/pen_purple.svg" class="pencil right" alt="some pencil">
-    <h1> {{ title }} </h1>
-    <h2> {{ info }} </h2>
-    <div class="login-form">
-      <input v-model="input.username" type="text" name="username"
-             placeholder="LOGIN"
-             class="login-input">
-      <input v-model="input.password" type="password" name="password"
-             placeholder="HASŁO" class="login-input">
-      <router-link to="" class="forgotten-pass">Zapomniałeś hasła?</router-link>
-      <br>
-      <button-component pink style="width: 100%" @click="login">
-        ZALOGUJ SIĘ
+    <grid-container>
+      <div class="page-background"/>
+      <img src="/svg/pen_purple.svg" class="pencil left" alt="some pencil">
+      <img src="/svg/pen_purple.svg" class="pencil right" alt="some pencil">
+      <h1> {{ title }} </h1>
+      <h2> {{ info }} </h2>
+      <div class="login-form">
+        <input v-model="input.username" type="text" name="username"
+               placeholder="LOGIN"
+               class="login-input">
+        <input v-model="input.password" type="password" name="password"
+               placeholder="HASŁO" class="login-input">
+        <router-link to="" class="forgotten-pass">Zapomniałeś hasła?
+        </router-link>
+        <br>
+        <button-component pink style="width: 100%" @click="login">
+          ZALOGUJ SIĘ
+        </button-component>
+      </div>
+      <h2 class="bottom"> {{ alternative }} </h2>
+      <a target="_blank" href="" class="icon">
+        <img src="/svg/facebook.svg" alt="facebook" class="icon">
+      </a>
+      <a target="_blank" href="" class="icon">
+        <img src="/svg/google-plus.svg" alt="google" class="icon">
+      </a>
+      <h3> {{ no_account }} </h3>
+      <button-component grey style="width: 273px">ZAREJESTRUJ SIĘ
       </button-component>
-    </div>
-    <h2 class="bottom"> {{ alternative }} </h2>
-    <a target="_blank" href="" class="icon">
-      <img src="/svg/facebook.svg" alt="facebook" class="icon">
-    </a>
-    <a target="_blank" href="" class="icon">
-      <img src="/svg/google-plus.svg" alt="google" class="icon">
-    </a>
-    <h3> {{ no_account }} </h3>
-    <button-component grey style="width: 273px">ZAREJESTRUJ SIĘ
-    </button-component>
+    </grid-container>
   </div>
 </template>
 
@@ -171,7 +174,7 @@ export default {
   }
 
   .page-background {
-    background-color: rgb(249, 247, 255);
+    background-color: $gray-lighter;
     height: 100%;
     width: 100%;
     position: fixed;
