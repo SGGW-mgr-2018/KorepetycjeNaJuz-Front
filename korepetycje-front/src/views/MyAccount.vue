@@ -1,7 +1,7 @@
 <template>
   <grid-container>
     <div class="page--account">
-      <p>Moje konto</p>
+      <p class="page--account__title">Moje konto</p>
       <the-navigation class="tabs-bar" @click="manageTabs" />
       <edit-profile-component v-if="activeTab === 1" />
       <history-component v-if="activeTab === 2" />
@@ -46,6 +46,13 @@ export default {
 <style lang="scss" scoped>
   .page--account {
     padding: 80px 0;
+
+    &__title {
+      @include font-primary(36px);
+      color: $violet;
+      font-weight: normal;
+      text-align: center;
+    }
   }
 
   .tabs-bar {
