@@ -1,33 +1,31 @@
 <template>
   <div class="page--login">
     <grid-container>
-      <div class="page-background"/>
-      <img src="/svg/pen_purple.svg" class="pencil left" alt="some pencil">
-      <img src="/svg/pen_purple.svg" class="pencil right" alt="some pencil">
-      <h1> {{ title }} </h1>
-      <h2> {{ info }} </h2>
+      <img src="/svg/pen_purple.svg" class="pencil left" alt="Pencil">
+      <img src="/svg/pen_purple.svg" class="pencil right" alt="Pencil">
+      <h1>Zaloguj się do systemu</h1>
+      <h2>Wpisz swoje dane</h2>
       <div class="login-form">
-        <input v-model="input.username" type="text" name="username"
-               placeholder="LOGIN"
-               class="login-input">
-        <input v-model="input.password" type="password" name="password"
-               placeholder="HASŁO" class="login-input">
-        <router-link to="" class="forgotten-pass">Zapomniałeś hasła?
+        <input placeholder="LOGIN" class="login-input">
+        <input placeholder="HASŁO" class="login-input">
+        <router-link to="" class="forgotten-pass">
+          Zapomniałeś hasła?
         </router-link>
         <br>
-        <button-component pink style="width: 100%" @click="login">
+        <button-component pink @click="login">
           ZALOGUJ SIĘ
         </button-component>
       </div>
-      <h2 class="bottom"> {{ alternative }} </h2>
+      <h2 class="bottom">lub zaloguj się za pomocą</h2>
       <a target="_blank" href="" class="icon">
         <img src="/svg/facebook.svg" alt="facebook" class="icon">
       </a>
       <a target="_blank" href="" class="icon">
         <img src="/svg/google-plus.svg" alt="google" class="icon">
       </a>
-      <h3> {{ no_account }} </h3>
-      <button-component grey style="width: 273px">ZAREJESTRUJ SIĘ
+      <h3>Nie masz konta?</h3>
+      <button-component grey>
+        ZAREJESTRUJ SIĘ
       </button-component>
     </grid-container>
   </div>
@@ -43,14 +41,6 @@ export default {
   },
   data () {
     return {
-      title: 'Zaloguj się do systemu',
-      info: 'Wpisz swoje dane',
-      alternative: 'lub zaloguj się za pomocą',
-      no_account: 'Nie masz konta?',
-      input: {
-        username: '',
-        password: ''
-      }
     }
   },
   created () {
@@ -65,28 +55,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  * {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 100%;
-    vertical-align: baseline;
-    background: transparent;
-  }
-
   .page--login {
+    position: relative;
+    background-color: $gray-lighter;
     text-align: center;
   }
 
   h1, h2, h3, .login-input::placeholder, .login-input, .forgotten-pass {
-    font-family: Roboto;
-    font-weight: 300;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-decoration: none;
+    @include font-primary;
   }
 
   .forgotten-pass {
@@ -171,14 +147,6 @@ export default {
     .pencil {
       display: none;
     }
-  }
-
-  .page-background {
-    background-color: $gray-lighter;
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    z-index: -1;
   }
 
   .icon {
