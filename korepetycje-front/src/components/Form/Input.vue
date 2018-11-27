@@ -10,7 +10,7 @@
       @blur="handleBlur"
       @focus="handleFocus"
     >
-    <errors-component :errors="errors" :visible="errorsVisible"/>
+    <errors-component :errors="errors" :visible="errorsVisible" />
   </div>
 </template>
 
@@ -73,7 +73,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .input-wrapper {
+    @include font-primary;
+    max-width: 350px;
+    width: 100%;
+    height: 48px;
+    position: relative;
+    will-change: margin;
+    transition: margin .3s ease-in-out;
+
+    &.error {
+      margin: 16px auto 40px;
+    }
+  }
+
   .input {
+    font-size: 13px;
+    max-width: 280px;
+    width: 100%;
+    height: 38px;
+    border: solid 1px #bfbfbf;
+    padding-left: 10px;
+
     &.success {
       color: #bada55;
     }

@@ -6,8 +6,10 @@
       <h1>Zaloguj się do systemu</h1>
       <h2>Wpisz swoje dane</h2>
       <div class="login-form">
-        <input placeholder="LOGIN" class="login-input">
-        <input placeholder="HASŁO" class="login-input">
+        <form>
+          <errors-component :errors="errors" :visible="!!errors.length" />
+          <form-factory v-model="model" :schema="schema" />
+        </form>
         <router-link to="" class="forgotten-pass">
           Zapomniałeś hasła?
         </router-link>
@@ -33,14 +35,47 @@
 
 <script>
 import ButtonComponent from '@/components/Button'
+import InputComponent from '@/components/Form/Input'
+import ErrorsComponent from '@/components/Form/Errors'
+import { validateRequired, validateEmail, validatePassword } from '@/assets/js/validators'
 
 export default {
   name: 'Logowanie',
   components: {
-    ButtonComponent
+    ButtonComponent,
+    ErrorsComponent
   },
   data () {
     return {
+      model: {
+        email: '',
+        password: ''
+      },
+      schema: {
+        email: {
+          component: InputComponent,
+          validators: [
+            validateRequired, validateEmail
+          ],
+          props: {
+            type: 'email',
+            placeholder: 'Adres email',
+            forceErrors: false
+          }
+        },
+        password: {
+          component: InputComponent,
+          validators: [
+            validateRequired, validatePassword
+          ],
+          props: {
+            type: 'password',
+            placeholder: 'Hasło',
+            forceErrors: false
+          }
+        }
+      },
+      errors: []
     }
   },
   created () {
