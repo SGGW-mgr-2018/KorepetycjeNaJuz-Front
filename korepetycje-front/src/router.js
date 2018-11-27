@@ -33,7 +33,7 @@ const router = new Router({
     {
       path: '/logowanie',
       name: 'logowanie',
-      component: () => import(/* webpackChunkName: "login" */ './views/Logowanie')
+      component: () => import(/* webpackChunkName: "login" */ './views/Login')
       // meta: {
       //   middleware: notAuthenticated
       // }
@@ -41,7 +41,7 @@ const router = new Router({
     {
       path: '/rejestracja',
       name: 'rejestracja',
-      component: () => import(/* webpackChunkName: "register" */ './views/Rejestracja')
+      component: () => import(/* webpackChunkName: "register" */ './views/Register')
       // meta: {
       //   middleware: notAuthenticated
       // }

@@ -19,12 +19,14 @@
         </button-component>
       </div>
       <h2 class="bottom">lub zaloguj się za pomocą</h2>
-      <a target="_blank" href="" class="icon">
-        <img src="/svg/facebook.svg" alt="facebook" class="icon">
-      </a>
-      <a target="_blank" href="" class="icon">
-        <img src="/svg/google-plus.svg" alt="google" class="icon">
-      </a>
+      <div class="social-icons">
+        <a target="_blank" href="" class="icon">
+          <img src="/svg/facebook.svg" alt="facebook" class="icon">
+        </a>
+        <a target="_blank" href="" class="icon">
+          <img src="/svg/google-plus.svg" alt="google" class="icon">
+        </a>
+      </div>
       <h3>Nie masz konta?</h3>
       <button-component grey class="button-register">
         ZAREJESTRUJ SIĘ
@@ -37,7 +39,11 @@
 import ButtonComponent from '@/components/Button'
 import InputComponent from '@/components/Form/Input'
 import ErrorsComponent from '@/components/Form/Errors'
-import { validateRequired, validateEmail, validatePassword } from '@/assets/js/validators'
+import {
+  validateRequired,
+  validateEmail,
+  validatePassword
+} from '@/assets/js/validators'
 
 export default {
   name: 'Logowanie',
@@ -108,7 +114,7 @@ export default {
 
   .forgotten-pass {
     text-align: right;
-    font-size: 13px;
+    font-size: 14px;
     color: #6c6c6c;
     padding: 7px 0 19px 0;
     display: inline-block;
@@ -126,6 +132,10 @@ export default {
 
     &.bottom {
       padding: 36px 0 18px 0;
+
+      @include mobile {
+        padding: 20px 0 10px;
+      }
     }
   }
 
@@ -134,6 +144,10 @@ export default {
     color: #715aff;
     padding: 26px 0 20px 0;
     font-weight: normal;
+
+    @include mobile {
+      padding: 10px 0;
+    }
   }
 
   .login-input {
@@ -194,22 +208,24 @@ export default {
     }
   }
 
+  .social-icons {
+    display: flex;
+    justify-content: center;
+  }
+
   .icon {
     width: 50px;
     height: 50px;
     display: inline-block;
+
+    & + .icon {
+      margin-left: 20px;
+    }
   }
 
   .button {
     max-width: 280px;
     width: 100%;
-
-    &--login {
-
-    }
-
-    &--register {
-
-    }
+    height: 40px;
   }
 </style>

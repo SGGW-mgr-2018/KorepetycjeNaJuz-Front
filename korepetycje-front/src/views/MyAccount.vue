@@ -1,6 +1,7 @@
 <template>
   <grid-container>
     <div class="page--account">
+      <p>Moje konto</p>
       <the-navigation class="tabs-bar" @click="manageTabs" />
       <edit-profile-component v-if="activeTab === 1" />
       <history-component v-if="activeTab === 2" />
