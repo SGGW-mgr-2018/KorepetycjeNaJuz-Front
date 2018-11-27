@@ -1,14 +1,18 @@
 <template>
   <div class="page--login">
-    <div class="page-background" />
+    <div class="page-background"/>
     <img src="/svg/pen_purple.svg" class="pencil left" alt="some pencil">
     <img src="/svg/pen_purple.svg" class="pencil right" alt="some pencil">
     <h1> {{ title }} </h1>
     <h2> {{ info }} </h2>
     <div class="login-form">
-      <input v-model="username" type="text" name="username" placeholder="LOGIN" class="login-input"><br>
-      <input v-model="password" type="password" name="password" placeholder="HASŁO" class="login-input"><br>
-      <router-link to="" class="forgotten-pass">Zapomniałeś hasła?</router-link><br>
+      <input v-model="input.username" type="text" name="username"
+             placeholder="LOGIN"
+             class="login-input">
+      <input v-model="input.password" type="password" name="password"
+             placeholder="HASŁO" class="login-input">
+      <router-link to="" class="forgotten-pass">Zapomniałeś hasła?</router-link>
+      <br>
       <button-component pink style="width: 100%" @click="login">
         ZALOGUJ SIĘ
       </button-component>
@@ -21,7 +25,8 @@
       <img src="/svg/google-plus.svg" alt="google" class="icon">
     </a>
     <h3> {{ no_account }} </h3>
-    <button-component grey style="width: 273px">ZAREJESTRUJ SIĘ</button-component>
+    <button-component grey style="width: 273px">ZAREJESTRUJ SIĘ
+    </button-component>
   </div>
 </template>
 
@@ -57,114 +62,126 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    * {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        outline: 0;
-        font-size: 100%;
-        vertical-align: baseline;
-        background: transparent;
+  * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+  }
+
+  .page--login {
+    text-align: center;
+  }
+
+  h1, h2, h3, .login-input::placeholder, .login-input, .forgotten-pass {
+    font-family: Roboto;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-decoration: none;
+  }
+
+  .forgotten-pass {
+    text-align: right;
+    font-size: 13px;
+    color: #6c6c6c;
+    padding: 7px 0 19.5px 0;
+    display: inline-block;
+  }
+
+  h1 {
+    font-size: 36px;
+    color: #715aff;
+    margin-bottom: 13px;
+  }
+
+  h2 {
+    font-size: 18px;
+    color: var(--greyish-brown);
+    padding: 2px;
+
+    &.bottom {
+      padding: 36px 0 18px 0;
+    }
+  }
+
+  h3 {
+    font-size: 24px;
+    color: #715aff;
+    padding: 26px 0 20.5px 0;
+    font-weight: normal;
+  }
+
+  .login-input {
+    font-size: 13px;
+    width: 273px;
+    height: 38px;
+    border: solid 1px #bfbfbf;
+    padding-left: 10px;
+    margin: 7.5px 0 7.5px 0;
+
+    &::placeholder {
+      color: #bdbdbd;
+    }
+  }
+
+  .login-form, .login-box {
+    width: 273px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: right;
+  }
+
+  .login-box {
+    width: 360px;
+    text-align: center;
+    display: inline-block;
+    padding-top: 160.5px;
+    padding-bottom: 20px;
+  }
+
+  .pencil {
+    display: inline-block;
+    color: #ddd8ff;
+    margin: 47.5px;
+
+    &.left {
+      width: 78px;
+      height: 90.5px;
+      transform: scaleX(-1);
     }
 
-    .page--login {
-        text-align: center;
+    &.right {
+      width: 56px;
+      height: 49.5px;
+      vertical-align: top;
+      margin-top: 261px;
     }
+  }
 
-    h1, h2, h3, .login-input::placeholder, .login-input, .forgotten-pass {
-        font-family: Roboto;
-        font-weight: 300;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        text-decoration: none;
+  @media (max-width: 700px) {
+    .pencil {
+      display: none;
     }
+  }
 
-    .forgotten-pass {
-        text-align: right;
-        font-size: 13px;
-        color: #6c6c6c;
-        padding: 7px 0 19.5px 0;
-        display: inline-block;
-    }
+  .page-background {
+    background-color: rgb(249, 247, 255);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: -1;
+  }
 
-    h1 {
-        font-size: 36px;
-        color: #715aff;
-        padding-top: 160.5px;
-        margin-bottom: 13px;
-    }
-
-    h2 {
-        font-size: 18px;
-        color: var(--greyish-brown);
-        padding: 2px;
-
-        &.bottom {
-            padding: 36px 0 18px 0;
-        }
-    }
-
-    h3 {
-        font-size: 24px;
-        color: #715aff;
-        padding: 26px 0 20.5px 0;
-        font-weight: normal;
-    }
-
-    .login-input {
-        font-size: 13px;
-        width: 273px;
-        height: 38px;
-        border: solid 1px #bfbfbf;
-        padding-left: 10px;
-        margin: 7.5px 0 7.5px 0;
-
-        &::placeholder {
-            color: #bdbdbd;
-        }
-    }
-
-    .login-form {
-        width: 273px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: right;
-    }
-
-    .pencil{
-        position: absolute;
-        color: #ddd8ff;
-
-        &.left {
-            width: 78px;
-            height: 90.5px;
-            left: 650px;
-            top: 450.5px;
-            transform: scaleX(-1);
-        }
-
-        &.right {
-            width: 56px;
-            height: 49.5px;
-            right: 660px;
-            top: 261px;
-        }
-    }
-
-    .page-background {
-        background-color: rgb(249, 247, 255);
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        z-index: -1;
-    }
-
-    .icon {
-        width: 50px;
-        height: 50px;
-        margin: 5px;
-        display: inline-block;
-    }
+  .icon {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    display: inline-block;
+  }
 </style>
