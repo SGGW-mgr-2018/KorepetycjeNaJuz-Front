@@ -9,7 +9,9 @@
       <input v-model="username" type="text" name="username" placeholder="LOGIN" class="login-input"><br>
       <input v-model="password" type="password" name="password" placeholder="HASŁO" class="login-input"><br>
       <router-link to="" class="forgotten-pass">Zapomniałeś hasła?</router-link><br>
-      <button-component pink style="width: 100%">ZALOGUJ SIĘ</button-component>
+      <button-component pink style="width: 100%" @click="login">
+        ZALOGUJ SIĘ
+      </button-component>
     </div>
     <h2 class="bottom"> {{ alternative }} </h2>
     <a target="_blank" href="" class="icon">
@@ -45,6 +47,11 @@ export default {
   },
   created () {
     this.$store.commit('SET_MENU_THEME', 'violet')
+  },
+  methods: {
+    login () {
+      this.$router.push({ name: 'moje-konto' })
+    }
   }
 }
 </script>
