@@ -38,7 +38,7 @@ export default {
     background-position: center center;
 
     @include tablet {
-      padding: 100px 0;
+      padding: 100px 0 70px;
     }
 
     @include mobile {

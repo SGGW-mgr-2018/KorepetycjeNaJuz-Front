@@ -6,7 +6,7 @@
       <router-link to="/" class="login-modal__link">
         Zapomniałeś hasła?
       </router-link>
-      <button-component class="login-modal__button" pink>
+      <button-component class="login-modal__button" pink @click="login">
         Zaloguj się
       </button-component>
       <div class="social-buttons">
@@ -24,6 +24,11 @@ export default {
   name: 'LoginModal',
   components: {
     ButtonComponent
+  },
+  methods: {
+    login () {
+      this.$router.push({ name: 'moje-konto' })
+    }
   }
 }
 </script>
