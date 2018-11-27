@@ -1,6 +1,6 @@
 <template>
   <div class="page--login">
-    <grid-container>
+    <grid-container class="page-container">
       <img src="/svg/pen_purple.svg" class="pencil left" alt="Pencil">
       <img src="/svg/pen_purple.svg" class="pencil right" alt="Pencil">
       <h1>Zaloguj się do systemu</h1>
@@ -12,7 +12,7 @@
           Zapomniałeś hasła?
         </router-link>
         <br>
-        <button-component pink @click="login">
+        <button-component pink class="button-login" @click="login">
           ZALOGUJ SIĘ
         </button-component>
       </div>
@@ -24,7 +24,7 @@
         <img src="/svg/google-plus.svg" alt="google" class="icon">
       </a>
       <h3>Nie masz konta?</h3>
-      <button-component grey>
+      <button-component grey class="button-register">
         ZAREJESTRUJ SIĘ
       </button-component>
     </grid-container>
@@ -56,9 +56,15 @@ export default {
 
 <style lang="scss" scoped>
   .page--login {
-    position: relative;
-    background-color: $gray-lighter;
+    padding: 100px 0;
     text-align: center;
+  }
+
+  .page-container {
+    position: relative;
+    z-index: 5;
+    max-width: 480px;
+    margin: 0 auto;
   }
 
   h1, h2, h3, .login-input::placeholder, .login-input, .forgotten-pass {
@@ -69,7 +75,7 @@ export default {
     text-align: right;
     font-size: 13px;
     color: #6c6c6c;
-    padding: 7px 0 19.5px 0;
+    padding: 7px 0 19px 0;
     display: inline-block;
   }
 
@@ -81,7 +87,6 @@ export default {
 
   h2 {
     font-size: 18px;
-    color: var(--greyish-brown);
     padding: 2px;
 
     &.bottom {
@@ -92,17 +97,18 @@ export default {
   h3 {
     font-size: 24px;
     color: #715aff;
-    padding: 26px 0 20.5px 0;
+    padding: 26px 0 20px 0;
     font-weight: normal;
   }
 
   .login-input {
     font-size: 13px;
-    width: 273px;
+    max-width: 280px;
+    width: 100%;
     height: 38px;
     border: solid 1px #bfbfbf;
     padding-left: 10px;
-    margin: 7.5px 0 7.5px 0;
+    margin: 7px 0 7px 0;
 
     &::placeholder {
       color: #bdbdbd;
@@ -110,7 +116,8 @@ export default {
   }
 
   .login-form, .login-box {
-    width: 273px;
+    max-width: 280px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     text-align: right;
@@ -120,30 +127,33 @@ export default {
     width: 360px;
     text-align: center;
     display: inline-block;
-    padding-top: 160.5px;
+    padding-top: 160px;
     padding-bottom: 20px;
   }
 
   .pencil {
+    position: absolute;
+    top: 180px;
+    z-index: 1;
     display: inline-block;
     color: #ddd8ff;
-    margin: 47.5px;
 
     &.left {
+      top: 500px;
+      left: -50px;
       width: 78px;
-      height: 90.5px;
+      height: 90px;
       transform: scaleX(-1);
     }
 
     &.right {
+      right: -20px;
       width: 56px;
-      height: 49.5px;
-      vertical-align: top;
-      margin-top: 261px;
+      height: 48px;
     }
   }
 
-  @media (max-width: 700px) {
+  @include mobile {
     .pencil {
       display: none;
     }
@@ -152,7 +162,19 @@ export default {
   .icon {
     width: 50px;
     height: 50px;
-    margin: 5px;
     display: inline-block;
+  }
+
+  .button {
+    max-width: 280px;
+    width: 100%;
+
+    &--login {
+
+    }
+
+    &--register {
+
+    }
   }
 </style>
