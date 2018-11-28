@@ -21,4 +21,8 @@ export default {
 
 <style lang="scss">
   @import 'assets/sass/index';
+
+  .page {
+    background-color: $gray-lighter;
+  }
 </style>

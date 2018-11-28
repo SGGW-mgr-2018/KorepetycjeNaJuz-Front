@@ -76,7 +76,7 @@ export default {
       }
 
       &--smaller {
-        margin: 10vh;
+        margin: 50px 0;
 
         @include tablet {
           margin: 5vh;
