@@ -11,10 +11,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
-      meta: {
-        middleware: log
-      }
+      component: Home
     },
     {
       path: '/about',
