@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 
-import log from './middleware/log'
-
 Vue.use(Router)
 
 const router = new Router({
