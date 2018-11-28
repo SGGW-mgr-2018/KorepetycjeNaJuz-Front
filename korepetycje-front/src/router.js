@@ -2,11 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 
-// import authenticated from './middleware/authenticated'
-// import notAuthenticated from './middleware/notAuthenticated'
 import log from './middleware/log'
-// import notAuthenticated from './middleware/notAuthenticated'
-import { nextFactory } from './assets/js/routerUtils'
 
 Vue.use(Router)
 
@@ -34,17 +30,11 @@ const router = new Router({
       path: '/logowanie',
       name: 'logowanie',
       component: () => import(/* webpackChunkName: "login" */ './views/Login')
-      // meta: {
-      //   middleware: notAuthenticated
-      // }
     },
     {
       path: '/rejestracja',
       name: 'rejestracja',
       component: () => import(/* webpackChunkName: "register" */ './views/Register')
-      // meta: {
-      //   middleware: notAuthenticated
-      // }
     },
     {
       path: '/map',
@@ -62,26 +52,6 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "newLesson" */ './views/AddNewLesson')
     }
   ]
-})
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.middleware) {
-    const middleware = Array.isArray(to.meta.middleware)
-      ? to.meta.middleware
-      : [to.meta.middleware]
-
-    const context = {
-      from,
-      next,
-      router,
-      to
-    }
-    const nextMiddleware = nextFactory(context, middleware, 1)
-
-    return middleware[0]({ ...context, next: nextMiddleware })
-  }
-
-  return next()
 })
 
 export default router
