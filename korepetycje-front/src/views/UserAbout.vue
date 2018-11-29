@@ -5,20 +5,24 @@
       <img src="/svg/pen_purple.svg" class="pencil right" alt="Pencil">
       <h1>Informacje o użytkowniku</h1>
       <img :src="user.avatar" class="user-avatar" alt="Avatar">
-      <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-      <div class="user-about">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eleifend tempus iaculis. Praesent interdum, magna ac sagittis convallis, risus ex condimentum ipsum, sed luctus nulla ipsum ac augue. Nullam egestas nulla eu eros sagittis feugiat. Nulla eget risus eu neque ullamcorper sollicitudin. Aenean sed turpis at libero pulvinar pulvinar eget eu mi. Ut vitae eleifend ligula, at convallis massa. Aliquam erat volutpat.
+      <div class="user-details">
+        <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+        <div class="user-about">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eleifend tempus iaculis. Praesent interdum, magna ac sagittis convallis, risus ex condimentum ipsum, sed luctus nulla ipsum ac augue. Nullam egestas nulla eu eros sagittis feugiat. Nulla eget risus eu neque ullamcorper sollicitudin. Aenean sed turpis at libero pulvinar pulvinar eget eu mi. Ut vitae eleifend ligula, at convallis massa. Aliquam erat volutpat.
+        </div>
+        <div class="star-rating">
+          Średnia ocena:
+          <star-rating v-model="user.rating" :inline="true" :show-rating="false" read-only />
+        </div>
+        <div>
+          <div class="active">Aktualne korepetycje:</div>
+          <h2>Matematyka, 23.09.2018, 16:00-17:30</h2>
+          <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eleifend tempus iaculis. Praesent interdum, magna ac sagittis convallis, risus ex condimentum ipsum, sed luctus nulla ipsum ac augue. Nullam egestas nulla eu eros sagittis feugiat. Nulla eget risus eu neque ullamcorper sollicitudin. Aenean sed turpis at libero pulvinar pulvinar eget eu mi. Ut vitae eleifend ligula, at convallis massa. Aliquam erat volutpat.</div>
+        </div>
+        <button-component pink class="button-enroll" @click="enroll">
+          ZAPISZ SIĘ
+        </button-component>
       </div>
-      <div class="star-rating">
-        Średnia ocena:
-        <star-rating v-model="user.rating" inline="true" show-rating="false" read-only />
-      </div>
-      <div>
-        Aktualne korepetycje:
-      </div>
-      <button-component pink class="button-enroll" @click="enroll">
-        ZAPISZ SIĘ
-      </button-component>
     </grid-container>
   </div>
 </template>
@@ -57,20 +61,18 @@ export default {
 <style lang="scss" scoped>
   .page--user {
     padding: 100px 0;
-    text-align: center;
+    //text-align: center;
   }
 
   .page-container {
     position: relative;
     z-index: 5;
-    max-width: 480px;
+    max-width: 915px;
     margin: 0 auto;
   }
 
   h1, h2, h3 {
     @include font-primary;
-    width: 796px;
-    height: 70px;
     font-family: Roboto;
     font-size: 72px;
     font-weight: 300;
@@ -85,12 +87,14 @@ export default {
   h1 {
     font-size: 36px;
     color: #715aff;
-    margin-bottom: 13px;
+    margin-bottom: 36px;
   }
 
   h2 {
     font-size: 18px;
-    padding: 2px;
+    display: inline-block;
+    text-align: left;
+    font-weight: 500;
 
     &.bottom {
       padding: 36px 0 18px 0;
@@ -127,21 +131,49 @@ export default {
     width: 93px;
     height: 93px;
     border-radius: 100%;
+    position: absolute;
+    display: inline;
+    top: 100px;
+    left: -40px;
   }
 
   .user-about {
     text-align: justify;
+    display: inline-block;
   }
 
   .star-rating {
-    font-size: 12px;
     font-weight: 500;
     color: var(--greyish-brown);
+  }
+
+  .description {
+    text-align: justify;
+    font-size: 14px;
+    padding-bottom: 43px;
+  }
+
+  .user-details {
+    padding-left: 20px;
+    display: inline-block;
+  }
+
+  .active {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--greyish-brown);
+    padding-top: 43px;
   }
 
   @include mobile {
     .pencil {
       display: none;
+    }
+
+    .user-avatar {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -149,5 +181,6 @@ export default {
     max-width: 280px;
     width: 100%;
     height: 40px;
+    float: right;
   }
 </style>
