@@ -1,11 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <history-lessons />
-</template>
-
-<script>
-import HistoryLessons from '@/components/HistoryLessonsComponent'
-=======
   <grid-container>
     <div class="page--account">
       <p class="page--account__title">Moje konto</p>
@@ -19,22 +12,16 @@ import HistoryLessons from '@/components/HistoryLessonsComponent'
 </template>
 
 <script>
+// import HistoryLessons from '@/components/HistoryLessonsComponent'
 import TheNavigation from '@/components/Account/TheNavigation'
 import EditProfileComponent from '@/components/Account/EditProfile'
 import HistoryComponent from '@/components/Account/History'
 import CalendarComponent from '@/components/Account/Calendar'
 import MessagesComponent from '@/components/Account/Messages'
->>>>>>> 1013991a4199f3bd9450760671fd00acaaa52558
 
 export default {
   name: 'MyAccount',
   components: {
-<<<<<<< HEAD
-    HistoryLessons
-  }
-}
-</script>
-=======
     TheNavigation,
     EditProfileComponent,
     HistoryComponent,
@@ -73,4 +60,3 @@ export default {
 
   }
 </style>
->>>>>>> 1013991a4199f3bd9450760671fd00acaaa52558
