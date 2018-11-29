@@ -68,6 +68,7 @@ export default {
   methods: {
     enableRating () {
       this.opinionSet = !this.opinionSet
+      this.stars_rate = 0
     }
   }
 }
@@ -140,8 +141,9 @@ export default {
   }
 
   .your-opinion-label{
-    padding: 8px;
+    padding: 12px 1px;
     float: left;
+    font-size: 10px;
   }
 
   .star-rating-div{
