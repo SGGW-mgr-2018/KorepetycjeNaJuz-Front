@@ -6,9 +6,7 @@
         <img :src="user.avatar" class="user-avatar" alt="Avatar">
         <div class="user-details">
           <h2 class="user-name">{{ user.firstName }} {{ user.lastName }}</h2>
-          <div class="user-about">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eleifend tempus iaculis. Praesent interdum, magna ac sagittis convallis, risus ex condimentum ipsum, sed luctus nulla ipsum ac augue. Nullam egestas nulla eu eros sagittis feugiat. Nulla eget risus eu neque ullamcorper sollicitudin. Aenean sed turpis at libero pulvinar pulvinar eget eu mi. Ut vitae eleifend ligula, at convallis massa. Aliquam erat volutpat.
-          </div>
+          <div class="user-about">{{ user.about }}</div>
           <div class="star-rating">
             <span>Średnia ocena:</span>
             <star-rating
@@ -54,6 +52,7 @@ export default {
         lastName: 'Kowalski',
         avatar: 'https://www.shareicon.net/download/2017/02/05/878221_user_512x512.png',
         rating: 3,
+        about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eleifend tempus iaculis. Praesent interdum, magna ac sagittis convallis, risus ex condimentum ipsum, sed luctus nulla ipsum ac augue. Nullam egestas nulla eu eros sagittis feugiat. Nulla eget risus eu neque ullamcorper sollicitudin. Aenean sed turpis at libero pulvinar pulvinar eget eu mi. Ut vitae eleifend ligula, at convallis massa. Aliquam erat volutpat.',
         lessons: [
           {
             id: 5,
