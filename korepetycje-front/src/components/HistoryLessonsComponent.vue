@@ -1,16 +1,14 @@
 <template>
-  <div v-cloak class="history-container-out">
-    <div v-cloak class="history-container">
-      <history-lesson
-        v-for="item in dataContainer"
-        :key="item.id"
-        :subject-name="item.sub_name"
-        :lesson-date="item.less_date"
-        :lesson-description="item.desc"
-        :is-opinion-set="item.opinion_set"
-        :stars-rate="item.stars_rate"
-      />
-    </div>
+  <div v-cloak class="history-container">
+    <history-lesson
+      v-for="item in dataContainer"
+      :key="item.id"
+      :subject-name="item.sub_name"
+      :lesson-date="item.less_date"
+      :lesson-description="item.desc"
+      :is-opinion-set="item.opinion_set"
+      :stars-rate="item.stars_rate"
+    />
   </div>
 </template>
 
@@ -71,12 +69,5 @@ const tab = [
     max-height: 60vh;
     max-width: 720px;
     overflow-y: scroll;
-  }
-
-  .history-container-out{
-    max-height: 60vh;
-    padding-top: 10vh;
-    max-width: 720px;
-    overflow: hidden;
   }
 </style>

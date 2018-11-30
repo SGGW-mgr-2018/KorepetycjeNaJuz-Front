@@ -122,6 +122,9 @@ export default {
     overflow: auto;
     max-height: 11vh;
     height: 100%;
+
+    @include mobile{
+    }
   }
 
   .set-opinion-button{

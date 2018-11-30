@@ -77,17 +77,20 @@ export default {
   methods: {
     ControlGps: Leaflet.Control.extend({
       options: {
-        position: 'topleft'
+        position: 'bottomright'
       },
       onAdd (map) {
         const container = Leaflet.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom')
-        container.style.backgroundColor = 'white'
-        container.style.width = '34px'
-        container.style.height = '34px'
+        container.style.backgroundColor = '#e34195'
+        container.style.width = '40px'
+        container.style.height = '40px'
         container.style.cursor = 'pointer'
+        container.style.borderRadius = '50px'
+        container.style.transform = 'scaleX(-1)'
+        container.style.backgroundRepeat = 'no-repeat'
         container.title = 'Kliknij, aby pokazać twoją lokalizację'
-        container.style.backgroundImage = 'url("https://image.freepik.com/free-icon/gps-map-location_318-9071.jpg")'
-        container.style.backgroundSize = '30px 30px'
+        container.style.backgroundImage = 'url("https://cdn4.iconfinder.com/data/icons/tupix-1/30/direction-512.png")'
+        container.style.backgroundSize = '36px 36px'
         container.onclick = () => {
           const location = new Location(map)
           location.locate()
@@ -136,9 +139,10 @@ export default {
 <style lang="scss" scoped>
   .map-container,
   #map {
-    position: relative;
-    padding: 0;
     height: 70vh;
+    margin: auto;
+    width: 70%;
+    padding: 60px 10px 10px 10px;
   }
 
   [v-cloak] {
