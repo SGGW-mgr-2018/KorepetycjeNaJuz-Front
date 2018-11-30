@@ -45,6 +45,11 @@ const router = new Router({
       path: '/nowa-lekcja',
       name: 'nowa-lekcja',
       component: () => import(/* webpackChunkName: "newLesson" */ './views/AddNewLesson')
+    },
+    {
+      path: '/o-uzytkowniku',
+      name: 'o-uzytkowniku',
+      component: () => import(/* webpackChunkName: "userAbout" */ './views/UserAbout')
     }
   ]
 })
