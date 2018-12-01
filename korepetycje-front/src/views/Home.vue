@@ -25,6 +25,9 @@ export default {
     Testimonials,
     Description,
     Questions
+  },
+  created () {
+    this.$store.commit('SET_MENU_THEME', 'white')
   }
 }
 </script>

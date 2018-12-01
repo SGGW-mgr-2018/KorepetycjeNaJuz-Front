@@ -88,8 +88,17 @@ export default {
     this.$store.commit('SET_MENU_THEME', 'violet')
   },
   methods: {
-    login () {
-      this.$router.push({ name: 'moje-konto' })
+    async login () {
+      if (!this.model.$.isValid) {
+        this.errors = ['Podano nieprawidłowe dane!']
+        return
+      }
+      const payload = {
+        'username': this.model.email,
+        'password': this.model.password
+      }
+      const errors = await this.$store.dispatch('login', payload)
+      this.errors = errors ? ['Błąd logowania! Sprawdź wpisane dane'] : []
     }
   }
 }

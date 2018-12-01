@@ -19,7 +19,9 @@
           Logowanie
         </router-link>
       </div>
-      <login-modal v-show="showedPopup" />
+      <transition name="fade">
+        <login-modal v-show="showedPopup" />
+      </transition>
     </grid-container>
   </div>
 </template>
