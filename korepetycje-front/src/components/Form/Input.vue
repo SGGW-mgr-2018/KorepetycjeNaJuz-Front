@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'error': errorsVisible }" class="input-wrapper">
     <input
-      :type="inputType"
+      :type="type"
       :placeholder="placeholder"
       :value="value"
       :class="classes"
@@ -25,7 +25,7 @@ export default {
   },
   mixins: [input()],
   props: {
-    inputType: {
+    type: {
       type: String,
       default: 'text'
     },
