@@ -14,6 +14,7 @@
     "leaflet-gps": "^1.7.6",
     "vue": "^2.5.17",
     "vue-form-factory": "^0.1.7",
+    "vue-multiselect": "2.1.3",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vue-star-rating": "^1.6.1",

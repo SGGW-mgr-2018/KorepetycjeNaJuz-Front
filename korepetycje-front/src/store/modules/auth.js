@@ -1,7 +1,7 @@
 import service from '@/service'
 
 const state = () => ({
-  details: null
+  token: null
 })
 
 const getters = {
@@ -13,9 +13,15 @@ const mutations = {
 }
 
 const actions = {
-  async login ({ commit }, payload) {
-    const response = await service.auth.login(payload)
-    console.log(response)
+  async login ({ commit, dispatch }, payload) {
+    const { data } = await service.auth.login(payload)
+    if (data.token) {
+      commit('SET_AUTH_TOKEN', data.token)
+      localStorage.setItem('token', data.token)
+      this.$router.push({ name: 'moje-konto' })
+    } else {
+      return data
+    }
   }
 }
 
