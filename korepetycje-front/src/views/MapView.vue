@@ -21,8 +21,9 @@ export default {
     padding: 70px 0 0 0 ;
   }
   .Prostoktzaokrglony {
-    background: url("https://image.flaticon.com/icons/svg/444/444303.svg") no-repeat scroll;
-    padding-left:70px;
+    background: url("/img/magnifier.png") no-repeat scroll ;
+    background-size: 60px 64px;
+    padding-left: 70px;
     width: 440px;
     height: 64px;
     border-radius: 26.4px;
