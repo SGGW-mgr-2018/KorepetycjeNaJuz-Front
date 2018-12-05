@@ -57,7 +57,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "myAccount" */ './views/MyAccount'),
       beforeEnter (to, from, next) {
         if (store.getters.isAuthenticated) {
-          next('/')
+          next()
         } else {
           next('/logowanie')
         }
@@ -69,7 +69,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "newLesson" */ './views/AddNewLesson'),
       beforeEnter (to, from, next) {
         if (store.getters.isAuthenticated) {
-          next('/')
+          next()
         } else {
           next('/logowanie')
         }
@@ -81,7 +81,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "userAbout" */ './views/UserAbout'),
       beforeEnter (to, from, next) {
         if (store.getters.isAuthenticated) {
-          next('/')
+          next()
         } else {
           next('/logowanie')
         }

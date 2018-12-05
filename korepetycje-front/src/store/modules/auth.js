@@ -1,4 +1,5 @@
 import service from '@/service'
+import router from '@/router'
 
 const state = () => ({
   token: null
@@ -23,9 +24,9 @@ const actions = {
   async login ({ commit, dispatch }, payload) {
     const { data } = await service.auth.login(payload)
     if (data.token) {
-      commit('SET_AUTH_TOKEN', data.token)
+      commit('SET_AUTH', data.token)
       localStorage.setItem('token', data.token)
-      this.$router.push({ name: 'moje-konto' })
+      router.push({ name: 'moje-konto' })
     } else {
       return data
     }
@@ -33,7 +34,7 @@ const actions = {
   logout ({ commit }) {
     commit('CLEAR_AUTH')
     localStorage.removeItem('token')
-    this.$router.replace('/logowanie')
+    router.push({ name: 'home' })
   },
   tryAutoLogin ({ commit }) {
     const token = localStorage.getItem('token')

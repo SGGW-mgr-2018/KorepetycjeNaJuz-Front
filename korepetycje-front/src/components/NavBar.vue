@@ -9,15 +9,29 @@
       <img src="" alt="Logo" class="nav__logo">
       <div ref="navbarDesktop" class="nav-links">
         <router-link to="/" class="nav-links__link">Główna</router-link>
-        <router-link to="/rejestracja" class="nav-links__link">Rejestracja
-        </router-link>
-        <router-link
-          to="/logowanie"
-          class="nav-links__link login"
-          @mouseover.native="showedPopup = true"
-        >
-          Logowanie
-        </router-link>
+        <div v-if="!userAuthenticated">
+          <router-link to="/rejestracja" class="nav-links__link">
+            Rejestracja
+          </router-link>
+          <router-link
+            to="/logowanie"
+            class="nav-links__link login"
+            @mouseover.native="showedPopup = true"
+          >
+            Logowanie
+          </router-link>
+        </div>
+        <div v-if="userAuthenticated">
+          <router-link to="/moje-konto" class="nav-links__link">
+            Moje konto
+          </router-link>
+          <button-component
+            class="nav-links__link login"
+            @click="logout"
+          >
+            Wyloguj
+          </button-component>
+        </div>
       </div>
       <div ref="navbarMobile">
         <div class="nav-burger">
@@ -27,8 +41,21 @@
           <span />
           <ul class="menu-burger">
             <router-link to="/" class="menu-burger__link">Główna</router-link> <br>
-            <router-link to="/rejestracja" class="menu-burger__link">Rejestracja</router-link> <br>
-            <router-link to="/logowanie" class="menu-burger__link">Logowanie</router-link>
+            <div v-if="!userAuthenticated">
+              <router-link to="/rejestracja" class="menu-burger__link">Rejestracja</router-link> <br>
+              <router-link to="/logowanie" class="menu-burger__link">Logowanie</router-link>
+            </div>
+            <div v-if="userAuthenticated">
+              <router-link to="/moje-konto" class="nav-links__link">
+                Moje konto
+              </router-link>
+              <button-component
+                class="nav-links__link login"
+                @click="logout"
+              >
+                Wyloguj
+              </button-component>
+            </div>
           </ul>
         </div>
       </div>
@@ -41,11 +68,14 @@
 
 <script>
 import LoginModal from '@/components/Login/LoginModal'
+import ButtonComponent from '@/components/Button'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'NavBar',
   components: {
-    LoginModal
+    LoginModal,
+    ButtonComponent
   },
   props: {
     violet: {
@@ -65,6 +95,9 @@ export default {
     },
     isViolet () {
       return this.$store.state.global.menuTheme === 'violet'
+    },
+    userAuthenticated () {
+      return this.$store.getters.isAuthenticated
     }
   },
   mounted () {
@@ -77,6 +110,7 @@ export default {
     window.removeEventListener('scroll', this.manageNavBar)
   },
   methods: {
+    ...mapActions(['logout']),
     manageNavBar () {
       const windowScrollY = window.scrollY
       if (windowScrollY <= this.navHeight) {
@@ -144,6 +178,7 @@ export default {
   .nav-links {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 
     &__link {
       margin: 10px 0;
