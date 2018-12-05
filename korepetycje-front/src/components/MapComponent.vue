@@ -16,7 +16,6 @@
         :icon="item.icon"
         :lat-lng="item.latlng"
         @mouseenter="openPopup($event)"
-        @mouseout="closePopup($event)"
       >
         <l-popup :content="item.content" />
       </l-marker>
@@ -109,13 +108,13 @@ export default {
     }),
 
     onLocationFound (e) {
-      const radius = e.accuracy / 2
+      // const radius = e.accuracy / 2
       this.markers = []
       console.log(e.latlng.lat + ' : ' + e.latlng.lng)
       this.markers.push({
         id: 1,
         latlng: Leaflet.latLng(e.latlng.lat, e.latlng.lng),
-        content: 'Jesteś w odlegości ' + radius + ' metrów od tego punktu',
+        content: '<div style="padding:5px;"><div style="text-align: center; font-family: Roboto; font-size: 24px; font-weight: normal; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; color: #6b53ff">Język angielski 18-19</div><div style="padding:3px;"><div style="width: 20%; float:left;"><img style="max-width:100%;max-height:100%; padding-right: 10px" src="/img/personIcon.png"></div><div><p style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur.</p></div></div><input type="button" value="ZAPISZ SIĘ NA LEKCJE" style="color:white; padding:10px; background: rgb(211,81,147); border-radius: 15px; margin: 0 auto; display:block; width:100%"/></div>',
         icon: this.defaultIcon
       })
     },
