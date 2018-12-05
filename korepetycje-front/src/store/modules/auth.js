@@ -11,7 +11,12 @@ const getters = {
 }
 
 const mutations = {
-
+  SET_AUTH (state, payload) {
+    state.token = payload
+  },
+  CLEAR_AUTH () {
+    state.token = null
+  }
 }
 
 const actions = {
@@ -24,6 +29,16 @@ const actions = {
     } else {
       return data
     }
+  },
+  logout ({ commit }) {
+    commit('CLEAR_AUTH')
+    localStorage.removeItem('token')
+    this.$router.replace('/logowanie')
+  },
+  tryAutoLogin ({ commit }) {
+    const token = localStorage.getItem('token')
+    if (!token) return
+    commit('SET_AUTH', token)
   }
 }
 

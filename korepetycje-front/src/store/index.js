@@ -7,13 +7,11 @@ import map from './modules/map'
 
 Vue.use(Vuex)
 
-export default () => (
-  new Vuex.Store({
-    strict: 'true',
-    modules: {
-      auth,
-      global,
-      map
-    }
-  })
-)
+export default new Vuex.Store({
+  strict: 'true',
+  modules: {
+    auth,
+    global,
+    map
+  }
+})
