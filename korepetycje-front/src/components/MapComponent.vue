@@ -16,7 +16,6 @@
         :icon="item.icon"
         :lat-lng="item.latlng"
         @mouseenter="openPopup($event)"
-        @mouseout="closePopup($event)"
       >
         <l-popup :content="item.content" />
       </l-marker>
@@ -41,7 +40,7 @@ export default {
     return {
       zoom: 13,
       center: Leaflet.latLng(52.237049, 21.017532),
-      url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
       zoomControl: true,
       minZoom: 6,
       maxZoom: 25,
@@ -49,7 +48,7 @@ export default {
       map: null,
       markers: [],
       defaultIcon: Leaflet.icon({
-        iconUrl: 'http://downloadicons.net/sites/default/files/gps-id-icon-94414.png',
+        iconUrl: '/img/gps_icon.png',
         iconSize: [50, 60],
         iconAnchor: [34, 59],
         popupAnchor: [-10, -43]
@@ -106,7 +105,7 @@ export default {
       this.markers.push({
         id: 1,
         latlng: Leaflet.latLng(e.latlng.lat, e.latlng.lng),
-        content: 'Jesteś w odlegości ' + radius + ' metrów od tego punktu',
+        content: '<p id="par">' + 'Jesteś w odlegości ' + radius + ' metrów od tego punktu' + '</p>',
         icon: this.defaultIcon
       })
     },
@@ -148,4 +147,8 @@ export default {
   [v-cloak] {
     visibility: hidden;
   }
+
+  // .leaflet-popup-content-wrapper{
+  //   width: 1000px;
+  // }
 </style>
