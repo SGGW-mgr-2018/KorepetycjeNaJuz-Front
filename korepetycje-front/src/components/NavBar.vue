@@ -116,7 +116,7 @@ export default {
   .nav {
     padding: 20px 0px 20px;
     position: absolute;
-    z-index: 10;
+    z-index: 10000;
     width: 100%;
     transition: .2s ease-in-out;
 

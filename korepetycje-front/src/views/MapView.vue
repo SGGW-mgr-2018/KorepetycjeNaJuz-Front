@@ -26,6 +26,7 @@ export default {
   },
   created () {
     this.subject = this.$route.params.searchInput
+    this.$store.commit('SET_MENU_THEME', 'violet')
   },
   methods: {
     setInput () {
