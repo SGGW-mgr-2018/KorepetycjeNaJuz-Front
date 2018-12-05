@@ -98,7 +98,6 @@ export default {
     },
     showHideBurgerMenu () {
       const width = window.innerWidth
-      console.log(width)
       let desktop = this.$refs.navbarDesktop
       let mobile = this.$refs.navbarMobile
       if (width > 1000) {
