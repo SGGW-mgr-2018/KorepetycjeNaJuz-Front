@@ -8,6 +8,7 @@
           type="text"
           class="search-bar__input"
           placeholder="WPISZ SWOJĄ LOKALIZACJĘ"
+          @keyup.enter="searchLocation"
         >
         <button-component class="search-bar__button" pink @click="searchLocation">
           Szukaj
