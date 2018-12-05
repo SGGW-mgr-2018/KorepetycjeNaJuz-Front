@@ -5,7 +5,9 @@ const state = () => ({
 })
 
 const getters = {
-
+  isAuthenticated (state) {
+    return !!state.token
+  }
 }
 
 const mutations = {

@@ -56,8 +56,7 @@ export default {
   data () {
     return {
       showedPopup: false,
-      savedPosition: 0,
-      windowWidth: window.innerWidth
+      savedPosition: 0
     }
   },
   computed: {
@@ -69,11 +68,13 @@ export default {
     }
   },
   mounted () {
-    document.addEventListener('scroll', this.manageNavBar)
     this.showHideBurgerMenu()
+    window.addEventListener('resize', this.showHideBurgerMenu)
+    window.addEventListener('scroll', this.manageNavBar)
   },
   beforeDestroy () {
-    document.removeEventListener('scroll', this.manageNavBar)
+    window.removeEventListener('resize', this.showHideBurgerMenu)
+    window.removeEventListener('scroll', this.manageNavBar)
   },
   methods: {
     manageNavBar () {
@@ -96,7 +97,8 @@ export default {
       this.savedPosition = windowScrollY
     },
     showHideBurgerMenu () {
-      const width = this.windowWidth
+      const width = window.innerWidth
+      console.log(width)
       let desktop = this.$refs.navbarDesktop
       let mobile = this.$refs.navbarMobile
       if (width > 1000) {
