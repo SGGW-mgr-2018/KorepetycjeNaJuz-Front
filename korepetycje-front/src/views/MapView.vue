@@ -1,6 +1,7 @@
 <template>
   <div id="map-div">
-    <input v-model="subject" class="Prostoktzaokrglony" placeholder="Wpisz przedmiot">
+    <input v-model="town" placeholder="Wpisz przedmiot" class="Prostoktzaokrglony" @change="searchLocation()">
+    <p>Message: {{ town }} </p>
     <map-container />
   </div>
 </template>
@@ -12,6 +13,21 @@ export default {
   name: 'Map',
   components: {
     MapContainer
+  },
+  data () {
+    return {
+      town: ''
+    }
+  },
+  methods: {
+    searchLocation () {
+      if (this.searchContent !== '') {
+        this.$router.push({
+          name: 'map',
+          params: { searchInput: this.town }
+        })
+      }
+    }
   }
 }
 </script>
