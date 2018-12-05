@@ -7,17 +7,30 @@
   >
     <grid-container class="nav__wrapper">
       <img src="" alt="Logo" class="nav__logo">
-      <div class="nav-links">
+      <div ref="navbarDesktop" class="nav-links">
         <router-link to="/" class="nav-links__link">Główna</router-link>
         <router-link to="/rejestracja" class="nav-links__link">Rejestracja
         </router-link>
         <router-link
           to="/logowanie"
-          class="nav-links__link log"
+          class="nav-links__link login"
           @mouseover.native="showedPopup = true"
         >
           Logowanie
         </router-link>
+      </div>
+      <div ref="navbarMobile">
+        <div class="nav-burger">
+          <input type="checkbox">
+          <span />
+          <span />
+          <span />
+          <ul class="menu-burger">
+            <router-link to="/" class="menu-burger__link">Główna</router-link> <br>
+            <router-link to="/rejestracja" class="menu-burger__link">Rejestracja</router-link> <br>
+            <router-link to="/logowanie" class="menu-burger__link">Logowanie</router-link>
+          </ul>
+        </div>
       </div>
       <transition name="fade">
         <login-modal v-show="showedPopup" />
@@ -55,10 +68,13 @@ export default {
     }
   },
   mounted () {
-    document.addEventListener('scroll', this.manageNavBar)
+    this.showHideBurgerMenu()
+    window.addEventListener('resize', this.showHideBurgerMenu)
+    window.addEventListener('scroll', this.manageNavBar)
   },
   beforeDestroy () {
-    document.removeEventListener('scroll', this.manageNavBar)
+    window.removeEventListener('resize', this.showHideBurgerMenu)
+    window.removeEventListener('scroll', this.manageNavBar)
   },
   methods: {
     manageNavBar () {
@@ -79,6 +95,18 @@ export default {
         this.$refs.navbar.classList.remove('sticky')
       }
       this.savedPosition = windowScrollY
+    },
+    showHideBurgerMenu () {
+      const width = window.innerWidth
+      let desktop = this.$refs.navbarDesktop
+      let mobile = this.$refs.navbarMobile
+      if (width > 1000) {
+        desktop.style.display = 'flex'
+        mobile.style.display = 'none'
+      } else {
+        desktop.style.display = 'none'
+        mobile.style.display = 'flex'
+      }
     }
   }
 }
@@ -86,6 +114,7 @@ export default {
 
 <style lang="scss" scoped>
   .nav {
+    padding: 20px 0px 20px;
     position: absolute;
     z-index: 10;
     width: 100%;
@@ -134,7 +163,7 @@ export default {
         text-decoration: underline;
       }
 
-      &.log {
+      &.login {
         border: 1px solid #fff;
         border-radius: 40px;
 
@@ -189,5 +218,103 @@ export default {
     100% {
       transform: translateY(-100%);
     }
+  }
+
+  .nav-burger {
+    display: block;
+    position: absolute;
+    right: 50px;
+    z-index: 1;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .nav-burger input {
+    display: block;
+    width: 40px;
+    height: 32px;
+    position: absolute;
+    top: -7px;
+    left: -5px;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 2;
+    -webkit-touch-callout: none;
+  }
+
+  .nav-burger span {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    background: #000;
+    border-radius: 3px;
+    z-index: 1;
+    transform-origin: 4px 0px;
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0), background 0.5s cubic-bezier(0.77,0.2,0.05,1.0), opacity 0.55s ease;
+}
+
+  .nav-burger span:first-child {
+    transform-origin: 0% 0%;
+  }
+
+  .nav-burger span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+  }
+
+  .nav-burger input:checked ~ span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: #fff;
+  }
+
+  .nav-burger input:checked ~ span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+
+  .nav-burger input:checked ~ span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0px, -1px);
+  }
+
+  .nav-burger input:checked ~ ul {
+    transform: scale(1.0, 1.0);
+    opacity: 1;
+  }
+
+  .menu-burger {
+    position: absolute;
+    width: 300px;
+    margin: -100px 0 0 0px;
+    padding: 50px;
+    padding-top: 125px;
+    right: -100px;
+    background: #36383F;
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    transform-origin: 0% 0%;
+    transform: translate(100%, 0);
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    display: flex;
+    flex-direction: column;
+    justify-content: spance-around;
+
+    &__link {
+      font-size: 17px;
+      font-weight: 500;
+      text-decoration: none;
+      color: #fff;
+
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .menu-burger li {
+    padding: 10px 0;
+    font-size: 22px;
   }
 </style>

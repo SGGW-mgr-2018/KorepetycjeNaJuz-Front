@@ -30,6 +30,7 @@ import Location from '@/assets/js/location.js'
 import { LMap, LTileLayer, LPopup, LMarker } from 'vue2-leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch'
 import VueResource from 'vue-resource'
+import { mapState } from 'vuex'
 
 Vue.use(VueResource)
 
@@ -54,6 +55,17 @@ export default {
         popupAnchor: [-10, -43]
       }),
       searchLabel: ''
+    }
+  },
+  computed: {
+    ...mapState({
+      searchQuery: state => state.map.searchQuery
+    })
+  },
+  watch: {
+    searchQuery (value) {
+      this.searchLabel = value
+      this.loadData()
     }
   },
   created () {
