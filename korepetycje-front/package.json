@@ -11,6 +11,7 @@
     "axios": "0.18.0",
     "leaflet-geosearch": "^2.7.0",
     "leaflet-gps": "^1.7.6",
+    "lodash.debounce": "4.0.8",
     "vue": "^2.5.17",
     "vue-form-factory": "0.1.7",
     "vue-multiselect": "2.1.3",

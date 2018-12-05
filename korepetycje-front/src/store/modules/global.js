@@ -1,6 +1,6 @@
-const state = () => ({
+const state = {
   menuTheme: 'white'
-})
+}
 
 const getters = {
 

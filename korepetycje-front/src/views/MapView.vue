@@ -1,17 +1,39 @@
 <template>
   <div id="map-div">
-    <input v-model="subject" class="Prostoktzaokrglony" placeholder="Wpisz przedmiot">
+    <input
+      v-model="subject"
+      class="rounded"
+      placeholder="Wpisz przedmiot"
+      @input="setInput"
+    >
     <map-container />
   </div>
 </template>
 
 <script>
 import MapContainer from '@/components/MapComponent'
+import debounce from 'lodash.debounce'
 
 export default {
   name: 'Map',
   components: {
     MapContainer
+  },
+  data () {
+    return {
+      subject: ''
+    }
+  },
+  created () {
+    this.subject = this.$route.params.searchInput
+  },
+  methods: {
+    setInput () {
+      this.search(this.subject, this)
+    },
+    search: debounce((query, self) => {
+      self.$store.commit('SET_SEARCH_QUERY', query)
+    }, 500)
   }
 }
 </script>
@@ -20,7 +42,7 @@ export default {
     position: relative;
     padding: 70px 0 0 0 ;
   }
-  .Prostoktzaokrglony {
+  .rounded {
     background: url("/img/magnifier.png") no-repeat scroll ;
     background-size: 60px 64px;
     padding-left: 70px;
