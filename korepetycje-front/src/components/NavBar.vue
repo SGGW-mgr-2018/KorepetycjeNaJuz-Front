@@ -19,7 +19,6 @@
           Logowanie
         </router-link>
       </div>
-      <login-modal v-show="showedPopup" />
       <div ref="navbarMobile">
         <div class="nav-burger">
           <input type="checkbox">
@@ -33,6 +32,9 @@
           </ul>
         </div>
       </div>
+      <transition name="fade">
+        <login-modal v-show="showedPopup" />
+      </transition>
     </grid-container>
   </div>
 </template>

@@ -1,8 +1,10 @@
 <template>
   <div class="login-modal">
     <div class="login-modal__wrapper">
-      <input type="text" class="login-modal__input" placeholder="LOGIN">
-      <input type="text" class="login-modal__input" placeholder="HASŁO">
+      <form>
+        <errors-component :errors="errors" :visible="!!errors.length" />
+        <form-factory v-model="model" :schema="schema" />
+      </form>
       <router-link to="/" class="login-modal__link">
         Zapomniałeś hasła?
       </router-link>
@@ -19,15 +21,65 @@
 
 <script>
 import ButtonComponent from '@/components/Button'
+import InputComponent from '@/components/Form/Input'
+import ErrorsComponent from '@/components/Form/Errors'
+import {
+  validateRequired,
+  validateEmail,
+  validatePassword
+} from '@/assets/js/validators'
 
 export default {
   name: 'LoginModal',
   components: {
-    ButtonComponent
+    ButtonComponent,
+    ErrorsComponent
+  },
+  data () {
+    return {
+      model: {
+        email: '',
+        password: ''
+      },
+      schema: {
+        email: {
+          component: InputComponent,
+          validators: [
+            validateRequired, validateEmail
+          ],
+          props: {
+            type: 'email',
+            placeholder: 'Adres email',
+            forceErrors: false
+          }
+        },
+        password: {
+          component: InputComponent,
+          validators: [
+            validateRequired, validatePassword
+          ],
+          props: {
+            type: 'password',
+            placeholder: 'Hasło',
+            forceErrors: false
+          }
+        }
+      },
+      errors: []
+    }
   },
   methods: {
-    login () {
-      this.$router.push({ name: 'moje-konto' })
+    async login () {
+      if (!this.model.$.isValid) {
+        this.errors = ['Podano nieprawidłowe dane!']
+        return
+      }
+      const payload = {
+        'username': this.model.email,
+        'password': this.model.password
+      }
+      const errors = await this.$store.dispatch('login', payload)
+      this.errors = errors ? ['Błąd logowania! Sprawdź wpisane dane'] : []
     }
   }
 }
@@ -85,5 +137,10 @@ export default {
         }
       }
     }
+  }
+
+  /deep/ .errors {
+    margin: 5px 0;
+    padding: 4px 10px;
   }
 </style>
