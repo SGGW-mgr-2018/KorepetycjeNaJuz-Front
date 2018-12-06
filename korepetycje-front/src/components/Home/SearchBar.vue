@@ -128,6 +128,7 @@ export default {
 
     .button-cta {
       padding: 17px 36px;
+      margin: 0 auto;
     }
   }
 </style>

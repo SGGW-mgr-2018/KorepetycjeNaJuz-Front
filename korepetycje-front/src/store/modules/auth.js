@@ -13,9 +13,10 @@ const getters = {
 
 const mutations = {
   SET_AUTH (state, payload) {
+    // todo: convert from base64 to object
     state.token = payload
   },
-  CLEAR_AUTH () {
+  CLEAR_AUTH (state) {
     state.token = null
   }
 }
@@ -23,6 +24,16 @@ const mutations = {
 const actions = {
   async login ({ commit, dispatch }, payload) {
     const { data } = await service.auth.login(payload)
+    if (data.token) {
+      commit('SET_AUTH', data.token)
+      localStorage.setItem('token', data.token)
+      router.push({ name: 'moje-konto' })
+    } else {
+      return data
+    }
+  },
+  async register ({ commit, dispatch }, payload) {
+    const { data } = await service.auth.register(payload)
     if (data.token) {
       commit('SET_AUTH', data.token)
       localStorage.setItem('token', data.token)

@@ -27,5 +27,6 @@ export default {
 
   .page {
     background-color: $gray-lighter;
+    overflow: hidden;
   }
 </style>

@@ -6,7 +6,7 @@
     @click="$emit('click')"
   >
     <slot v-if="!loading" />
-    <loader-component v-else :dark="darkLoader" />
+    <loader-component v-else />
   </button>
 </template>
 
@@ -51,6 +51,9 @@ export default {
 <style lang="scss" scoped>
   .button {
     @include reset-button;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 7px 20px;
     border-radius: 10px;
     text-transform: uppercase;

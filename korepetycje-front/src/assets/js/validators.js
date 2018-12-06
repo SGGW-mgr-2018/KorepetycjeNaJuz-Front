@@ -6,7 +6,8 @@ const checkRequiredCheckbox = value => {
 }
 
 const checkPhone = value => {
-  const regexp = new RegExp('\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}')
+  /* eslint-disable-next-line */
+  const regexp = /^[0-9\+\s\(\)\.\-]{7,20}$/
   return regexp.test(value)
 }
 
