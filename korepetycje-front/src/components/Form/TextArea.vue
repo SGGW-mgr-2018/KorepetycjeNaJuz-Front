@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'error': errorsVisible }" class="text-area-wrapper">
-    <text-area
+    <textarea
       :placeholder="placeholder"
       :value="value"
       :class="classes"
@@ -72,7 +72,7 @@ export default {
     @include font-primary;
     max-width: 350px;
     width: 100%;
-    height: 48px;
+    height: 80px;
     position: relative;
     will-change: margin;
     transition: margin .3s ease-in-out;
@@ -83,15 +83,16 @@ export default {
   }
 
   .text-area {
-    font-size: 13px;
     max-width: 280px;
     width: 100%;
-    height: 38px;
+    height: 80px;
+    padding: 8px 0;
+    font-size: 14px;
     border: solid 1px #bfbfbf;
     padding-left: 10px;
 
     &.success {
-      color: #bada55;
+      color: #1a3b0c;
     }
   }
 </style>

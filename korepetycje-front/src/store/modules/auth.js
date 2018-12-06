@@ -13,6 +13,7 @@ const getters = {
 
 const mutations = {
   SET_AUTH (state, payload) {
+    // todo: convert from base64 to object
     state.token = payload
   },
   CLEAR_AUTH (state) {

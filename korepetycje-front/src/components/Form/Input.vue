@@ -88,7 +88,7 @@ export default {
   }
 
   .input {
-    font-size: 13px;
+    font-size: 14px;
     max-width: 280px;
     width: 100%;
     height: 38px;
@@ -96,7 +96,7 @@ export default {
     padding-left: 10px;
 
     &.success {
-      color: #bada55;
+      color: #1a3b0c;
     }
   }
 </style>

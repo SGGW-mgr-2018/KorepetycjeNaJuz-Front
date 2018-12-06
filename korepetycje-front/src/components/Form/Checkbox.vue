@@ -89,8 +89,7 @@ export default {
   }
 
   .checkbox-field {
-    max-width: 350px;
-    margin: 16px auto 0;
+    margin: 20px auto;
   }
 
   .label {
@@ -102,8 +101,8 @@ export default {
   .nativeCheckbox {
     &:focus {
       + .checkbox {
-        background: $gray;
-        border: 1px solid #efefef;
+        ground: $gray;
+        border: 1px solid rgba(98, 98, 98, 0.62);
       }
     }
 
@@ -140,7 +139,6 @@ export default {
       height: 22px;
       padding: 5px;
       color: $pink;
-      background: #fff;
       opacity: 0;
       text-align: center;
       border-radius: 6px;
@@ -148,7 +146,9 @@ export default {
   }
 
   .text {
-    @include font-primary(11px);
+    @include font-primary(15px);
+    display: flex;
+    align-items: center;
 
     /deep/ a {
       color: #58627b;
