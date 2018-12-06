@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'error': errorsVisible }" class="input-wrapper">
     <input
-      :type="type"
+      :type="inputType"
       :placeholder="placeholder"
       :value="value"
       :class="classes"
@@ -10,6 +10,14 @@
       @blur="handleBlur"
       @focus="handleFocus"
     >
+    <button
+      v-if="showSwitcher"
+      type="button"
+      class="button-switch"
+      @click.prevent="handleSwitcherClick"
+    >
+      <img :src="passwordIcon" alt="">
+    </button>
     <errors-component :errors="errors" :visible="errorsVisible" />
   </div>
 </template>
@@ -40,12 +48,18 @@ export default {
   },
   data () {
     return {
-      errorsVisible: false
+      inputType: this.type,
+      errorsVisible: false,
+      passwordShowed: false,
+      passwordIcon: '/svg/show_pass.svg'
     }
   },
   computed: {
     correctField () {
       return !this.error && this.value
+    },
+    showSwitcher () {
+      return this.inputType === 'password' || this.passwordShowed
     },
     classes () {
       return {
@@ -67,6 +81,11 @@ export default {
     },
     handleFocus () {
       this.errorsVisible = false
+    },
+    handleSwitcherClick () {
+      this.inputType = this.passwordShowed ? 'password' : 'text'
+      this.passwordIcon = this.passwordShowed ? '/svg/show_pass.svg' : '/svg/hide_pass.svg'
+      this.passwordShowed = !this.passwordShowed
     }
   }
 }
@@ -88,6 +107,7 @@ export default {
   }
 
   .input {
+    position: relative;
     font-size: 14px;
     max-width: 280px;
     width: 100%;
@@ -98,5 +118,16 @@ export default {
     &.success {
       color: #1a3b0c;
     }
+  }
+
+  .button-switch {
+    border: none;
+    background: none;
+    height: 24px;
+    width: 24px;
+    position: absolute;
+    top: 8px;
+    right: 29px;
+    cursor: pointer;
   }
 </style>
