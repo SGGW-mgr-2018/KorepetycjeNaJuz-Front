@@ -12,10 +12,10 @@
           <errors-component :errors="errors" :visible="!!errors.length" />
           <form-factory v-model="model" :schema="schema" />
           <button-component
-            :loading="sending"
+            :loading="loading"
             pink
             class="button-register"
-            @click="register"
+            @click="handleClick"
           >
             ZALOGUJ SIĘ
           </button-component>
@@ -132,20 +132,21 @@ export default {
             validateRequiredCheckbox
           ],
           props: {
-            label: 'Zaakceptuj zgodę'
+            label: 'Zaakceptuj zgodę',
+            forceErrors: false
           }
         }
       },
       errors: [],
       success: false,
-      sending: false
+      loading: false
     }
   },
   created () {
     this.$store.commit('SET_MENU_THEME', 'violet')
   },
   methods: {
-    async register () {
+    async handleClick () {
       if (!this.model.$.isValid) {
         this.errors = ['Podano nieprawidłowe dane!']
         return
@@ -159,9 +160,9 @@ export default {
         description: this.model.description,
         privacyPolicesConfirmed: this.model.privacyPolicesConfirmed
       }
-      this.sending = true
+      this.loading = true
       const errors = await this.$store.dispatch('register', payload)
-      this.sending = false
+      this.loading = false
       this.errors = errors ? ['Błąd logowania! Sprawdź wpisane dane'] : []
     }
   }
