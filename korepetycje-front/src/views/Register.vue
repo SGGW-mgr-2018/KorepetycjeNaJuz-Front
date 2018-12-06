@@ -12,7 +12,7 @@
           <errors-component :errors="errors" :visible="!!errors.length" />
           <form-factory v-model="model" :schema="schema" />
           <button-component
-            :loading=""
+            :loading="sending"
             pink
             class="button-register"
             @click="register"

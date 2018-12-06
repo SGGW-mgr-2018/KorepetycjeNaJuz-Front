@@ -14,7 +14,12 @@
           Zapomniałeś hasła?
         </router-link>
         <br>
-        <button-component pink class="button-login" @click="login">
+        <button-component
+          pink
+          class="button-login"
+          :loading="loading"
+          @click="login"
+        >
           ZALOGUJ SIĘ
         </button-component>
       </div>
@@ -81,7 +86,8 @@ export default {
           }
         }
       },
-      errors: []
+      errors: [],
+      loading: false
     }
   },
   created () {
@@ -97,7 +103,9 @@ export default {
         'username': this.model.email,
         'password': this.model.password
       }
+      this.loading = true
       const errors = await this.$store.dispatch('login', payload)
+      this.loading = false
       this.errors = errors ? ['Błąd logowania! Sprawdź wpisane dane'] : []
     }
   }
