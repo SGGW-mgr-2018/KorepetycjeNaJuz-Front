@@ -28,7 +28,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "login" */ './views/Login'),
       beforeEnter (to, from, next) {
         if (store.getters.isAuthenticated) {
-          next('/')
+          next('/moje-konto')
         } else {
           next()
         }
@@ -40,7 +40,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "register" */ './views/Register'),
       beforeEnter (to, from, next) {
         if (store.getters.isAuthenticated) {
-          next('/')
+          next('/moje-konto')
         } else {
           next()
         }
@@ -88,6 +88,11 @@ const router = new Router({
       }
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  store.dispatch('tryAutoLogin')
+  next()
 })
 
 export default router
