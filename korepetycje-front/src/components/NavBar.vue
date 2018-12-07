@@ -260,11 +260,11 @@ export default {
   }
 
   .nav-burger {
-    display: block;
     position: absolute;
+    top: -10px;
     right: 50px;
     z-index: 1;
-    -webkit-user-select: none;
+    display: block;
     user-select: none;
   }
 
