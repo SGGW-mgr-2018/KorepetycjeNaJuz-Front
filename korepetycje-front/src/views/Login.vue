@@ -33,7 +33,7 @@
         </a>
       </div>
       <h3>Nie masz konta?</h3>
-      <button-component grey class="button-register">
+      <button-component grey class="button-register" @click="goRegister">
         ZAREJESTRUJ SIĘ
       </button-component>
     </grid-container>
@@ -107,6 +107,9 @@ export default {
       const errors = await this.$store.dispatch('login', payload)
       this.loading = false
       this.errors = errors ? ['Błąd logowania! Sprawdź wpisane dane'] : []
+    },
+    goRegister () {
+      this.$router.push({ name: 'rejestracja' })
     }
   }
 }
@@ -244,5 +247,6 @@ export default {
     max-width: 280px;
     width: 100%;
     height: 40px;
+    margin: 0 auto;
   }
 </style>
