@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import store from './store'
 
 Vue.use(Router)
 
@@ -24,12 +25,26 @@ const router = new Router({
     {
       path: '/logowanie',
       name: 'logowanie',
-      component: () => import(/* webpackChunkName: "login" */ './views/Login')
+      component: () => import(/* webpackChunkName: "login" */ './views/Login'),
+      beforeEnter (to, from, next) {
+        if (store.getters.isAuthenticated) {
+          next('/moje-konto')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/rejestracja',
       name: 'rejestracja',
-      component: () => import(/* webpackChunkName: "register" */ './views/Register')
+      component: () => import(/* webpackChunkName: "register" */ './views/Register'),
+      beforeEnter (to, from, next) {
+        if (store.getters.isAuthenticated) {
+          next('/moje-konto')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/map',
@@ -39,19 +54,45 @@ const router = new Router({
     {
       path: '/moje-konto',
       name: 'moje-konto',
-      component: () => import(/* webpackChunkName: "myAccount" */ './views/MyAccount')
+      component: () => import(/* webpackChunkName: "myAccount" */ './views/MyAccount'),
+      beforeEnter (to, from, next) {
+        if (store.getters.isAuthenticated) {
+          next()
+        } else {
+          next('/logowanie')
+        }
+      }
     },
     {
       path: '/nowa-lekcja',
       name: 'nowa-lekcja',
-      component: () => import(/* webpackChunkName: "newLesson" */ './views/AddNewLesson')
+      component: () => import(/* webpackChunkName: "newLesson" */ './views/AddNewLesson'),
+      beforeEnter (to, from, next) {
+        if (store.getters.isAuthenticated) {
+          next()
+        } else {
+          next('/logowanie')
+        }
+      }
     },
     {
       path: '/o-uzytkowniku',
       name: 'o-uzytkowniku',
-      component: () => import(/* webpackChunkName: "userAbout" */ './views/UserAbout')
+      component: () => import(/* webpackChunkName: "userAbout" */ './views/UserAbout'),
+      beforeEnter (to, from, next) {
+        if (store.getters.isAuthenticated) {
+          next()
+        } else {
+          next('/logowanie')
+        }
+      }
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  store.dispatch('tryAutoLogin')
+  next()
 })
 
 export default router

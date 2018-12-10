@@ -17,7 +17,8 @@ const handleErrors = err => {
 const responseData = res => res
 
 const auth = {
-  login: payload => axios.post('/api/Authorization/Login', payload).then(responseData).catch(handleErrors)
+  login: payload => axios.post('/api/Authorization/Login', payload).then(responseData).catch(handleErrors),
+  register: payload => axios.post('/api/Users/Create', payload).then(responseData).catch(handleErrors)
 }
 
 export default {

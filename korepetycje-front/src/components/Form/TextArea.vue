@@ -1,23 +1,14 @@
 <template>
-  <div :class="{ 'error': errorsVisible }" class="input-wrapper">
-    <input
-      :type="inputType"
+  <div :class="{ 'error': errorsVisible }" class="text-area-wrapper">
+    <textarea
       :placeholder="placeholder"
       :value="value"
       :class="classes"
-      class="input"
+      class="text-area"
       @input="input"
       @blur="handleBlur"
       @focus="handleFocus"
-    >
-    <button
-      v-if="showSwitcher"
-      type="button"
-      class="button-switch"
-      @click.prevent="handleSwitcherClick"
-    >
-      <img :src="passwordIcon" alt="">
-    </button>
+    />
     <errors-component :errors="errors" :visible="errorsVisible" />
   </div>
 </template>
@@ -27,16 +18,12 @@ import { input } from 'vue-form-factory'
 import ErrorsComponent from '@/components/Form/Errors'
 
 export default {
-  name: 'Input',
+  name: 'TextArea',
   components: {
     ErrorsComponent
   },
   mixins: [input()],
   props: {
-    type: {
-      type: String,
-      default: 'text'
-    },
     placeholder: {
       type: String,
       default: ''
@@ -48,18 +35,12 @@ export default {
   },
   data () {
     return {
-      inputType: this.type,
-      errorsVisible: false,
-      passwordShowed: false,
-      passwordIcon: '/svg/show_pass.svg'
+      errorsVisible: false
     }
   },
   computed: {
     correctField () {
       return !this.error && this.value
-    },
-    showSwitcher () {
-      return this.inputType === 'password' || this.passwordShowed
     },
     classes () {
       return {
@@ -81,22 +62,17 @@ export default {
     },
     handleFocus () {
       this.errorsVisible = false
-    },
-    handleSwitcherClick () {
-      this.inputType = this.passwordShowed ? 'password' : 'text'
-      this.passwordIcon = this.passwordShowed ? '/svg/show_pass.svg' : '/svg/hide_pass.svg'
-      this.passwordShowed = !this.passwordShowed
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .input-wrapper {
+  .text-area-wrapper {
     @include font-primary;
     max-width: 350px;
     width: 100%;
-    height: 48px;
+    height: 80px;
     position: relative;
     will-change: margin;
     transition: margin .3s ease-in-out;
@@ -106,28 +82,17 @@ export default {
     }
   }
 
-  .input {
-    position: relative;
-    font-size: 14px;
+  .text-area {
     max-width: 280px;
     width: 100%;
-    height: 38px;
+    height: 80px;
+    padding: 8px 0;
+    font-size: 14px;
     border: solid 1px #bfbfbf;
     padding-left: 10px;
 
     &.success {
       color: #1a3b0c;
     }
-  }
-
-  .button-switch {
-    border: none;
-    background: none;
-    height: 24px;
-    width: 24px;
-    position: absolute;
-    top: 8px;
-    right: 29px;
-    cursor: pointer;
   }
 </style>
