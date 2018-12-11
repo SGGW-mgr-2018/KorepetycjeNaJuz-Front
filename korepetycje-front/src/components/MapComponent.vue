@@ -153,7 +153,8 @@ export default {
     height: 70vh;
     margin: auto;
     width: 70%;
-    padding: 60px 10px 10px 10px;
+    padding-top: 10px;
+    z-index: -1;
   }
 
   [v-cloak] {

@@ -21,6 +21,12 @@ const auth = {
   register: payload => axios.post('/api/Users/Create', payload).then(responseData).catch(handleErrors)
 }
 
+const get = {
+  subjects: payload => axios.get('/api/LessonSubjects/GetAll', payload).then(responseData).catch(handleErrors),
+  subjectsFilter: payload => axios.get('/api/LessonSubjects/GetByFilter', payload).then(responseData).catch(handleErrors)
+}
+
 export default {
-  auth
+  auth,
+  get
 }
