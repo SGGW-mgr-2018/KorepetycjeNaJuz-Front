@@ -23,7 +23,8 @@ const auth = {
 
 const get = {
   subjects: payload => axios.get('/api/LessonSubjects/GetAll', payload).then(responseData).catch(handleErrors),
-  subjectsFilter: payload => axios.get('/api/LessonSubjects/GetByFilter', payload).then(responseData).catch(handleErrors)
+  subjectsFilter: payload => axios.post('/api/LessonSubjects/GetByFilter', payload).then(responseData).catch(handleErrors),
+  lessonsFilter: payload => axios.get('/api/CoachLesson/CoachLessonsByFilters', payload).then(responseData).catch(handleErrors)
 }
 
 export default {

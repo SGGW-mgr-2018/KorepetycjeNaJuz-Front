@@ -4,7 +4,8 @@ import service from '@/service'
 
 const state = {
   searchQuery: '',
-  subjects: []
+  subjects: [],
+  lessons: []
 }
 
 const getters = {}
@@ -26,13 +27,10 @@ const mutations = {
   SET_SUBJECTS_BY_FILTER (state, payload) {
     var data = payload
     console.log(data)
-    // for (var i = 0; i < data.length; i++) {
-    //   const subject = {
-    //     'id': data[i].id,
-    //     'name': data[i].name
-    //   }
-    //   state.subjects.push(subject)
-    // }
+  },
+  SET_LESSONS_BY_FILTER (state, payload) {
+    // var data = payload
+    state.lessons.push(payload)
   }
 }
 
@@ -45,6 +43,11 @@ const actions = {
   async subjectsFilter ({ commit, dispatch }, payload) {
     const { data } = await service.get.subjectsFilter(payload)
     commit('SET_SUBJECTS_BY_FILTER', data)
+    return data
+  },
+  async lessonsFilter ({ commit, dispatch }, payload) {
+    const { data } = await service.get.lessonsFilter(payload)
+    commit('SET_LESSONS_BY_FILTER', data)
     return data
   }
 }

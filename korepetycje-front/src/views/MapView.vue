@@ -1,7 +1,7 @@
 <template>
   <div id="map-div">
 
-    <div id="input-div">
+    <div id="div-search-panel">
       <input
         v-model="subject"
         class="rounded"
@@ -23,10 +23,8 @@
           <input id="chooseDate" type="radio" name="choose" value="1"><label for="chooseDate">Chcę wybrać datę</label>
         </span>
       </div>
-      <span>
-        <datepicker v-model="date" />
-      </span>
-      <img id="calendarImg" src="http://wsgastro.pl/wp-content/uploads/2013/10/icon-calendar.png">
+      <date-picker v-model="date" input-class="mx-input" range :lang="lang" @change="getMarkers" />
+      <!-- <img id="calendarImg" src="http://wsgastro.pl/wp-content/uploads/2013/10/icon-calendar.png"> -->
     </div>
 
     <map-container />
@@ -36,37 +34,57 @@
 <script>
 import MapContainer from '@/components/MapComponent'
 import debounce from 'lodash.debounce'
-import datepicker from 'vue-date'
+import DatePicker from 'vue2-datepicker'
 
 export default {
   name: 'Map',
   components: {
     MapContainer,
-    datepicker
+    DatePicker
   },
   data () {
     return {
       subject: '',
       subjects: [],
-      date: '2016-10-16'
+      date: '',
+      lang: {
+        days: ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'],
+        months: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'],
+        pickers: [' > 7 dni', ' > 30 dni', ' < 7 dni', ' < 30 dni'],
+        placeholder: {
+          date: 'Wybierz datę',
+          dateRange: 'Wybierz przedzial dat'
+        }
+      }
     }
   },
   created () {
     this.subject = this.$route.params.searchInput
     this.$store.commit('SET_MENU_THEME', 'violet')
-    this.addSubjects()
+    // this.addSubjects()
     // this.searchSubjects()
+    // this.searchLessons()
   },
   methods: {
     setInput () {
       this.search(this.subject, this)
     },
+    getDate () {
+      const date = this.date
+      const from = (new Date(date[0]).getFullYear()) + '-' + (new Date(date[0]).getMonth() + 1) + '-' + ((new Date(date[0]).getDate() < 10) ? '0' + new Date(date[0]).getDate() : new Date(date[0]).getDate())
+      const to = (new Date(date[1]).getFullYear()) + '-' + (new Date(date[1]).getMonth() + 1) + '-' + ((new Date(date[1]).getDate() < 10) ? '0' + new Date(date[1]).getDate() : new Date(date[1]).getDate())
+      return [from, to]
+    },
+    getMarkers () {
+      // alert(this.getDate())
+    },
     search: debounce((query, self) => {
-      self.$store.commit('SET_SEARCH_QUERY', query)
+      // self.searchLessons(query)
+      // self.$store.commit('SET_SEARCH_QUERY', query)
     }, 500),
     async addSubjects () {
       const subjects = await this.$store.dispatch('subjects', '')
-      console.log(subjects)
+      // console.log(subjects)
       this.subjects = subjects
     },
     async searchSubjects () {
@@ -76,6 +94,14 @@ export default {
       const subjects = await this.$store.dispatch('subjectsFilter', payload)
       console.log(subjects)
       // this.subjects = subjects
+    },
+    async searchLessons (subName) {
+      const payload = {
+        'dateStart': '2017-01-30',
+        'dateEnd': '2018-12-30'
+      }
+      const lessons = await this.$store.dispatch('lessonsFilter', payload)
+      alert(lessons)
     }
   }
 }
@@ -91,29 +117,32 @@ export default {
     background-position-x: 3%;
     background-position-y: 40%;
     padding-left: 4%;
-    width: 25%;
+    width: 27%;
     height: 31px;
     border-radius: 25px;
     box-shadow: 0px 3px 7px 0 rgba(158, 158, 158, 0.49);
     background-color: white;
     border-style: none;
     color: #c0c0c0;
+    margin-right: 2%;
   }
 
   .select-level, .select-subject {
-    width: 20%;
+    width: 25%;
     height: 31px;
     box-shadow: 0px 3px 7px 0 rgba(158, 158, 158, 0.49);
     background-color: white;
     border-style: none;
-    margin-left: 2%;
     color: #c0c0c0;
+    margin-right: 2%;
   }
 
-  #input-div{
+  #div-search-panel{
     margin: 0 auto;
     width: 70%;
     padding-bottom: 0%;
+    display: flex;
+    align-items: center;
   }
 
   ::placeholder{
@@ -133,19 +162,10 @@ export default {
     display: none;
   }
 
-  .date-picker{
-    width: 20%;
-    height: 35px;
-    box-shadow: 0px 3px 7px 0 rgba(158, 158, 158, 0.49);
-    background-color: white;
-    border-style: none;
-    margin-left: 2%;
-    color: #c0c0c0;
-    display: inline-block;
-  }
-
   .div_radios{
     display: inline-block;
+    margin-right: 2%;
+    width: 15%;
   }
 
   label{
@@ -166,12 +186,10 @@ export default {
 
   .div_radios span input{
     padding: 0px;
-    margin: 0px 10px;
   }
 
-  #calendarImg{
-    width: 35px;
-    height: 35px;
-  }
-
+  // #calendarImg{
+  //   width: 4%;
+  //   height: 35px;
+  // }
 </style>
