@@ -22,7 +22,7 @@ const mutations = {
   },
   CLEAR_AUTH (state) {
     state.token = null
-    state.user = null
+    state.user = {}
   }
 }
 
@@ -67,14 +67,14 @@ const actions = {
     const userData = await service.auth.getUserData(payload)
     return userData
   },
-  async setUserData (userData) {
+  async setUserData ({ commit }, userData) {
+    userData.id = this.state.auth.user.id
     const payload = {
       token: localStorage.getItem('token'),
-      userData: userData,
-      user: this.state.auth.user
+      userData: userData
     }
     const response = await service.auth.setUserData(payload)
-    console.log(response)
+    return response
   }
 }
 

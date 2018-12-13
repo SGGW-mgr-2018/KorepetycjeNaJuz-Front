@@ -4,6 +4,7 @@
       <h1 class="page--editprofile__title">
         Edytuj swój profil
       </h1>
+      <p ref="updateMessage" class="page--editprofile__message">{{ message }}</p>
       <div class="page--editprofile__formcontainer">
         <form class="wrapper">
           <errors-component :errors="errors" :visible="!!errors.length" />
@@ -32,7 +33,6 @@ import {
   validateEmail,
   validatePhone
 } from '@/assets/js/validators'
-import ERRORS from '@/assets/js/errors'
 
 export default {
   name: 'EditProfile',
@@ -42,6 +42,7 @@ export default {
   },
   data () {
     return {
+      message: '',
       model: {
         firstName: '',
         lastName: '',
@@ -135,9 +136,15 @@ export default {
         description: this.model.description
       }
       this.loading = true
-      const errors = await this.$store.dispatch('setUserData', payload)
+      let response = await this.$store.dispatch('setUserData', payload)
       this.loading = false
-      this.errors = errors ? [ERRORS[Object.keys(errors)[0]]] : []
+      if (response.status === 200) {
+        this.$refs.updateMessage.style.color = 'green'
+        this.message = 'Pomyślnie zaktualizowano dane!'
+      } else {
+        this.$refs.updateMessage.style.color = 'red'
+        this.message = 'Wystąpił błąd przy aktualizacji danych!'
+      }
     }
   }
 }
@@ -162,6 +169,10 @@ export default {
         @include font-primary(28px);
         font-weight: 400;
       }
+    }
+
+    &__message {
+      text-align: center;
     }
 
     &__formcontainer {

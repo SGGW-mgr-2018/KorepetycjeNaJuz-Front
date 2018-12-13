@@ -24,7 +24,7 @@ const auth = {
       Authorization: 'Bearer ' + payload.token
     }
   }).then(responseData).catch(handleErrors),
-  setUserData: payload => axios.put('/api/Users/Update/' + payload.user.id, payload.userData, {
+  setUserData: payload => axios.put('/api/Users/Update/', payload.userData, {
     headers: {
       Authorization: 'Bearer ' + payload.token
     }
