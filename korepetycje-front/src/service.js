@@ -18,7 +18,17 @@ const responseData = res => res
 
 const auth = {
   login: payload => axios.post('/api/Authorization/Login', payload).then(responseData).catch(handleErrors),
-  register: payload => axios.post('/api/Users/Create', payload).then(responseData).catch(handleErrors)
+  register: payload => axios.post('/api/Users/Create', payload).then(responseData).catch(handleErrors),
+  getUserData: payload => axios.get('/api/Users/Get/' + payload.user.id, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors),
+  setUserData: payload => axios.put('/api/Users/Update/' + payload.user.id, payload.userData, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
 }
 
 export default {
