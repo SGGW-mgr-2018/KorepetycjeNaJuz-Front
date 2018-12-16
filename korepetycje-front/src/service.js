@@ -20,7 +20,11 @@ const auth = {
   login: payload => axios.post('/api/Authorization/Login', payload).then(responseData).catch(handleErrors),
   register: payload => axios.post('/api/Users/Create', payload).then(responseData).catch(handleErrors)
 }
+const subject = {
+  getAllSubjects: axios.get('/api/LessonSubjects/GetAll').then(responseData).catch(handleErrors)
+}
 
 export default {
-  auth
+  auth,
+  subject
 }

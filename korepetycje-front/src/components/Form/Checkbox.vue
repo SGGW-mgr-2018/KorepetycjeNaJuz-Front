@@ -101,7 +101,7 @@ export default {
   .nativeCheckbox {
     &:focus {
       + .checkbox {
-        ground: $gray;
+        background: $gray;
         border: 1px solid rgba(98, 98, 98, 0.62);
       }
     }
