@@ -31,6 +31,13 @@ const auth = {
   }).then(responseData).catch(handleErrors)
 }
 
+const map = {
+  getLocationByQuery: payload => axios({
+    baseURL: `https://nominatim.openstreetmap.org/search/${ payload }?format=json&addressdetails=1&limit=1`
+  }).then(responseData).catch(handleErrors)
+}
+
 export default {
-  auth
+  auth,
+  map
 }
