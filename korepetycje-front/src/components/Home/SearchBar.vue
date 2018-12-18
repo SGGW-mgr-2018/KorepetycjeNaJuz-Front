@@ -16,7 +16,7 @@
       </div>
       <div class="search-bar__label search-bar__label--smaller">lub</div>
       <button-component pink class="button-cta">
-        Udziel korepetycji <strong>już teraz</strong>
+        Udziel korepetycji <span class="button-cta__strong">już teraz</span>
       </button-component>
     </div>
   </div>
@@ -129,6 +129,11 @@ export default {
     .button-cta {
       padding: 17px 36px;
       margin: 0 auto;
+
+      &__strong {
+        margin-left: 5px;
+        font-weight: 700;
+      }
     }
   }
 </style>

@@ -12,6 +12,7 @@
 </template>
 
 <script>
+// import HistoryLessons from '@/components/HistoryLessonsComponent'
 import TheNavigation from '@/components/Account/TheNavigation'
 import EditProfileComponent from '@/components/Account/EditProfile'
 import HistoryComponent from '@/components/Account/History'

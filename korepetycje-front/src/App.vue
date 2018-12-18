@@ -15,9 +15,6 @@ export default {
   components: {
     NavBar,
     FooterComponent
-  },
-  created () {
-    this.$store.dispatch('tryAutoLogin')
   }
 }
 </script>
@@ -26,7 +23,8 @@ export default {
   @import 'assets/sass/index';
 
   .page {
-    background-color: $gray-lighter;
+    position: relative;
     overflow: hidden;
+    background-color: $gray-lighter;
   }
 </style>

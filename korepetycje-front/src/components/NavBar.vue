@@ -21,7 +21,7 @@
             Logowanie
           </router-link>
         </div>
-        <div v-if="userAuthenticated">
+        <div v-if="userAuthenticated" class="auth-links">
           <router-link to="/moje-konto" class="nav-links__link">
             Moje konto
           </router-link>
@@ -40,12 +40,16 @@
           <span />
           <span />
           <ul class="menu-burger">
-            <router-link to="/" class="menu-burger__link">Główna</router-link> <br>
-            <div v-if="!userAuthenticated">
-              <router-link to="/rejestracja" class="menu-burger__link">Rejestracja</router-link> <br>
-              <router-link to="/logowanie" class="menu-burger__link">Logowanie</router-link>
+            <router-link to="/" class="menu-burger__link">Główna</router-link>
+            <div v-if="!userAuthenticated" class="mobile-links">
+              <router-link to="/rejestracja" class="menu-burger__link">
+                Rejestracja
+              </router-link>
+              <router-link to="/logowanie" class="menu-burger__link">
+                Logowanie
+              </router-link>
             </div>
-            <div v-if="userAuthenticated">
+            <div v-if="userAuthenticated" class="mobile-links">
               <router-link to="/moje-konto" class="nav-links__link">
                 Moje konto
               </router-link>
@@ -256,11 +260,11 @@ export default {
   }
 
   .nav-burger {
-    display: block;
     position: absolute;
+    top: -10px;
     right: 50px;
     z-index: 1;
-    -webkit-user-select: none;
+    display: block;
     user-select: none;
   }
 
@@ -336,6 +340,7 @@ export default {
     justify-content: spance-around;
 
     &__link {
+      margin: 10px 0;
       font-size: 17px;
       font-weight: 500;
       text-decoration: none;
@@ -351,5 +356,25 @@ export default {
   .menu-burger li {
     padding: 10px 0;
     font-size: 22px;
+  }
+
+  .auth-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .nav-links__link {
+      padding: 8px 0;
+
+      &.login {
+        padding: 8px 20px;
+        margin-left: 20px;
+      }
+    }
   }
 </style>

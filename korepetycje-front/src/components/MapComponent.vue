@@ -16,9 +16,21 @@
         :icon="item.icon"
         :lat-lng="item.latlng"
         @mouseenter="openPopup($event)"
-        @mouseout="closePopup($event)"
       >
-        <l-popup :content="item.content" />
+        <l-popup>
+          <div class="outside-popup-div">
+            <div class="subject-hour-div">Język angielski 18-19</div>
+            <div>
+              <div class="image-popup-div">
+                <img class="image-popup" src="/img/personIcon.png">
+              </div>
+              <div>
+                <p class="content-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur.</p>
+              </div>
+            </div>
+            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE">
+          </div>
+        </l-popup>
       </l-marker>
     </l-map>
   </div>
@@ -42,7 +54,7 @@ export default {
     return {
       zoom: 13,
       center: Leaflet.latLng(52.237049, 21.017532),
-      url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
       zoomControl: true,
       minZoom: 6,
       maxZoom: 25,
@@ -50,7 +62,7 @@ export default {
       map: null,
       markers: [],
       defaultIcon: Leaflet.icon({
-        iconUrl: 'http://downloadicons.net/sites/default/files/gps-id-icon-94414.png',
+        iconUrl: '/img/gps_icon.png',
         iconSize: [50, 60],
         iconAnchor: [34, 59],
         popupAnchor: [-10, -43]
@@ -61,12 +73,18 @@ export default {
   computed: {
     ...mapState({
       searchQuery: state => state.map.searchQuery
+    }),
+    ...mapState({
+      getMarkers: state => state.map.markers
     })
   },
   watch: {
     searchQuery (value) {
       this.searchLabel = value
       this.loadData()
+    },
+    getMarkers (value) {
+      console.log(value)
     }
   },
   created () {
@@ -89,17 +107,20 @@ export default {
   methods: {
     ControlGps: Leaflet.Control.extend({
       options: {
-        position: 'topleft'
+        position: 'bottomright'
       },
       onAdd (map) {
         const container = Leaflet.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom')
-        container.style.backgroundColor = 'white'
-        container.style.width = '34px'
-        container.style.height = '34px'
+        container.style.backgroundColor = '#e34195'
+        container.style.width = '40px'
+        container.style.height = '40px'
         container.style.cursor = 'pointer'
+        container.style.borderRadius = '50px'
+        container.style.transform = 'scaleX(-1)'
+        container.style.backgroundRepeat = 'no-repeat'
         container.title = 'Kliknij, aby pokazać twoją lokalizację'
-        container.style.backgroundImage = 'url("https://image.freepik.com/free-icon/gps-map-location_318-9071.jpg")'
-        container.style.backgroundSize = '30px 30px'
+        container.style.backgroundImage = 'url("https://cdn4.iconfinder.com/data/icons/tupix-1/30/direction-512.png")'
+        container.style.backgroundSize = '36px 36px'
         container.onclick = () => {
           const location = new Location(map)
           location.locate()
@@ -109,13 +130,13 @@ export default {
     }),
 
     onLocationFound (e) {
-      const radius = e.accuracy / 2
+      // const radius = e.accuracy / 2
       this.markers = []
       console.log(e.latlng.lat + ' : ' + e.latlng.lng)
       this.markers.push({
         id: 1,
         latlng: Leaflet.latLng(e.latlng.lat, e.latlng.lng),
-        content: 'Jesteś w odlegości ' + radius + ' metrów od tego punktu',
+        content: '',
         icon: this.defaultIcon
       })
     },
@@ -148,12 +169,63 @@ export default {
 <style lang="scss" scoped>
   .map-container,
   #map {
-    position: relative;
-    padding: 0;
     height: 70vh;
+    margin: auto;
+    width: 70%;
+    padding-top: 10px;
+    z-index: -1;
   }
 
   [v-cloak] {
     visibility: hidden;
+  }
+
+  .outside-popup-div{
+    padding:5px;
+  }
+
+  .subject-hour-div{
+    text-align: center;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight:normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #6b53ff;
+  }
+
+  .image-popup-div{
+    width: 20%;
+    float: left;
+  }
+
+  .image-popup{
+    max-width: 100%;
+    max-height: 100%;
+    padding-right: 10px;
+  }
+
+  .content-popup{
+    font-family: Roboto;
+    font-size: 9px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: justify;
+    color: #3d3d3d;
+  }
+
+  .button-popup{
+    color:white;
+    padding:10px;
+    background: rgb(211,81,147);
+    border-radius: 15px;
+    margin: 0 auto;
+    display: block;
+    width:100%;
   }
 </style>
