@@ -59,9 +59,9 @@ export default {
     }
   },
   created () {
-    // this.subject = this.$route.params.searchInput
+    this.subject = this.$route.params.searchInput
     this.$store.commit('SET_MENU_THEME', 'violet')
-    // this.addSubjects()
+    this.addSubjects()
     this.searchSubjects()
     this.searchLessons()
   },
@@ -103,7 +103,11 @@ export default {
 <style lang="scss" scoped>
   #map-div {
     position: relative;
-    padding: 70px 0 0 0 ;
+    padding: 140px 0;
+
+    @include mobile {
+      padding: 70px 0;
+    }
   }
   .rounded {
     background: url("/img/magnifier.png") no-repeat scroll ;
