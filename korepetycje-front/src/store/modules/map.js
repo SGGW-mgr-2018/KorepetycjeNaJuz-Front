@@ -56,9 +56,7 @@ const actions = {
     }
     commit('SET_LAST_SEARCH', location)
     return location
-  }
-}
-const actions = {
+  },
   async subjects ({ commit, dispatch }, payload) {
     const { data } = await service.get.subjects(payload)
     commit('SET_SUBJECTS', data)
