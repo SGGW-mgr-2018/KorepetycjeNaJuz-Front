@@ -18,7 +18,23 @@ const responseData = res => res
 
 const auth = {
   login: payload => axios.post('/api/Authorization/Login', payload).then(responseData).catch(handleErrors),
-  register: payload => axios.post('/api/Users/Create', payload).then(responseData).catch(handleErrors)
+  register: payload => axios.post('/api/Users/Create', payload).then(responseData).catch(handleErrors),
+  getUserData: payload => axios.get('/api/Users/Get/' + payload.user.id, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors),
+  setUserData: payload => axios.put('/api/Users/Update/', payload.userData, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
+}
+
+const map = {
+  getLocationByQuery: payload => axios({
+    baseURL: `https://nominatim.openstreetmap.org/search/${ payload }?format=json&addressdetails=1&limit=1`
+  }).then(responseData).catch(handleErrors)
 }
 
 const get = {
@@ -29,5 +45,5 @@ const get = {
 
 export default {
   auth,
-  get
+  map
 }

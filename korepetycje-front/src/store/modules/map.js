@@ -1,9 +1,8 @@
 import service from '@/service'
-// import router from '@/router'
-// import { parseJwt } from '@/assets/js/utils'
 
 const state = {
   searchQuery: '',
+  lastSearch: null,
   subjects: [],
   lessons: [],
   markers: ''
@@ -36,9 +35,29 @@ const mutations = {
     // var data = payload
     state.lessons.push(payload)
     state.markers = payload
+  },
+  SET_LAST_SEARCH (state, payload) {
+    state.lastSearch = payload
   }
 }
 
+const actions = {
+  async getLocation ({ commit }, payload) {
+    const searchQuery = payload || 'Warszawa Centrum'
+    const { data } = await service.map.getLocationByQuery(searchQuery)
+
+    if (!data.length) return {}
+
+    const location = {
+      latitude: data[0].lat,
+      longitude: data[0].lon,
+      city: data[0].address.city,
+      street: data[0].address.road
+    }
+    commit('SET_LAST_SEARCH', location)
+    return location
+  }
+}
 const actions = {
   async subjects ({ commit, dispatch }, payload) {
     const { data } = await service.get.subjects(payload)
