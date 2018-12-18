@@ -73,12 +73,18 @@ export default {
   computed: {
     ...mapState({
       searchQuery: state => state.map.searchQuery
+    }),
+    ...mapState({
+      getMarkers: state => state.map.markers
     })
   },
   watch: {
     searchQuery (value) {
       this.searchLabel = value
       this.loadData()
+    },
+    getMarkers (value) {
+      console.log(value)
     }
   },
   created () {

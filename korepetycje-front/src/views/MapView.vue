@@ -23,7 +23,7 @@
           <input id="chooseDate" type="radio" name="choose" value="1"><label for="chooseDate">Chcę wybrać datę</label>
         </span>
       </div>
-      <date-picker v-model="date" input-class="mx-input" range :lang="lang" @change="getMarkers" />
+      <date-picker v-model="date" input-class="mx-input" range :lang="lang" />
       <!-- <img id="calendarImg" src="http://wsgastro.pl/wp-content/uploads/2013/10/icon-calendar.png"> -->
     </div>
 
@@ -59,7 +59,7 @@ export default {
     }
   },
   created () {
-    this.subject = this.$route.params.searchInput
+    // this.subject = this.$route.params.searchInput
     this.$store.commit('SET_MENU_THEME', 'violet')
     // this.addSubjects()
     // this.searchSubjects()
@@ -75,16 +75,11 @@ export default {
       const to = (new Date(date[1]).getFullYear()) + '-' + (new Date(date[1]).getMonth() + 1) + '-' + ((new Date(date[1]).getDate() < 10) ? '0' + new Date(date[1]).getDate() : new Date(date[1]).getDate())
       return [from, to]
     },
-    getMarkers () {
-      // alert(this.getDate())
-    },
     search: debounce((query, self) => {
-      // self.searchLessons(query)
-      // self.$store.commit('SET_SEARCH_QUERY', query)
+      self.$store.commit('SET_MARKERS', self.searchLessons(query))
     }, 500),
     async addSubjects () {
       const subjects = await this.$store.dispatch('subjects', '')
-      // console.log(subjects)
       this.subjects = subjects
     },
     async searchSubjects () {
@@ -95,13 +90,13 @@ export default {
       console.log(subjects)
       // this.subjects = subjects
     },
-    async searchLessons (subName) {
+    async searchLessons () {
       const payload = {
         'dateStart': '2017-01-30',
         'dateEnd': '2018-12-30'
       }
       const lessons = await this.$store.dispatch('lessonsFilter', payload)
-      alert(lessons)
+      return lessons
     }
   }
 }

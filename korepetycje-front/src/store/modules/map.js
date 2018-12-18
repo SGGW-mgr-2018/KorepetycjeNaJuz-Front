@@ -5,7 +5,8 @@ import service from '@/service'
 const state = {
   searchQuery: '',
   subjects: [],
-  lessons: []
+  lessons: [],
+  markers: ''
 }
 
 const getters = {}
@@ -13,6 +14,9 @@ const getters = {}
 const mutations = {
   SET_SEARCH_QUERY (state, payload) {
     state.searchQuery = payload
+  },
+  SET_MARKERS (state, payload) {
+    state.markers = payload
   },
   SET_SUBJECTS (state, payload) {
     var data = payload
@@ -31,6 +35,7 @@ const mutations = {
   SET_LESSONS_BY_FILTER (state, payload) {
     // var data = payload
     state.lessons.push(payload)
+    state.markers = payload
   }
 }
 
@@ -47,7 +52,7 @@ const actions = {
   },
   async lessonsFilter ({ commit, dispatch }, payload) {
     const { data } = await service.get.lessonsFilter(payload)
-    commit('SET_LESSONS_BY_FILTER', data)
+    // commit('SET_LESSONS_BY_FILTER', data)
     return data
   }
 }

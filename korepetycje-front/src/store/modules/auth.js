@@ -22,7 +22,7 @@ const mutations = {
   },
   CLEAR_AUTH (state) {
     state.token = null
-    state.user = null
+    state.user = {}
   }
 }
 
