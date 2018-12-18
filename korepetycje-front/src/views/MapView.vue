@@ -62,8 +62,8 @@ export default {
     // this.subject = this.$route.params.searchInput
     this.$store.commit('SET_MENU_THEME', 'violet')
     // this.addSubjects()
-    // this.searchSubjects()
-    // this.searchLessons()
+    this.searchSubjects()
+    this.searchLessons()
   },
   methods: {
     setInput () {
@@ -79,8 +79,7 @@ export default {
       self.$store.commit('SET_MARKERS', self.searchLessons(query))
     }, 500),
     async addSubjects () {
-      const subjects = await this.$store.dispatch('subjects', '')
-      this.subjects = subjects
+      this.subjects = await this.$store.dispatch('subjects', '')
     },
     async searchSubjects () {
       const payload = {
