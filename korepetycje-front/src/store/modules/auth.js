@@ -22,7 +22,7 @@ const mutations = {
   },
   CLEAR_AUTH (state) {
     state.token = null
-    state.user = null
+    state.user = {}
   }
 }
 
@@ -56,6 +56,25 @@ const actions = {
     const token = localStorage.getItem('token')
     if (!token) return
     commit('SET_AUTH', token)
+  },
+  async getUserData () {
+    const token = localStorage.getItem('token')
+    const user = this.state.auth.user
+    const payload = {
+      token: token,
+      user: user
+    }
+    const userData = await service.auth.getUserData(payload)
+    return userData
+  },
+  async setUserData ({ commit }, userData) {
+    userData.id = this.state.auth.user.id
+    const payload = {
+      token: localStorage.getItem('token'),
+      userData: userData
+    }
+    const response = await service.auth.setUserData(payload)
+    return response
   }
 }
 
