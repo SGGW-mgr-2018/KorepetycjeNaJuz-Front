@@ -15,11 +15,11 @@
         :key="item.id"
         :icon="item.icon"
         :lat-lng="item.latlng"
-        @mouseenter="openPopup($event)"
+        @click="openPopup($event)"
       >
         <l-popup>
           <div class="outside-popup-div">
-            <div class="subject-hour-div">Język angielski 18-19</div>
+            <div class="subject-hour-div">{{ item.content.sub }} {{ item.content.startDateHour }}.{{ item.content.startDateMinutes }} - {{ item.content.endDateHour }}.{{ item.content.endDateMinutes }}</div>
             <div>
               <div class="image-popup-div">
                 <img class="image-popup" src="/img/personIcon.png">
@@ -83,8 +83,28 @@ export default {
       this.searchLabel = value
       this.loadData()
     },
-    getMarkers (value) {
-      console.log(value)
+    getMarkers (response) {
+      if (response.status === 200) {
+        const data = response.data
+        this.markers = []
+        // alert('Ilość lekcji : ' + data.length)
+        for (var i = 0; i < data.length; i++) {
+          const dStart = new Date(data[i].dateStart)
+          const dEnd = new Date(data[i].dateEnd)
+          this.markers.push({
+            id: i,
+            latlng: Leaflet.latLng(data[i].address.latitude, data[i].address.longitude),
+            content: {
+              sub: data[i].lessonSubject,
+              startDateHour: dStart.getHours(),
+              endDateHour: dEnd.getHours(),
+              startDateMinutes: (dStart.getMinutes() < 10) ? ('0' + dStart.getMinutes()) : dStart.getMinutes(),
+              endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes()
+            },
+            icon: this.defaultIcon
+          })
+        }
+      }
     }
   },
   created () {
@@ -174,6 +194,10 @@ export default {
     width: 70%;
     padding-top: 10px;
     z-index: -1;
+    @include mobile {
+      display: block;
+      width: 100%;
+    }
   }
 
   [v-cloak] {
