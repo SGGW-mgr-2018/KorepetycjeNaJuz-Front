@@ -1,13 +1,11 @@
 import service from '@/service'
-// import router from '@/router'
-// import { parseJwt } from '@/assets/js/utils'
 
 const state = {
   searchQuery: '',
+  lastSearch: null,
   subjects: [],
   lessons: [],
-  markers: [],
-  lastSearch: null
+  markers: []
 }
 
 const getters = {}

@@ -60,8 +60,11 @@ export default {
     }
   },
   created () {
-    // this.subject = this.$route.params.searchInput
+    this.subject = this.$route.params.searchInput
     this.$store.commit('SET_MENU_THEME', 'violet')
+    // this.searchLessons()
+    // this.addSubjects()
+    // this.searchSubjects()
     // this.searchLessons()
   },
   methods: {
@@ -78,8 +81,7 @@ export default {
       self.searchLessons(query)
     }, 500),
     async addSubjects () {
-      const subjects = await this.$store.dispatch('subjects', '')
-      this.subjects = subjects
+      this.subjects = await this.$store.dispatch('subjects', '')
     },
     async searchSubjects () {
       const payload = {
@@ -126,7 +128,11 @@ export default {
 <style lang="scss" scoped>
   #map-div {
     position: relative;
-    padding: 70px 0 0 0 ;
+    padding: 140px 0;
+
+    @include mobile {
+      padding: 70px 0;
+    }
   }
   .rounded {
     background: url("/img/magnifier.png") no-repeat scroll ;
