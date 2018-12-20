@@ -7,12 +7,6 @@
         <form>
           <errors-component :errors="errors" :visible="!!errors.length" />
           <form-factory v-model="model" :schema="schema" />
-          <a href="">
-            <img src="/svg/calendar-interface-symbol-tool.svg" class="calendar" alt="calendar">
-          </a>
-          <button class="plusButton">
-            <img src="/svg/plus.svg" class="plus" alt="plus">
-          </button>
 
           <ButtonComponent pink>
             {{ submitButtonText }}
@@ -32,6 +26,7 @@ import InputComponent from '@/components/Form/Input'
 import TextAreaComponent from '@/components/Form/TextArea'
 import CheckboxComponent from '@/components/Form/Checkbox'
 import SelectComponent from '@/components/Form/Select'
+import DatePickComponent from '@/components/Form/DatePick'
 import ErrorsComponent from '@/components/Form/Errors'
 import {
   validateRequired,
@@ -71,6 +66,16 @@ export default {
             forceErrors: false
           }
         },
+        level: {
+          component: CheckboxComponent,
+          validators: [
+            validateRequiredCheckbox
+          ],
+          props: {
+            label: 'Wybierz poziom',
+            forceErrors: false
+          }
+        },
         ratePerHour: {
           component: InputComponent,
           validators: [
@@ -83,7 +88,7 @@ export default {
           }
         },
         date: {
-          component: InputComponent,
+          component: DatePickComponent,
           validators: [
             validateRequired
           ],
@@ -97,15 +102,6 @@ export default {
           component: TextAreaComponent,
           props: {
             placeholder: 'Wpisz dane o lekcji'
-          }
-        },
-        privacyPolicesConfirmed: {
-          component: CheckboxComponent,
-          validators: [
-            validateRequiredCheckbox
-          ],
-          props: {
-            label: 'Wyrażam zgodę na przetwarzanie moich danych osobowych w celach...'
           }
         }
       },
@@ -143,14 +139,6 @@ export default {
     height: 10%;
   }
 
-  textarea {
-    resize: none;
-  }
-  .calendar {
-    width: 35px;
-    height: 40px;
-  }
-
   .page-lesson {
     padding: 100px 0;
   }
@@ -183,15 +171,6 @@ export default {
         right: -10%;
         top: 46%;
       }
-  }
-
-  .plus {
-    width: 30px;
-    height: 40px;
-  }
-  .plusButton {
-    background: none;
-    border: 0;
   }
 
   @include tablet() {

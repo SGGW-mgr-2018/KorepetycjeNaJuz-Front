@@ -13,8 +13,8 @@ const mutations = {
 }
 
 const actions = {
-  getAll ({ commit }) {
-    const { data } = service.subject.getAll()
+  async getAll () {
+    const { data } = await service.get.subjects()
     return data
   }
 }
