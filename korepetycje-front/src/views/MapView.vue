@@ -8,8 +8,12 @@
         placeholder="Wpisz przedmiot"
         @input="setInput"
       >
-      <select class="select-level">
-        <option>Wybierz poziom</option>
+      <select v-model="levelId" class="select-level" @change="getLessonsByLevel">
+        <option value="0">Wybierz poziom</option>
+        <option value="1">Szkoła podstawowa</option>
+        <option value="2">Liceum podstawa</option>
+        <option value="3">Liceum rozszerzenie</option>
+        <option value="4">Studia</option>
       </select>
       <select class="select-subject">
         <option>Wybierz przedmiot</option>
@@ -47,6 +51,7 @@ export default {
       subject: '',
       subjects: [],
       date: '',
+      levelId: 0,
       lang: {
         days: ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'],
         months: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'],
@@ -60,12 +65,7 @@ export default {
     }
   },
   created () {
-    this.subject = this.$route.params.searchInput
     this.$store.commit('SET_MENU_THEME', 'violet')
-    // this.searchLessons()
-    // this.addSubjects()
-    // this.searchSubjects()
-    // this.searchLessons()
   },
   methods: {
     setInput () {
@@ -94,31 +94,32 @@ export default {
       delete this.query.subjectId
       this.searchSubjects()
       const subs = this.$store.state.map.subjects
-      console.log('Przedmioty : ' + subs.length)
       if (subs.length > 0) {
         this.query.subjectId = subs[0].id
         this.setQuery()
       }
     },
     getLessonsByDate () {
-      // delete this.query.dateFrom
-      // delete this.query.dateTo
       this.query.dateFrom = this.getDate()[0]
       this.query.dateTo = this.getDate()[1]
+      this.setQuery()
+    },
+    getLessonsByLevel () {
+      this.query.levelId = this.levelId
       this.setQuery()
     },
     async setQuery () {
       const payload = {
         params: this.query
       }
-      try {
-        if (this.subject === '') {
-          delete payload.params.subjectId
-        }
-      } catch (error) {
-        alert()
+      if (this.subject === '') {
+        delete payload.params.subjectId
       }
 
+      if (this.levelId === '0') {
+        delete payload.params.levelId
+      }
+      console.log(JSON.stringify(payload.params))
       const lessons = await this.$store.dispatch('lessonsFilter', payload)
       return lessons
     }

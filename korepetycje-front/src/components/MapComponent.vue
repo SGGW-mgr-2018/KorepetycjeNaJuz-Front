@@ -28,8 +28,19 @@
                 <p class="content-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur.</p>
               </div>
             </div>
-            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE">
+            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson($event, item.id)">
           </div>
+        </l-popup>
+      </l-marker>
+      <l-marker
+        v-for="item in markersLocation"
+        :key="item.id"
+        :icon="item.icon"
+        :lat-lng="item.latlng"
+        @click="openPopup($event)"
+      >
+        <l-popup>
+          <p>{{ item.content }}</p>
         </l-popup>
       </l-marker>
     </l-map>
@@ -60,6 +71,7 @@ export default {
       maxZoom: 25,
       maxNativeZoom: 18,
       map: null,
+      markersLocation: [],
       markers: [],
       defaultIcon: Leaflet.icon({
         iconUrl: '/img/gps_icon.png',
@@ -84,26 +96,30 @@ export default {
       this.loadData()
     },
     getMarkers (response) {
-      if (response.status === 200) {
-        const data = response.data
-        this.markers = []
-        // alert('Ilość lekcji : ' + data.length)
-        for (var i = 0; i < data.length; i++) {
-          const dStart = new Date(data[i].dateStart)
-          const dEnd = new Date(data[i].dateEnd)
-          this.markers.push({
-            id: i,
-            latlng: Leaflet.latLng(data[i].address.latitude, data[i].address.longitude),
-            content: {
-              sub: data[i].lessonSubject,
-              startDateHour: dStart.getHours(),
-              endDateHour: dEnd.getHours(),
-              startDateMinutes: (dStart.getMinutes() < 10) ? ('0' + dStart.getMinutes()) : dStart.getMinutes(),
-              endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes()
-            },
-            icon: this.defaultIcon
-          })
+      try {
+        if (response.status === 200) {
+          const data = response.data
+          this.markers = []
+          console.log('Ilość lekcji : ' + data.length)
+          for (var i = 0; i < data.length; i++) {
+            const dStart = new Date(data[i].dateStart)
+            const dEnd = new Date(data[i].dateEnd)
+            this.markers.push({
+              id: data[i].id,
+              latlng: Leaflet.latLng(data[i].address.latitude, data[i].address.longitude),
+              content: {
+                sub: data[i].lessonSubject,
+                startDateHour: dStart.getHours(),
+                endDateHour: dEnd.getHours(),
+                startDateMinutes: (dStart.getMinutes() < 10) ? ('0' + dStart.getMinutes()) : dStart.getMinutes(),
+                endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes()
+              },
+              icon: this.defaultIcon
+            })
+          }
         }
+      } catch (error) {
+        console.log('Error getting lessons')
       }
     }
   },
@@ -151,13 +167,12 @@ export default {
 
     onLocationFound (e) {
       // const radius = e.accuracy / 2
-      this.markers = []
+      this.markersLocation = []
       console.log(e.latlng.lat + ' : ' + e.latlng.lng)
-      this.markers.push({
+      this.markersLocation.push({
         id: 1,
         latlng: Leaflet.latLng(e.latlng.lat, e.latlng.lng),
-        content: '',
-        icon: this.defaultIcon
+        content: 'Jesteś w punkcie : ' + '(' + e.latlng.lat + ',' + e.latlng.lng + ')'
       })
     },
     openPopup (event) {
@@ -169,6 +184,12 @@ export default {
       Vue.nextTick(() => {
         event.target.closePopup()
       })
+    },
+    async setLesson (event, id) {
+      if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
+      } else {
+        alert('Musisz być zalogowany, aby zapisać się na lekcję!')
+      }
     },
     loadData () {
       // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
