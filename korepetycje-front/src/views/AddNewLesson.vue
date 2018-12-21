@@ -6,9 +6,9 @@
         <h2>{{ subtitle }}</h2>
         <form>
           <errors-component :errors="errors" :visible="!!errors.length" />
-          <form-factory v-model="model" :schema="schema" />
+          <form-factory v-model="model" :schema="schema" class="page-lesson__form" />
 
-          <ButtonComponent pink>
+          <ButtonComponent pink @click="createLesson">
             {{ submitButtonText }}
           </ButtonComponent>
         </form>
@@ -23,8 +23,8 @@
 import ButtonComponent from '@/components/Button'
 import GridContainer from '@/components/GridContainer'
 import InputComponent from '@/components/Form/Input'
-import TextAreaComponent from '@/components/Form/TextArea'
-import CheckboxComponent from '@/components/Form/Checkbox'
+// import CheckboxComponent from '@/components/Form/Checkbox'
+import CheckboxListComponent from '@/components/Form/CheckboxList'
 import SelectComponent from '@/components/Form/Select'
 import DatePickComponent from '@/components/Form/DatePick'
 import ErrorsComponent from '@/components/Form/Errors'
@@ -32,7 +32,6 @@ import {
   validateRequired,
   validateRequiredCheckbox
 } from '@/assets/js/validators'
-// import ERRORS from '@/assets/js/errors'
 
 export default {
   name: 'AddNewLesson',
@@ -47,32 +46,49 @@ export default {
       subtitle: 'Uzupełnij wymagane dane',
       submitButtonText: 'Dodaj nową lekcję',
       model: {
-        subject: '',
-        level: [],
+        lessonSubject: '',
+        lessonLevels: [],
         ratePerHour: '',
-        date: '',
-        startTime: '',
-        time: '',
-        description: ''
+        dateStart: '',
+        dateEnd: '',
+        time: ''
       },
       schema: {
-        subject: {
+        lessonSubject: {
           component: SelectComponent,
           validators: [
             validateRequired
           ],
           props: {
             placeholder: 'Wybierz przedmiot',
-            forceErrors: false
+            forceErrors: false,
+            options: this.$store.state.subject.subjects
           }
         },
-        level: {
-          component: CheckboxComponent,
+        lessonLevels: {
+          component: CheckboxListComponent,
           validators: [
             validateRequiredCheckbox
           ],
           props: {
-            label: 'Wybierz poziom',
+            checkboxList: [
+              {
+                'id': 1,
+                'name': 'Szkoła podstawowa'
+              },
+              {
+                'id': 2,
+                'name': 'Liceum podstawa'
+              },
+              {
+                'id': 3,
+                'name': 'Liceum rozszerzenie'
+              },
+              {
+                'id': 4,
+                'name': 'Studia'
+              }
+            ],
             forceErrors: false
           }
         },
@@ -87,21 +103,41 @@ export default {
             forceErrors: false
           }
         },
-        date: {
+        dateStart: {
           component: DatePickComponent,
           validators: [
             validateRequired
           ],
           props: {
-            type: 'date',
-            placeholder: 'Data',
+            type: 'datetime',
+            placeholder: 'Data rozpoczęcia lekcji',
+            format: 'DD-MM-YYYY [o] HH:mm',
+            timePickerOptions: { start: '00:00', step: '00:30', end: '23:30' },
             forceErrors: false
           }
         },
-        description: {
-          component: TextAreaComponent,
+        dateEnd: {
+          component: DatePickComponent,
+          validators: [
+            validateRequired
+          ],
           props: {
-            placeholder: 'Wpisz dane o lekcji'
+            type: 'datetime',
+            placeholder: 'Data zakończenia lekcji',
+            format: 'DD-MM-YYYY [o] HH:mm',
+            timePickerOptions: { start: '00:00', step: '00:30', end: '23:30' },
+            forceErrors: false
+          }
+        },
+        time: {
+          component: InputComponent,
+          validators: [
+            validateRequired
+          ],
+          props: {
+            type: 'number',
+            placeholder: 'Czas trwania 1 lekcji',
+            forceErrors: false
           }
         }
       },
@@ -112,8 +148,34 @@ export default {
   },
   created () {
     this.$store.commit('SET_MENU_THEME', 'violet')
-    const test = this.$store.dispatch('getAll')
-    console.log(test)
+    this.getSubjects()
+  },
+  methods: {
+    async getSubjects () {
+      const subjects = await this.$store.dispatch('getAllSubjects')
+      return subjects
+    },
+    async createLesson () {
+      const payload = {
+        coachId: this.$store.state.auth.user.id,
+        lessonLevels: this.model.lessonLevels,
+        lessonSubjectId: this.model.lessonSubject.id,
+        ratePerHour: this.model.ratePerHour,
+        dateStart: this.model.dateStart.toISOString(),
+        dateEnd: this.model.dateEnd.toISOString(),
+        time: this.model.time,
+        //TODO:
+        address: {
+          latitude: 0,
+          longitude: 0,
+          city: 'string',
+          street: 'string'
+        }
+      }
+      // const response = await this.$store.dispatch('createLesson', payload)
+      // console.log(response)
+      console.log(payload)
+    }
   }
 }
 </script>
@@ -171,6 +233,15 @@ export default {
         right: -10%;
         top: 46%;
       }
+  }
+
+  .page-lesson__form {
+    min-width: 300px;
+  }
+
+  .button {
+    margin: 0 auto;
+    margin-top: 1em;
   }
 
   @include tablet() {

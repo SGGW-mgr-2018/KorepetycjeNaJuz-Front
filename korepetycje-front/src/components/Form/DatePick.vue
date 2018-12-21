@@ -2,13 +2,16 @@
   <div :class="{ 'error': errorsVisible }" class="datepick-wrapper">
     <date-picker
       v-model="value"
-      lang="en"
-      type="datetime"
-      format="MM-DD-YYYY HH:mm"
       class="input"
+      lang="en"
+      :type="type"
       :class="classes"
+      :placeholder="placeholder"
+      :format="format"
+      :time-picker-options="timePickerOptions"
       @blur="handleBlur"
       @focus="handleFocus"
+      @input="input"
     />
     <errors-component :errors="errors" :visible="errorsVisible" />
   </div>
@@ -29,11 +32,19 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'text'
+      default: ''
     },
     placeholder: {
       type: String,
       default: ''
+    },
+    format: {
+      type: String,
+      default: 'DD-MM-YYYY'
+    },
+    timePickerOptions: {
+      type: Object,
+      default: () => {}
     },
     forceErrors: {
       type: Boolean,

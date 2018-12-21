@@ -1,20 +1,28 @@
 import service from '@/service'
 
-const state = () => ({
-  lessons: []
-})
-
-const getters = {
-
+const state = {
+  subjects: []
 }
 
-const mutations = {
+const getters = {}
 
+const mutations = {
+  SET_SUBJECTS (state, payload) {
+    var data = payload
+    for (var i = 0; i < data.length; i++) {
+      const subject = {
+        'id': data[i].id,
+        'name': data[i].name
+      }
+      state.subjects.push(subject)
+    }
+  }
 }
 
 const actions = {
-  async getAll () {
+  async getAllSubjects ({ commit }) {
     const { data } = await service.get.subjects()
+    commit('SET_SUBJECTS', data)
     return data
   }
 }

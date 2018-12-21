@@ -5,21 +5,24 @@
       :options="options"
       :allow-empty="false"
       :placeholder="placeholder"
+      track-by="id"
+      label="name"
+      @input="input"
     >
       <span slot="noOptions">Brak rekordów</span>
     </multiselect>
-    <!--<errors-component :errors="errors" :visible="errorsVisible" />-->
   </div>
 </template>
 
 <script>
-// import ErrorsComponent from '@/components/Form/Errors'
+import { input } from 'vue-form-factory'
 
 export default {
   name: 'Select',
   components: {
     // ErrorsComponent
   },
+  mixins: [input()],
   props: {
     placeholder: {
       type: String,
@@ -28,13 +31,15 @@ export default {
     forceErrors: {
       type: Boolean,
       default: false
+    },
+    options: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
     return {
       errorsVisible: false,
-      value: null,
-      options: []
     }
   },
   computed: {
