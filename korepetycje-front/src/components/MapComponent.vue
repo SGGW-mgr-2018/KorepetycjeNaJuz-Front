@@ -187,6 +187,8 @@ export default {
     },
     async setLesson (event, id) {
       if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
+        const response = await this.$store.dispatch('getUserData')
+        alert(response)
       } else {
         alert('Musisz być zalogowany, aby zapisać się na lekcję!')
       }

@@ -64,7 +64,9 @@ const actions = {
       token: token,
       user: user
     }
+    alert(JSON.stringify(payload))
     const userData = await service.auth.getUserData(payload)
+    alert(userData)
     return userData
   },
   async setUserData ({ commit }, userData) {
