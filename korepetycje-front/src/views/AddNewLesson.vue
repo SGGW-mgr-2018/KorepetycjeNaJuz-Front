@@ -6,9 +6,19 @@
         <h2>{{ subtitle }}</h2>
         <form>
           <errors-component :errors="errors" :visible="!!errors.length" />
+          <successes-component :successes="success" :visible="!!success.length" />
           <form-factory v-model="model" :schema="schema" class="page-lesson__form" />
 
-          <ButtonComponent pink @click="createLesson">
+          <ButtonComponent pink @click="getLocation">
+            {{ showMapPreviewText }}
+          </ButtonComponent>
+          <map-container ref="miniMap" add-mode />
+
+          <ButtonComponent
+            pink
+            :loading="loading"
+            @click="createLesson"
+          >
             {{ submitButtonText }}
           </ButtonComponent>
         </form>
@@ -23,41 +33,54 @@
 import ButtonComponent from '@/components/Button'
 import GridContainer from '@/components/GridContainer'
 import InputComponent from '@/components/Form/Input'
-// import CheckboxComponent from '@/components/Form/Checkbox'
 import CheckboxListComponent from '@/components/Form/CheckboxList'
 import SelectComponent from '@/components/Form/Select'
 import DatePickComponent from '@/components/Form/DatePick'
 import ErrorsComponent from '@/components/Form/Errors'
+import SuccessesComponent from '@/components/Form/Success'
+import MapContainer from '@/components/MapComponent'
 import {
   validateRequired,
-  validateRequiredCheckbox
+  validateSelect,
+  validateCheckboxList,
+  validateDatePicker
 } from '@/assets/js/validators'
 
 export default {
   name: 'AddNewLesson',
   components: {
+    MapContainer,
     ButtonComponent,
     GridContainer,
-    ErrorsComponent
+    ErrorsComponent,
+    SuccessesComponent
   },
   data () {
     return {
       title: 'Dodaj nową lekcję',
       subtitle: 'Uzupełnij wymagane dane',
       submitButtonText: 'Dodaj nową lekcję',
+      showMapPreviewText: 'Pokaż lokalizację',
       model: {
         lessonSubject: '',
         lessonLevels: [],
         ratePerHour: '',
         dateStart: '',
         dateEnd: '',
-        time: ''
+        time: '',
+        locationQuery: '',
+        address: {
+          latitude: 0,
+          longitude: 0,
+          city: '',
+          street: ''
+        }
       },
       schema: {
         lessonSubject: {
           component: SelectComponent,
           validators: [
-            validateRequired
+            validateSelect
           ],
           props: {
             placeholder: 'Wybierz przedmiot',
@@ -68,7 +91,7 @@ export default {
         lessonLevels: {
           component: CheckboxListComponent,
           validators: [
-            validateRequiredCheckbox
+            validateCheckboxList
           ],
           props: {
             checkboxList: [
@@ -106,7 +129,7 @@ export default {
         dateStart: {
           component: DatePickComponent,
           validators: [
-            validateRequired
+            validateDatePicker
           ],
           props: {
             type: 'datetime',
@@ -118,9 +141,6 @@ export default {
         },
         dateEnd: {
           component: DatePickComponent,
-          validators: [
-            validateRequired
-          ],
           props: {
             type: 'datetime',
             placeholder: 'Data zakończenia lekcji',
@@ -139,16 +159,29 @@ export default {
             placeholder: 'Czas trwania 1 lekcji',
             forceErrors: false
           }
+        },
+        locationQuery: {
+          component: InputComponent,
+          validators: [
+            validateRequired
+          ],
+          props: {
+            type: 'text',
+            placeholder: 'Adres',
+            forceErrors: false
+          }
         }
       },
       errors: [],
-      success: false,
+      success: [],
       loading: false
     }
   },
   created () {
     this.$store.commit('SET_MENU_THEME', 'violet')
-    this.getSubjects()
+    if (this.$store.state.subject.subjects.length < 1) {
+      this.getSubjects()
+    }
   },
   methods: {
     async getSubjects () {
@@ -156,6 +189,12 @@ export default {
       return subjects
     },
     async createLesson () {
+      if (!this.model.$.isValid) {
+        this.errors = ['Sprawdź, czy na pewno poprawnie wypełniono wszystkie pola']
+        return
+      }
+      await this.getLocation()
+
       const payload = {
         coachId: this.$store.state.auth.user.id,
         lessonLevels: this.model.lessonLevels,
@@ -164,17 +203,31 @@ export default {
         dateStart: this.model.dateStart.toISOString(),
         dateEnd: this.model.dateEnd.toISOString(),
         time: this.model.time,
-        //TODO:
         address: {
-          latitude: 0,
-          longitude: 0,
-          city: 'string',
-          street: 'string'
+          latitude: this.model.address.latitude,
+          longitude: this.model.address.longitude,
+          city: this.model.address.city,
+          street: this.model.address.street
         }
       }
-      // const response = await this.$store.dispatch('createLesson', payload)
-      // console.log(response)
-      console.log(payload)
+
+      this.loading = true
+      const errors = await this.$store.dispatch('createLesson', payload)
+      this.loading = false
+      if (errors.status === 201) {
+        this.success = ['Pomyślnie dodano lekcję!']
+      } else {
+        this.errors = errors ? ['Coś poszło nie tak, spróbuj ponownie później!'] : []
+      }
+    },
+    async getLocation () {
+      const location = await this.$store.dispatch('getLocation', this.model.locationQuery)
+      this.model.address.latitude = location.latitude
+      this.model.address.longitude = location.longitude
+      this.model.address.city = location.city
+      this.model.address.street = location.street
+
+      this.$refs.miniMap.setLocation(location.latitude, location.longitude)
     }
   }
 }
@@ -216,6 +269,24 @@ export default {
     align-items: center;
     position: relative;
   }
+
+  form {
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+  }
+
+  .map-container {
+    z-index: 1;
+    margin-top: 2em;
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
   .pencil {
     position: absolute;
 

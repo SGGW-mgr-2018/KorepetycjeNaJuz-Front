@@ -39,7 +39,7 @@ export default {
   },
   data () {
     return {
-      errorsVisible: false,
+      errorsVisible: false
     }
   },
   computed: {
