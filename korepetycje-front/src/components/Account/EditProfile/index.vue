@@ -8,7 +8,7 @@
       <div class="page--editprofile__formcontainer">
         <form class="wrapper">
           <errors-component :errors="errors" :visible="!!errors.length" />
-          <form-factory v-model="model" :schema="schema" />
+          <form-factory v-model="model" :schema="schema" class="form" />
           <button-component
             :loading="loading"
             pink
@@ -160,7 +160,7 @@ export default {
 
     &__title {
       @include font-primary(36px);
-      margin: 5px 0;
+      margin: 20px 0 -20px;
       font-weight: 400;
       text-align: center;
       color: $violet;
@@ -184,15 +184,20 @@ export default {
 
   .wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
     padding-top: 35px;
     max-width: 560px;
     width: 100%;
 
-      @include mobile {
-        margin-right: 0;
-      }
+    @include mobile {
+      margin-right: 0;
+    }
+
+    .form {
+      margin: 0 auto;
+    }
   }
 
   .input-wrapper {
@@ -200,8 +205,9 @@ export default {
   }
 
   .button-editprofile {
-    width: 100%;
-    margin: 10px 0;
+    width: 60%;
+    display: block;
+    margin: 50px auto -50px;
     padding: 15px 0;
   }
 </style>
