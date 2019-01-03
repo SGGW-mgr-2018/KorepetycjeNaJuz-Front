@@ -5,7 +5,7 @@ const state = {
   lastSearch: null,
   subjects: [],
   lessons: [],
-  markers: ''
+  markers: []
 }
 
 const getters = {}
@@ -15,10 +15,22 @@ const mutations = {
     state.searchQuery = payload
   },
   SET_MARKERS (state, payload) {
+    state.markers = []
     state.markers = payload
   },
   SET_SUBJECTS (state, payload) {
+    // var data = payload
+    // for (var i = 0; i < data.length; i++) {
+    //   const subject = {
+    //     'id': data[i].id,
+    //     'name': data[i].name
+    //   }
+    //   state.subjects.push(subject)
+    // }
+  },
+  SET_SUBJECTS_BY_FILTER (state, payload) {
     var data = payload
+    state.subjects = []
     for (var i = 0; i < data.length; i++) {
       const subject = {
         'id': data[i].id,
@@ -27,21 +39,26 @@ const mutations = {
       state.subjects.push(subject)
     }
   },
-  SET_SUBJECTS_BY_FILTER (state, payload) {
-    var data = payload
-    console.log(data)
-  },
-  SET_LESSONS_BY_FILTER (state, payload) {
-    // var data = payload
-    state.lessons.push(payload)
-    state.markers = payload
-  },
   SET_LAST_SEARCH (state, payload) {
     state.lastSearch = payload
   }
 }
 
 const actions = {
+  async subjects ({ commit, dispatch }, payload) {
+    const { data } = await service.get.subjects(payload)
+    commit('SET_SUBJECTS', data)
+    return data
+  },
+  async subjectsFilter ({ commit, dispatch }, payload) {
+    const { data } = await service.get.subjectsFilter(payload)
+    commit('SET_SUBJECTS_BY_FILTER', data)
+    return data
+  },
+  async lessonsFilter ({ commit, dispatch }, payload) {
+    const response = await service.get.lessonsFilter(payload)
+    commit('SET_MARKERS', response)
+  },
   async getLocation ({ commit }, payload) {
     const searchQuery = payload || 'Warszawa Centrum'
     const { data } = await service.map.getLocationByQuery(searchQuery)
@@ -56,21 +73,6 @@ const actions = {
     }
     commit('SET_LAST_SEARCH', location)
     return location
-  },
-  async subjects ({ commit, dispatch }, payload) {
-    const { data } = await service.get.subjects(payload)
-    commit('SET_SUBJECTS', data)
-    return data
-  },
-  async subjectsFilter ({ commit, dispatch }, payload) {
-    const { data } = await service.get.subjectsFilter(payload)
-    commit('SET_SUBJECTS_BY_FILTER', data)
-    return data
-  },
-  async lessonsFilter ({ commit, dispatch }, payload) {
-    const { data } = await service.get.lessonsFilter(payload)
-    // commit('SET_LESSONS_BY_FILTER', data)
-    return data
   }
 }
 

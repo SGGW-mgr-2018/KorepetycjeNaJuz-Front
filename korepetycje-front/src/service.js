@@ -45,6 +45,6 @@ const get = {
 
 export default {
   auth,
-  map,
-  get
+  get,
+  map
 }
