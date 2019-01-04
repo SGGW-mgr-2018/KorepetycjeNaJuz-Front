@@ -11,13 +11,23 @@
       @day-click="handleClick"
       @event-selected="eventSelected"
     />
-    div.events-list
+    <div class="events-wrapper">
+      <h2 class="events-wrapper__title">
+        Lista korepetycji
+      </h2>
+      <p v-if="!events" class="events-wrapper__empty-message">Pusto :(</p>
+      <div v-if="events" class="events">
+        <event-component />
+        <event-component user-type="Korepetytor" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { FullCalendar } from 'vue-full-calendar'
 import ButtonComponent from '@/components/Button'
+import EventComponent from './EventComponent'
 import moment from 'moment'
 import 'fullcalendar/dist/fullcalendar.css'
 import 'fullcalendar/dist/locale/pl'
@@ -26,7 +36,8 @@ export default {
   name: 'Calendar',
   components: {
     FullCalendar,
-    ButtonComponent
+    ButtonComponent,
+    EventComponent
   },
   data () {
     return {
@@ -80,5 +91,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .events-wrapper {
+    border-top: 5px dashed $pink;
+    margin-top: 30px;
 
+    &__title {
+      @include font-primary(24px);
+      font-weight: 400;
+    }
+
+    &__empty-message {
+      @include font-primary(43px);
+      margin: 0;
+      text-align: center;
+      color: #d1d1d1;
+
+      @include mobile {
+        font-size: 24px;
+      }
+    }
+  }
 </style>
