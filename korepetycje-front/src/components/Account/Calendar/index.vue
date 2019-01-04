@@ -1,7 +1,10 @@
 <template>
-  <div>
-    Kalendarz
-    <full-calendar :config="config" :events="events" />
+  <div class="calendar">
+    <full-calendar
+      :config="config"
+      :events="events"
+      @day-click="handleClick"
+    />
   </div>
 </template>
 
@@ -9,6 +12,7 @@
 import { FullCalendar } from 'vue-full-calendar'
 import moment from 'moment'
 import 'fullcalendar/dist/fullcalendar.css'
+import 'fullcalendar/dist/locale/pl'
 
 export default {
   name: 'Calendar',
@@ -19,10 +23,14 @@ export default {
     return {
       events: [
         {
-          title: 'Test',
-          allDay: true,
+          title: 'Test 1',
           start: moment(),
           end: moment().add(1, 'd')
+        },
+        {
+          title: 'Test 2',
+          start: moment().add(1, 'h'),
+          end: moment().add(1, 'd').add(1, 'h')
         },
         {
           title: 'Kolejny test',
@@ -31,11 +39,17 @@ export default {
         }
       ],
       config: {
+        locale: 'pl',
         defaultView: 'month',
         eventRender (event, element) {
-          console.log(event)
+          // console.log(event)
         }
       }
+    }
+  },
+  methods: {
+    handleClick (event) {
+      console.log(event)
     }
   }
 }
