@@ -51,9 +51,12 @@ const create = {
   }).then(responseData).catch(handleErrors)
 }
 
+const calendar = {}
+
 export default {
   auth,
   map,
   get,
-  create
+  create,
+  calendar
 }

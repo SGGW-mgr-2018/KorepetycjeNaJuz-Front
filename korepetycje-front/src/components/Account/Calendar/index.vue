@@ -1,15 +1,23 @@
 <template>
   <div class="calendar">
+    <button-component class="button-refresh" pink @click="refreshCalendar">
+      Odśwież kalendarz
+    </button-component>
+    <button @click="addEvent">Dodaj event</button>
     <full-calendar
+      ref="calendar"
       :config="config"
       :events="events"
       @day-click="handleClick"
+      @event-selected="eventSelected"
     />
+    div.events-list
   </div>
 </template>
 
 <script>
 import { FullCalendar } from 'vue-full-calendar'
+import ButtonComponent from '@/components/Button'
 import moment from 'moment'
 import 'fullcalendar/dist/fullcalendar.css'
 import 'fullcalendar/dist/locale/pl'
@@ -17,7 +25,8 @@ import 'fullcalendar/dist/locale/pl'
 export default {
   name: 'Calendar',
   components: {
-    FullCalendar
+    FullCalendar,
+    ButtonComponent
   },
   data () {
     return {
@@ -49,6 +58,21 @@ export default {
   },
   methods: {
     handleClick (event) {
+      console.log(event)
+    },
+    refreshCalendar () {
+      this.$refs.calendar.$emit('refresh-events')
+    },
+    addEvent () {
+      const event = {
+        title: 'Losowy event',
+        description: 'To jest opis',
+        start: moment().add(2, 'h'),
+        end: moment().add(5, 'h')
+      }
+      this.$refs.calendar.$emit('render-event', event)
+    },
+    eventSelected (event) {
       console.log(event)
     }
   }
