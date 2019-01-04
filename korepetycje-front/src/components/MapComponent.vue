@@ -50,6 +50,16 @@ Vue.use(VueResource)
 export default {
   name: 'MapComponent',
   components: { LMap, LTileLayer, LPopup, LMarker },
+  props: {
+    searchMode: {
+      type: Boolean,
+      default: false
+    },
+    addMode: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       zoom: 13,
@@ -93,15 +103,19 @@ export default {
   mounted () {
     this.map = this.$refs.map.mapObject
     this.map.addControl(new Leaflet.Control.Scale())
-    this.map.addControl(new this.ControlGps())
-    this.map.on('locationfound', this.onLocationFound)
-    const provider = new OpenStreetMapProvider()
-    const searchControl = new GeoSearchControl({
-      provider: provider,
-      showMarker: false,
-      searchLabel: 'Wpisz adres'
-    })
-    this.map.addControl(searchControl)
+
+    if (this.searchMode) {
+      this.map.addControl(new this.ControlGps())
+      this.map.on('locationfound', this.onLocationFound)
+      const provider = new OpenStreetMapProvider()
+      const searchControl = new GeoSearchControl({
+        provider: provider,
+        showMarker: false,
+        searchLabel: 'Wpisz adres'
+      })
+      this.map.addControl(searchControl)
+    }
+
     this.loadData()
   },
   methods: {
@@ -161,6 +175,11 @@ export default {
       }, (response) => {
         console.error(response)
       })
+    },
+    setLocation (lat, lon) {
+      const latLngs = [{ 'lat': lat, 'lng': lon }]
+      this.map.fitBounds(latLngs)
+      this.map.setZoom(16)
     }
   }
 }

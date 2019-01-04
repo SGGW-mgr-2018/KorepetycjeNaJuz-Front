@@ -15,7 +15,7 @@
         </button-component>
       </div>
       <div class="search-bar__label search-bar__label--smaller">lub</div>
-      <button-component pink class="button-cta">
+      <button-component pink class="button-cta" @click="addLesson">
         Udziel korepetycji <span class="button-cta__strong">już teraz</span>
       </button-component>
     </div>
@@ -43,6 +43,11 @@ export default {
           params: { searchInput: this.searchContent }
         })
       }
+    },
+    addLesson () {
+      this.$router.push({
+        name: 'nowa-lekcja'
+      })
     }
   }
 }

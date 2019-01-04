@@ -43,8 +43,17 @@ const get = {
   lessonsFilter: payload => axios.get('/api/CoachLesson/CoachLessonsByFilters', payload).then(responseData).catch(handleErrors)
 }
 
+const create = {
+  lesson: payload => axios.post('/api/CoachLesson/Create', payload.lessonData, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
+}
+
 export default {
   auth,
   map,
-  get
+  get,
+  create
 }

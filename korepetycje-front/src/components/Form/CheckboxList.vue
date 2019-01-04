@@ -3,16 +3,25 @@
     :class="styles"
     class="checkbox-field"
   >
-    <label class="label">
+    <label
+      v-for="checkbox in checkboxList"
+      :key="checkbox.id"
+      :for="checkbox.id"
+      class="label"
+    >
       <input
+        :id="checkbox.id"
+        v-model="checkboxValues"
+        :value="checkbox.id"
         class="nativeCheckbox sr-only"
         type="checkbox"
         @change="handleChange"
         @blur="handleBlur"
+        @input="input"
       >
       <div class="checkbox" />
       <div class="text">
-        <span>{{ label }}</span>
+        <span>{{ checkbox.name }}</span>
       </div>
     </label>
     <errors-component :errors="errors" :visible="errorsVisible" />
@@ -24,19 +33,15 @@ import { input } from 'vue-form-factory'
 import ErrorsComponent from '@/components/Form/Errors'
 
 export default {
-  name: 'Checkbox',
+  name: 'CheckboxList',
   components: {
     ErrorsComponent
   },
   mixins: [input()],
   props: {
-    label: {
-      type: String,
-      default: ''
-    },
-    value: {
-      type: Boolean,
-      default: false
+    checkboxList: {
+      type: Array,
+      default: () => []
     },
     forceErrors: {
       type: Boolean,
@@ -45,6 +50,7 @@ export default {
   },
   data () {
     return {
+      checkboxValues: [],
       errorsVisible: false
     }
   },
@@ -65,7 +71,7 @@ export default {
   },
   methods: {
     handleChange (evt) {
-      const inputValue = evt.target.checked
+      const inputValue = this.checkboxValues
       this.input(inputValue)
       inputValue && (this.errorsVisible = false)
     },
