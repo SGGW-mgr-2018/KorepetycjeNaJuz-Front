@@ -21,8 +21,12 @@
       </div>
       <div v-if="activeStep === 1" key="message" class="message-wrapper">
         <button class="arrow-back" @click="showMessagesList">&larr;</button>
-        <message />
-        <new-message />
+        <div v-if="action === 'newMessage'">
+          <new-message />
+        </div>
+        <div v-else>
+          <message />
+        </div>
       </div>
     </transition>
   </div>
@@ -44,11 +48,14 @@ export default {
   },
   data () {
     return {
-      activeStep: 0
+      activeStep: 0,
+      action: 'newMessage'
     }
   },
   methods: {
     goToMessage (id) {
+      this.action = 'showMessage'
+      this.activeStep = 1
       console.log('message ID', id)
     },
     showMessagesList () {
@@ -56,6 +63,7 @@ export default {
     },
     newMessage () {
       this.activeStep = 1
+      this.action = 'newMessage'
     }
   }
 }
@@ -72,5 +80,14 @@ export default {
     &__header {
       margin-bottom: 35px;
     }
+  }
+
+  .arrow-back {
+    width: 60px;
+    border: 2px solid black;
+    border-radius: 15px;
+    font-size: 20px;
+    color: #262626;
+    cursor: pointer;
   }
 </style>

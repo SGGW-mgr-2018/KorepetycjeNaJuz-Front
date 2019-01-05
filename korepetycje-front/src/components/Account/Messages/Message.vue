@@ -27,15 +27,17 @@ export default {
 <style lang="scss" scoped>
   .message {
     &__header {
-
-    }
-
-    &__title {
-
+      display: flex;
+      justify-content: space-between;
+      font-weight: 500;
+      font-size: 17px;
+      margin-top: 10px;
     }
 
     &__content {
-
+      padding: 20px 0;
+      margin: 0;
+      border-top: 2px solid $pink;
     }
   }
 </style>

@@ -3,7 +3,9 @@ const state = {
 }
 
 const getters = {
-
+  // wszystkie lekcje
+  // lekcje na które jestem zapisany
+  // id użytkowników do których mogę pisać
 }
 
 const mutations = {
