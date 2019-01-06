@@ -40,11 +40,38 @@ const map = {
 const get = {
   subjects: payload => axios.get('/api/LessonSubjects/GetAll', payload).then(responseData).catch(handleErrors),
   subjectsFilter: payload => axios.post('/api/LessonSubjects/GetByFilter', payload).then(responseData).catch(handleErrors),
-  lessonsFilter: payload => axios.get('/api/CoachLesson/CoachLessonsByFilters', payload).then(responseData).catch(handleErrors)
+  lessonsFilter: payload => axios.get('/api/CoachLesson/CoachLessonsByFilters', payload).then(responseData).catch(handleErrors),
+  createLesson: payload => axios.post('/api/Lesson/Create', payload, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
+}
+
+const create = {
+  lesson: payload => axios.post('/api/CoachLesson/Create', payload.lessonData, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
+}
+
+const calendar = {
+  fetchAllData: token => axios.get('/api/CoachLesson/Calendar', {
+    params: {
+      DateFrom: '2019-01-01',
+      DateTo: '2020-01-01'
+    },
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  }).then(responseData).catch(handleErrors)
 }
 
 export default {
   auth,
+  map,
   get,
-  map
+  create,
+  calendar
 }

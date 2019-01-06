@@ -31,7 +31,7 @@
       <!-- <img id="calendarImg" src="http://wsgastro.pl/wp-content/uploads/2013/10/icon-calendar.png"> -->
     </div>
 
-    <map-container />
+    <map-container search-mode />
   </div>
 </template>
 

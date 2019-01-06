@@ -3,10 +3,12 @@
     <div class="page--account">
       <p class="page--account__title">Moje konto</p>
       <the-navigation class="tabs-bar" @click="manageTabs" />
-      <edit-profile-component v-if="activeTab === 1" />
-      <history-component v-if="activeTab === 2" />
-      <calendar-component v-if="activeTab === 3" />
-      <messages-component v-if="activeTab === 4" />
+      <transition name="fade" mode="out-in">
+        <edit-profile-component v-if="activeTab === 1" key="edit" />
+        <history-component v-if="activeTab === 2" key="history" />
+        <calendar-component v-if="activeTab === 3" key="calendar" />
+        <messages-component v-if="activeTab === 4" key="messages" />
+      </transition>
     </div>
   </grid-container>
 </template>
