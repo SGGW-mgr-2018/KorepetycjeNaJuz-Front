@@ -202,8 +202,6 @@ export default {
     },
     async setLesson (lessonId) {
       if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
-        // const response = await this.$store.dispatch('getUserData')
-        // console.log(response)
         const payload = {
           coachLessonId: lessonId,
           token: localStorage.getItem('token')
@@ -215,8 +213,7 @@ export default {
       }
     },
     async createLesson (payload) {
-      // alert(JSON.stringify(payload))
-      await this.$store.dispatch('createLesson', payload)
+      await this.$store.dispatch('signUpForLesson', payload)
     },
     loadData () {
       // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100

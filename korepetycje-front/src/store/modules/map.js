@@ -63,7 +63,7 @@ const actions = {
     const response = await service.get.lessonsFilter(payload)
     commit('SET_MARKERS', response)
   },
-  async createLesson ({ commit, dispatch }, payload) {
+  async signUpForLesson ({ commit, dispatch }, payload) {
     const response = await service.get.createLesson(payload)
     commit('SET_MARKERS', response)
   },
