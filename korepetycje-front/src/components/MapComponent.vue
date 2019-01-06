@@ -191,10 +191,9 @@ export default {
         // const response = await this.$store.dispatch('getUserData')
         // console.log(response)
         const payload = {
-          user: this.$store.state.auth.user,
+          coachLessonId: lessonId,
           token: localStorage.getItem('token')
         }
-        payload.coachLessonId = lessonId
 
         this.createLesson(payload)
       } else {
