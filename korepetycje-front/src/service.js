@@ -40,7 +40,12 @@ const map = {
 const get = {
   subjects: payload => axios.get('/api/LessonSubjects/GetAll', payload).then(responseData).catch(handleErrors),
   subjectsFilter: payload => axios.post('/api/LessonSubjects/GetByFilter', payload).then(responseData).catch(handleErrors),
-  lessonsFilter: payload => axios.get('/api/CoachLesson/CoachLessonsByFilters', payload).then(responseData).catch(handleErrors)
+  lessonsFilter: payload => axios.get('/api/CoachLesson/CoachLessonsByFilters', payload).then(responseData).catch(handleErrors),
+  createLesson: payload => axios.post('/api/Lesssons/Create/', payload.user.id, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
 }
 
 export default {

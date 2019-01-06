@@ -5,7 +5,8 @@ const state = {
   lastSearch: null,
   subjects: [],
   lessons: [],
-  markers: []
+  markers: [],
+  createdLesson: null
 }
 
 const getters = {}
@@ -17,6 +18,9 @@ const mutations = {
   SET_MARKERS (state, payload) {
     state.markers = []
     state.markers = payload
+  },
+  SET_CREATED_LESSON (state, payload) {
+    state.createdLesson = payload
   },
   SET_SUBJECTS (state, payload) {
     // var data = payload
@@ -57,6 +61,10 @@ const actions = {
   },
   async lessonsFilter ({ commit, dispatch }, payload) {
     const response = await service.get.lessonsFilter(payload)
+    commit('SET_MARKERS', response)
+  },
+  async createLesson ({ commit, dispatch }, payload) {
+    const response = await service.get.createLesson(payload)
     commit('SET_MARKERS', response)
   },
   async getLocation ({ commit }, payload) {

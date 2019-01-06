@@ -28,7 +28,7 @@
                 <p class="content-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur.</p>
               </div>
             </div>
-            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson($event, item.id)">
+            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson(item.id)">
           </div>
         </l-popup>
       </l-marker>
@@ -139,6 +139,7 @@ export default {
     })
     this.map.addControl(searchControl)
     this.loadData()
+    // this.setLesson(22)
   },
   methods: {
     ControlGps: Leaflet.Control.extend({
@@ -185,13 +186,24 @@ export default {
         event.target.closePopup()
       })
     },
-    async setLesson (event, id) {
+    async setLesson (lessonId) {
       if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
-        const response = await this.$store.dispatch('getUserData')
-        alert(response)
+        // const response = await this.$store.dispatch('getUserData')
+        // console.log(response)
+        const payload = {
+          user: this.$store.state.auth.user,
+          token: localStorage.getItem('token')
+        }
+        payload.coachLessonId = lessonId
+
+        this.createLesson(payload)
       } else {
         alert('Musisz być zalogowany, aby zapisać się na lekcję!')
       }
+    },
+    async createLesson (payload) {
+      // alert(JSON.stringify(payload))
+      await this.$store.dispatch('createLesson', payload)
     },
     loadData () {
       // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
