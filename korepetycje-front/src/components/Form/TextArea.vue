@@ -76,6 +76,7 @@ export default {
     position: relative;
     will-change: margin;
     transition: margin .3s ease-in-out;
+    margin-bottom: 1rem;
 
     &.error {
       margin: 16px auto 40px;
