@@ -11,18 +11,20 @@
             + Nowa wiadomość
           </button-component>
         </header>
-        <div class="inbox__list">
+        <div v-if="!loading" class="inbox__list">
           <message-shortcut
-            v-for="number in 3"
-            :key="number"
-            @click="goToMessage(number)"
+            v-for="conversation in getConversations"
+            :key="conversation.userId"
+            :message="conversation"
+            @click="goToChat(conversation)"
           />
         </div>
+        <loader v-if="loading" dark class="loader" />
       </div>
       <div v-if="activeStep === 1" key="message" class="message-wrapper">
         <button class="arrow-back" @click="showMessagesList">&larr;</button>
         <new-message v-if="action === 'newMessage'" />
-        <chat v-else :id="-1" />
+        <chat v-else :id="chatId" :recipient-title="recipient" />
       </div>
     </transition>
   </div>
@@ -30,10 +32,11 @@
 
 <script>
 import MessageShortcut from './MessageShortcut'
+import Loader from '@/components/Loader'
 import Chat from './Chat'
 import NewMessage from './NewMessage'
 import ButtonComponent from '@/components/Button'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Messages',
@@ -41,27 +44,38 @@ export default {
     MessageShortcut,
     Chat,
     ButtonComponent,
-    NewMessage
+    NewMessage,
+    Loader
   },
   data () {
     return {
+      chatId: -1,
+      recipient: 'Imię Nazwisko',
       activeStep: 0,
       action: 'newMessage',
       chats: [{
         id: 0,
         lastMessage: {}
-      }]
+      }],
+      loading: false
     }
   },
-  mounted () {
-    console.log('Dane', this.fetchCalendarData())
+  computed: {
+    ...mapGetters(['getConversations'])
+  },
+  async mounted () {
+    this.fetchCalendarData()
+    this.loading = true
+    await this.fetchAllConversations()
+    this.loading = false
   },
   methods: {
-    ...mapActions(['fetchCalendarData']),
-    goToMessage (id) {
-      this.action = 'showMessage'
+    ...mapActions(['fetchCalendarData', 'fetchAllConversations']),
+    goToChat (conversation) {
+      this.chatId = conversation.userId
+      this.recipient = conversation.firstName + ' ' + conversation.lastName
       this.activeStep = 1
-      console.log('message ID', id)
+      this.action = 'showMessage'
     },
     showMessagesList () {
       this.activeStep = 0
@@ -94,5 +108,9 @@ export default {
     font-size: 20px;
     color: #262626;
     cursor: pointer;
+  }
+
+  .loader {
+    margin: 0 auto;
   }
 </style>

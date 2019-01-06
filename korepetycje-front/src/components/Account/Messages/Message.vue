@@ -1,7 +1,7 @@
 <template>
   <div :class="classes" class="message">
     <header class="message__header">
-      <p class="message__title">{{ message.title }}</p>
+      <p class="message__title">{{ message.userName }}</p>
       <p class="message__date">{{ message.date }}</p>
     </header>
     <p class="message__content">{{ message.content }}</p>
@@ -15,16 +15,18 @@ export default {
     message: {
       type: Object,
       default: () => ({
-        title: 'Tytuł wiadomości',
-        date: '01/01/2019',
-        content: 'To jest jakaś wiadomość. Lepiej na nią odpowiedz. Tak zrób.'
+        id: 0,
+        content: 'Treść wiadomości',
+        date: '01/01/2018',
+        userIsAuthor: false,
+        userName: 'Jan Kowalski'
       })
     }
   },
   computed: {
     classes () {
       return {
-
+        'message--author': this.message.userIsAuthor
       }
     }
   }

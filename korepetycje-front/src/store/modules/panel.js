@@ -23,10 +23,11 @@ const getters = {
     return _uniqBy(state.addressBook, 'id')
   },
   getChatMessages (state) {
-
+    return state.chatMessages
   },
   getConversations (state) {
-
+    // important! Slice create a copy of the array -> to avoid mutate original state
+    return state.conversations.slice().reverse()
   }
 }
 
@@ -82,7 +83,7 @@ const actions = {
   async fetchAllConversations ({ commit }) {
     const token = localStorage.getItem('token')
     commit('SET_FETCH_LOADING', true)
-    const { data } = await service.calendar.fetchAllConversations(token)
+    const { data } = await service.messages.fetchAllConversations(token)
     commit('SET_CONVERSATIONS', data)
     commit('SET_FETCH_LOADING', false)
   },
