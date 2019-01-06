@@ -51,6 +51,9 @@ const mutations = {
       return addresses
     }, [])
   },
+  SET_MESSAGES (state, payload) {
+
+  },
   SET_FETCH_LOADING (state, payload) {
     state.fetchLoading = payload
   }
