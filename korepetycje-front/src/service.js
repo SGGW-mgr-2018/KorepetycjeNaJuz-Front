@@ -51,7 +51,17 @@ const create = {
   }).then(responseData).catch(handleErrors)
 }
 
-const calendar = {}
+const calendar = {
+  fetchAllData: token => axios.get('/api/CoachLesson/Calendar', {
+    params: {
+      DateFrom: '2019-01-01',
+      DateTo: '2020-01-01'
+    },
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  }).then(responseData).catch(handleErrors)
+}
 
 export default {
   auth,

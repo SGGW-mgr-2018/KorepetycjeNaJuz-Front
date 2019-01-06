@@ -37,6 +37,7 @@ import MessageShortcut from './MessageShortcut'
 import Message from './Message'
 import NewMessage from './NewMessage'
 import ButtonComponent from '@/components/Button'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Messages',
@@ -52,7 +53,11 @@ export default {
       action: 'newMessage'
     }
   },
+  mounted () {
+    console.log('Dane', this.fetchCalendarData())
+  },
   methods: {
+    ...mapActions(['fetchCalendarData']),
     goToMessage (id) {
       this.action = 'showMessage'
       this.activeStep = 1
