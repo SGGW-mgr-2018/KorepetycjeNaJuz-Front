@@ -15,11 +15,11 @@
         :key="item.id"
         :icon="item.icon"
         :lat-lng="item.latlng"
-        @mouseenter="openPopup($event)"
+        @click="openPopup($event)"
       >
         <l-popup>
           <div class="outside-popup-div">
-            <div class="subject-hour-div">Język angielski 18-19</div>
+            <div class="subject-hour-div">{{ item.content.sub }} {{ item.content.startDateHour }}.{{ item.content.startDateMinutes }} - {{ item.content.endDateHour }}.{{ item.content.endDateMinutes }}</div>
             <div>
               <div class="image-popup-div">
                 <img class="image-popup" src="/img/personIcon.png">
@@ -28,8 +28,19 @@
                 <p class="content-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur.</p>
               </div>
             </div>
-            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE">
+            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson(item.id)">
           </div>
+        </l-popup>
+      </l-marker>
+      <l-marker
+        v-for="item in markersLocation"
+        :key="item.id"
+        :icon="item.icon"
+        :lat-lng="item.latlng"
+        @click="openPopup($event)"
+      >
+        <l-popup>
+          <p>{{ item.content }}</p>
         </l-popup>
       </l-marker>
     </l-map>
@@ -70,6 +81,7 @@ export default {
       maxZoom: 25,
       maxNativeZoom: 18,
       map: null,
+      markersLocation: [],
       markers: [],
       defaultIcon: Leaflet.icon({
         iconUrl: '/img/gps_icon.png',
@@ -93,8 +105,32 @@ export default {
       this.searchLabel = value
       this.loadData()
     },
-    getMarkers (value) {
-      console.log(value)
+    getMarkers (response) {
+      try {
+        if (response.status === 200) {
+          const data = response.data
+          this.markers = []
+          console.log('Ilość lekcji : ' + data.length)
+          for (var i = 0; i < data.length; i++) {
+            const dStart = new Date(data[i].dateStart)
+            const dEnd = new Date(data[i].dateEnd)
+            this.markers.push({
+              id: data[i].id,
+              latlng: Leaflet.latLng(data[i].address.latitude, data[i].address.longitude),
+              content: {
+                sub: data[i].lessonSubject,
+                startDateHour: dStart.getHours(),
+                endDateHour: dEnd.getHours(),
+                startDateMinutes: (dStart.getMinutes() < 10) ? ('0' + dStart.getMinutes()) : dStart.getMinutes(),
+                endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes()
+              },
+              icon: this.defaultIcon
+            })
+          }
+        }
+      } catch (error) {
+        console.log('Error getting lessons')
+      }
     }
   },
   created () {
@@ -117,6 +153,7 @@ export default {
     }
 
     this.loadData()
+    // this.setLesson(22)
   },
   methods: {
     ControlGps: Leaflet.Control.extend({
@@ -145,13 +182,12 @@ export default {
 
     onLocationFound (e) {
       // const radius = e.accuracy / 2
-      this.markers = []
+      this.markersLocation = []
       console.log(e.latlng.lat + ' : ' + e.latlng.lng)
-      this.markers.push({
+      this.markersLocation.push({
         id: 1,
         latlng: Leaflet.latLng(e.latlng.lat, e.latlng.lng),
-        content: '',
-        icon: this.defaultIcon
+        content: 'Jesteś w punkcie : ' + '(' + e.latlng.lat + ',' + e.latlng.lng + ')'
       })
     },
     openPopup (event) {
@@ -163,6 +199,24 @@ export default {
       Vue.nextTick(() => {
         event.target.closePopup()
       })
+    },
+    async setLesson (lessonId) {
+      if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
+        // const response = await this.$store.dispatch('getUserData')
+        // console.log(response)
+        const payload = {
+          coachLessonId: lessonId,
+          token: localStorage.getItem('token')
+        }
+
+        this.createLesson(payload)
+      } else {
+        alert('Musisz być zalogowany, aby zapisać się na lekcję!')
+      }
+    },
+    async createLesson (payload) {
+      // alert(JSON.stringify(payload))
+      await this.$store.dispatch('createLesson', payload)
     },
     loadData () {
       // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
@@ -193,6 +247,10 @@ export default {
     width: 70%;
     padding-top: 10px;
     z-index: -1;
+    @include mobile {
+      display: block;
+      width: 100%;
+    }
   }
 
   [v-cloak] {
