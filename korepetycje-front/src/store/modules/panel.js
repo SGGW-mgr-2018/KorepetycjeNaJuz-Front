@@ -1,6 +1,7 @@
 import service from '@/service'
 import moment from 'moment'
 import _get from 'lodash.get'
+import _uniqBy from 'lodash.uniqby'
 
 const state = {
   fetchLoading: false,
@@ -11,13 +12,16 @@ const state = {
 const getters = {
   getLessons () {
 
+  },
+  getAddresses (state) {
+    return _uniqBy(state.addressBook, 'id')
   }
 }
 
 const createTeacherContact = payload => ({
   id: payload.coachId,
   firstName: payload.coachFirstName,
-  lastName: payload.coachlastName,
+  lastName: payload.coachLastName,
   userType: 2
 })
 
@@ -56,40 +60,34 @@ const createTeacherLesson = (payload, participantInfo = null) => ({
   dateEnd: participantInfo ? moment(this.dateStart).add(participantInfo.numberOfHours, 'h') : payload.dateEnd
 })
 
-const generateLessons = entry => {
-  /**
-   * userRole: 1 - Student, 2 - Teacher
-   */
-  if (entry.userRole === 1) {
-    return createStudentLesson(entry)
-  } else {
-    return entry.lessons.filter(lesson => {
-      if (lesson === null) return
-      return createTeacherLesson(entry, lesson)
-    })
-  }
-}
-
-const generateAddressBook = entry => {
-  /**
-   * userRole: 1 - Student, 2 - Teacher
-   */
-  if (entry.userRole === 1) {
-    return createTeacherContact(entry)
-  } else {
-    return entry.lessons.filter(lesson => {
-      if (lesson === null) return
-      return createStudentContact(lesson.student)
-    })
-  }
-}
-
 const mutations = {
   SET_LESSONS (state, payload) {
-    state.lessons = payload.map(generateLessons)
+    state.lessons = payload.reduce((lessons, entry) => {
+      if (entry.userRole === 1) {
+        lessons.push(createStudentLesson(entry))
+      } else {
+        entry.lessons.forEach(lesson => {
+          if (lesson !== null) {
+            lessons.push(createTeacherLesson(lesson.student))
+          }
+        })
+      }
+      return lessons
+    }, [])
   },
   SET_ADDRESS_BOOK (state, payload) {
-    state.addressBook = payload.map(generateAddressBook)
+    state.addressBook = payload.reduce((addresses, entry) => {
+      if (entry.userRole === 1) {
+        addresses.push(createTeacherContact(entry))
+      } else {
+        entry.lessons.forEach(lesson => {
+          if (lesson !== null) {
+            addresses.push(createStudentContact(lesson.student))
+          }
+        })
+      }
+      return addresses
+    }, [])
   },
   SET_FETCH_LOADING (state, payload) {
     state.fetchLoading = payload
