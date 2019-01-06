@@ -69,12 +69,12 @@ const calendar = {
 }
 
 const messages = {
-  fetchAllMessages: token => axios.get('/api/Messages', {
+  fetchAllConversations: token => axios.get('/api/Messages', {
     headers: {
       Authorization: 'Bearer ' + token
     }
   }).then(responseData).catch(handleErrors),
-  fetchMessageById: payload => axios.get(`/api/Messages/${ payload.id }`, {
+  fetchChatMessagesById: payload => axios.get(`/api/Messages/${ payload.id }`, {
     headers: {
       Authorization: 'Bearer ' + payload.token
     }

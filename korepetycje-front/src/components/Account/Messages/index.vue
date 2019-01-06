@@ -21,12 +21,8 @@
       </div>
       <div v-if="activeStep === 1" key="message" class="message-wrapper">
         <button class="arrow-back" @click="showMessagesList">&larr;</button>
-        <div v-if="action === 'newMessage'">
-          <new-message />
-        </div>
-        <div v-else>
-          <message />
-        </div>
+        <new-message v-if="action === 'newMessage'" />
+        <chat v-else :id="-1" />
       </div>
     </transition>
   </div>
@@ -34,7 +30,7 @@
 
 <script>
 import MessageShortcut from './MessageShortcut'
-import Message from './Message'
+import Chat from './Chat'
 import NewMessage from './NewMessage'
 import ButtonComponent from '@/components/Button'
 import { mapActions } from 'vuex'
@@ -42,15 +38,19 @@ import { mapActions } from 'vuex'
 export default {
   name: 'Messages',
   components: {
-    Message,
     MessageShortcut,
+    Chat,
     ButtonComponent,
     NewMessage
   },
   data () {
     return {
       activeStep: 0,
-      action: 'newMessage'
+      action: 'newMessage',
+      chats: [{
+        id: 0,
+        lastMessage: {}
+      }]
     }
   },
   mounted () {

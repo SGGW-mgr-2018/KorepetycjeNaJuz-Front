@@ -10,7 +10,9 @@ import {
 const state = {
   fetchLoading: false,
   lessons: [],
-  addressBook: []
+  addressBook: [],
+  conversations: [],
+  chatMessages: []
 }
 
 const getters = {
@@ -19,6 +21,12 @@ const getters = {
   },
   getAddresses (state) {
     return _uniqBy(state.addressBook, 'id')
+  },
+  getChatMessages (state) {
+
+  },
+  getConversations (state) {
+
   }
 }
 
@@ -51,8 +59,11 @@ const mutations = {
       return addresses
     }, [])
   },
-  SET_MESSAGES (state, payload) {
-
+  SET_CONVERSATIONS (state, payload) {
+    state.conversations = payload
+  },
+  SET_CHAT_MESSAGES (state, payload) {
+    state.chatMessages = payload
   },
   SET_FETCH_LOADING (state, payload) {
     state.fetchLoading = payload
@@ -67,6 +78,25 @@ const actions = {
     commit('SET_LESSONS', data)
     commit('SET_ADDRESS_BOOK', data)
     commit('SET_FETCH_LOADING', false)
+  },
+  async fetchAllConversations ({ commit }) {
+    const token = localStorage.getItem('token')
+    commit('SET_FETCH_LOADING', true)
+    const { data } = await service.calendar.fetchAllConversations(token)
+    commit('SET_CONVERSATIONS', data)
+    commit('SET_FETCH_LOADING', false)
+  },
+  async fetchChatMessages ({ commit }, id) {
+    const token = localStorage.getItem('token')
+    const payload = {
+      token,
+      id
+    }
+    commit('SET_FETCH_LOADING', true)
+    const { data } = await service.messages.fetchChatMessagesById(payload)
+    commit('SET_FETCH_LOADING', false)
+    commit('SET_CHAT_MESSAGES', data)
+    console.log(data)
   }
 }
 
