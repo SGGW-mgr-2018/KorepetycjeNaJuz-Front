@@ -36,6 +36,7 @@ import InputComponent from '@/components/Form/Input'
 import CheckboxListComponent from '@/components/Form/CheckboxList'
 import SelectComponent from '@/components/Form/Select'
 import DatePickComponent from '@/components/Form/DatePick'
+import TextAreaComponent from '@/components/Form/TextArea'
 import ErrorsComponent from '@/components/Form/Errors'
 import SuccessesComponent from '@/components/Form/Success'
 import MapContainer from '@/components/MapComponent'
@@ -68,6 +69,7 @@ export default {
         dateStart: '',
         dateEnd: '',
         time: '',
+        description: '',
         locationQuery: '',
         address: {
           latitude: 0,
@@ -160,6 +162,12 @@ export default {
             forceErrors: false
           }
         },
+        description: {
+          component: TextAreaComponent,
+          props: {
+            placeholder: 'Wpisz dane o lekcji'
+          }
+        },
         locationQuery: {
           component: InputComponent,
           validators: [
@@ -203,6 +211,7 @@ export default {
         dateStart: this.model.dateStart.toISOString(),
         dateEnd: this.model.dateEnd.toISOString(),
         time: this.model.time,
+        description: this.model.description,
         address: {
           latitude: this.model.address.latitude,
           longitude: this.model.address.longitude,
@@ -216,6 +225,9 @@ export default {
       this.loading = false
       if (errors.status === 201) {
         this.success = ['Pomyślnie dodano lekcję!']
+        this.errors = []
+      } else if (errors.status === 409) {
+        this.errors = ['Czas jest już zajęty']
       } else {
         this.errors = errors ? ['Coś poszło nie tak, spróbuj ponownie później!'] : []
       }
