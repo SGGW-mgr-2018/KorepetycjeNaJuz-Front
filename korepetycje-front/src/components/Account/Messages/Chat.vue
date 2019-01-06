@@ -1,11 +1,13 @@
 <template>
   <div class="chat">
     <loader v-if="loading" dark class="loader" />
-    <message
-      v-for="message in messages"
-      :key="message.id"
-      :message="message"
-    />
+    <div v-else>
+      <message
+        v-for="message in messages"
+        :key="message.id"
+        :message="message"
+      />
+    </div>
   </div>
 </template>
 
@@ -51,9 +53,9 @@ export default {
       }))
     }
   },
-  mounted () {
+  async mounted () {
     this.loading = true
-    this.fetchChatMessages(this.id)
+    await this.fetchChatMessages(this.id)
     this.loading = false
   },
   methods: {
