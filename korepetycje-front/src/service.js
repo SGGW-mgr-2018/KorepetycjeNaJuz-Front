@@ -48,8 +48,20 @@ const get = {
   }).then(responseData).catch(handleErrors)
 }
 
+const create = {
+  lesson: payload => axios.post('/api/CoachLesson/Create', payload.lessonData, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
+}
+
+const calendar = {}
+
 export default {
   auth,
+  map,
   get,
-  map
+  create,
+  calendar
 }

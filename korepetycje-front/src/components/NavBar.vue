@@ -152,11 +152,15 @@ export default {
 
 <style lang="scss" scoped>
   .nav {
-    padding: 20px 0px 20px;
+    padding: 20px 0;
     position: absolute;
     z-index: 10000;
     width: 100%;
     transition: .2s ease-in-out;
+
+    @include mobile {
+      padding: 25px 0;
+    }
 
     &.slide-up {
       position: fixed;
@@ -324,20 +328,20 @@ export default {
 
   .menu-burger {
     position: absolute;
-    width: 300px;
-    margin: -100px 0 0 0px;
-    padding: 50px;
-    padding-top: 125px;
     right: -100px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: -100px 0 0;
+    padding: 30px;
+    padding-top: 125px;
     background: #36383F;
     list-style-type: none;
     -webkit-font-smoothing: antialiased;
     transform-origin: 0% 0%;
     transform: translate(100%, 0);
     transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-    display: flex;
-    flex-direction: column;
-    justify-content: spance-around;
 
     &__link {
       margin: 10px 0;
@@ -373,7 +377,8 @@ export default {
 
       &.login {
         padding: 8px 20px;
-        margin-left: 20px;
+        margin-top: 40px;
+        margin-left: 37px;
       }
     }
   }
