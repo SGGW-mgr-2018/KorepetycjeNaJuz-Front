@@ -3,17 +3,24 @@ const state = {
 }
 
 const getters = {
+  getLessons () {
+
+  }
   // wszystkie lekcje
   // lekcje na które jestem zapisany
   // id użytkowników do których mogę pisać
 }
 
 const mutations = {
+  SET_LESSONS () {
 
+  }
 }
 
 const actions = {
+  fetchAllUserLessons () {
 
+  }
 }
 
 export default {
