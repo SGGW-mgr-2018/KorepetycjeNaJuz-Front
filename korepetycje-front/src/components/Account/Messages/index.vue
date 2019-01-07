@@ -10,6 +10,12 @@
           >
             + Nowa wiadomość
           </button-component>
+          <button-component
+            class="button--refresh"
+            @click="refreshMessages"
+          >
+            Odśwież
+          </button-component>
         </header>
         <div v-if="!loading" class="inbox__list">
           <message-shortcut
@@ -83,6 +89,11 @@ export default {
     newMessage () {
       this.activeStep = 1
       this.action = 'newMessage'
+    },
+    async refreshMessages () {
+      this.loading = true
+      await this.fetchAllConversations()
+      this.loading = false
     }
   }
 }
@@ -97,6 +108,7 @@ export default {
 
   .inbox {
     &__header {
+      display: flex;
       margin-bottom: 35px;
     }
   }
@@ -112,5 +124,15 @@ export default {
 
   .loader {
     margin: 0 auto;
+  }
+
+  .button--refresh {
+    background-color: #66a6e3;
+    color: #fff;
+    margin-left: 15px;
+
+    &:hover {
+      background-color: #40b0ff;
+    }
   }
 </style>
