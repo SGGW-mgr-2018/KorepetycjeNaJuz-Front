@@ -98,6 +98,19 @@ const actions = {
     commit('SET_FETCH_LOADING', false)
     commit('SET_CHAT_MESSAGES', data)
     console.log(data)
+  },
+  async sendEmail (_, messageData) {
+    const token = localStorage.getItem('token')
+    console.log(messageData)
+    const payload = {
+      data: {
+        recipientId: +messageData.id,
+        content: messageData.content
+      },
+      token
+    }
+    const { data } = await service.messages.sendMessage(payload)
+    return data
   }
 }
 
