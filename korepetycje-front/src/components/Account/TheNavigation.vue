@@ -49,7 +49,7 @@ export default {
   .tabs {
     max-width: 720px;
     width: 100%;
-    margin: 20px auto;
+    margin: 20px auto 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;

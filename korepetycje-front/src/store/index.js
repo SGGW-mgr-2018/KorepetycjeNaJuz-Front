@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 import auth from './modules/auth'
 import global from './modules/global'
 import map from './modules/map'
+import subject from './modules/subject'
+import lesson from './modules/lesson'
 
 Vue.use(Vuex)
 
@@ -12,6 +14,8 @@ export default new Vuex.Store({
   modules: {
     auth,
     global,
-    map
+    map,
+    subject,
+    lesson
   }
 })
