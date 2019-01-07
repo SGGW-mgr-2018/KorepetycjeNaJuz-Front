@@ -101,6 +101,7 @@ export default {
           const data = response.data
           this.markers = []
           console.log('Ilość lekcji : ' + data.length)
+          const bounds = []
           for (var i = 0; i < data.length; i++) {
             const dStart = new Date(data[i].dateStart)
             const dEnd = new Date(data[i].dateEnd)
@@ -116,9 +117,17 @@ export default {
               },
               icon: this.defaultIcon
             })
+            bounds.push({ 'lat': data[i].address.latitude, 'lng': data[i].address.longitude })
           }
+          if (this.markers.length > 0) {
+            this.map.fitBounds(bounds)
+            this.map.setZoom(10)
+          }
+        } else if (response.status === 404) {
+          this.markers = []
         }
       } catch (error) {
+        console.log(error)
         console.log('Error getting lessons')
       }
     }
@@ -190,6 +199,7 @@ export default {
       if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
         // const response = await this.$store.dispatch('getUserData')
         // console.log(response)
+        // alert(localStorage.getItem('token'))
         const payload = {
           user: this.$store.state.auth.user,
           token: localStorage.getItem('token')
