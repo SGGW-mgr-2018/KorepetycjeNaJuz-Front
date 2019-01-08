@@ -19,13 +19,13 @@
       >
         <l-popup>
           <div class="outside-popup-div">
-            <div class="subject-hour-div">{{ item.content.sub }} {{ item.content.startDateHour }}.{{ item.content.startDateMinutes }} - {{ item.content.endDateHour }}.{{ item.content.endDateMinutes }}</div>
+            <div class="subject-hour-div">{{ item.content.sub }} <br> {{ item.content.date }} {{ item.content.startDateHour }}.{{ item.content.startDateMinutes }} - {{ item.content.endDateHour }}.{{ item.content.endDateMinutes }}</div>
             <div>
               <div class="image-popup-div">
                 <img class="image-popup" src="/img/personIcon.png">
               </div>
               <div>
-                <p class="content-popup">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus porro sunt possimus fugit maiores earum! Obcaecati tempore molestiae quae consequatur. Obcaecati tempore molestiae quae consequatur.</p>
+                <p class="content-popup">{{ (item.content.description) ? item.content.description : 'Brak opisu lekcji!!!' }}</p>
               </div>
             </div>
             <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson(item.id)">
@@ -113,6 +113,7 @@ export default {
           console.log('Ilość lekcji : ' + data.length)
           const bounds = []
           for (var i = 0; i < data.length; i++) {
+            console.log(data[i])
             const dStart = new Date(data[i].dateStart)
             const dEnd = new Date(data[i].dateEnd)
             this.markers.push({
@@ -123,7 +124,9 @@ export default {
                 startDateHour: dStart.getHours(),
                 endDateHour: dEnd.getHours(),
                 startDateMinutes: (dStart.getMinutes() < 10) ? ('0' + dStart.getMinutes()) : dStart.getMinutes(),
-                endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes()
+                endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes(),
+                date: dStart.getFullYear() + '-' + dStart.getMonth() + 1 + '-' + ((dStart.getDate() < 10) ? '0' + dStart.getDate() : dStart.getDate()),
+                lessonDescription: data[i].description
               },
               icon: this.defaultIcon
             })
@@ -225,7 +228,13 @@ export default {
       }
     },
     async createLesson (payload) {
-      await this.$store.dispatch('signUpForLesson', payload)
+      const response = await this.$store.dispatch('signUpForLesson', payload)
+      console.log(response)
+      if (response.status === 400) {
+        alert('Jesteś już zapisany na tą lekcję.')
+      } else if (response.status === 201) {
+        alert('Zostaleś zapisany na lekcję')
+      }
     },
     loadData () {
       // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
@@ -273,7 +282,7 @@ export default {
   .subject-hour-div{
     text-align: center;
     font-family: Roboto;
-    font-size: 24px;
+    font-size: 18px;
     font-weight:normal;
     font-style: normal;
     font-stretch: normal;
@@ -295,7 +304,7 @@ export default {
 
   .content-popup{
     font-family: Roboto;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 300;
     font-style: normal;
     font-stretch: normal;

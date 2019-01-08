@@ -65,7 +65,8 @@ const actions = {
   },
   async signUpForLesson ({ commit, dispatch }, payload) {
     const response = await service.get.createLesson(payload)
-    commit('SET_MARKERS', response)
+    return response
+    // commit('SET_MARKERS', response)
   },
   async getLocation ({ commit }, payload) {
     const searchQuery = payload || 'Warszawa Centrum'
