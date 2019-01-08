@@ -113,7 +113,6 @@ export default {
           console.log('Ilość lekcji : ' + data.length)
           const bounds = []
           for (var i = 0; i < data.length; i++) {
-            console.log(data[i])
             const dStart = new Date(data[i].dateStart)
             const dEnd = new Date(data[i].dateEnd)
             this.markers.push({
@@ -140,7 +139,6 @@ export default {
           this.markers = []
         }
       } catch (error) {
-        console.log(error)
         console.log('Error getting lessons')
       }
     }

@@ -2,12 +2,6 @@
   <div id="map-div">
 
     <div id="div-search-panel">
-      <!-- <input
-        v-model="subject"
-        class="rounded"
-        placeholder="Wpisz przedmiot"
-        @input="setInput"
-      > -->
       <select v-model="subject" class="select-subject" @change="searchLessons()">
         <option selected value="0">Wybierz przedmiot</option>
         <option v-for="item in subjects" :key="item.id" :value="item.id">{{ item.name }}</option>
@@ -19,14 +13,6 @@
         <option value="3">Liceum rozszerzenie</option>
         <option value="4">Studia</option>
       </select>
-      <!-- <div class="div_radios">
-        <span>
-          <input id="now" type="radio" name="choose" value="0"><label for="now">Ucz się teraz </label>
-        </span>
-        <span>
-          <input id="chooseDate" type="radio" name="choose" value="1"><label for="chooseDate">Chcę wybrać datę</label>
-        </span>
-      </div> -->
       <date-picker v-model="date" input-class="mx-input" range :lang="lang" @change="getLessonsByDate" />
       <!-- <img id="calendarImg" src="http://wsgastro.pl/wp-content/uploads/2013/10/icon-calendar.png"> -->
     </div>
@@ -80,19 +66,9 @@ export default {
       const to = (new Date(date[1]).getFullYear()) + '-' + (new Date(date[1]).getMonth() + 1) + '-' + ((new Date(date[1]).getDate() < 10) ? '0' + new Date(date[1]).getDate() : new Date(date[1]).getDate())
       return [from, to]
     },
-    // search: debounce((query, self) => {
-    //   self.searchLessons(query)
-    // }, 500),
     async addSubjects () {
       this.subjects = await this.$store.dispatch('subjects', '')
     },
-    // async searchSubjects () {
-    //   const payload = {
-    //     'name': this.subject
-    //   }
-    //   const subjects = await this.$store.dispatch('subjectsFilter', payload)
-    //   return subjects
-    // },
     async searchLessons () {
       delete this.query.subjectId
       const idSub = this.subject
