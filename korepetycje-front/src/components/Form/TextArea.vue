@@ -69,13 +69,13 @@ export default {
 
 <style lang="scss" scoped>
   .text-area-wrapper {
-    @include font-primary;
     max-width: 350px;
     width: 100%;
     height: 80px;
     position: relative;
     will-change: margin;
     transition: margin .3s ease-in-out;
+    margin-bottom: 1rem;
 
     &.error {
       margin: 16px auto 40px;
@@ -83,13 +83,19 @@ export default {
   }
 
   .text-area {
+    @include font-primary(14px);
     max-width: 280px;
     width: 100%;
     height: 80px;
     padding: 8px 0;
     font-size: 14px;
+    font-weight: 400;
     border: solid 1px #bfbfbf;
     padding-left: 10px;
+
+    &:focus {
+      border: 2px solid #ffbcdd;
+    }
 
     &.success {
       color: #1a3b0c;

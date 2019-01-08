@@ -2,25 +2,38 @@
   <a href="" class="message-shortcut-wrapper" @click.prevent="$emit('click')">
     <div class="message-shortcut">
       <header class="message-shortcut__header">
-        <p class="message-shortcut__title">{{ message.title }}</p>
-        <p class="message-shortcut__date">{{ message.date }}</p>
+        <p class="message-shortcut__title">Czat z: {{ title }}</p>
+        <p class="message-shortcut__date">{{ date }}</p>
       </header>
-      <p class="message-shortcut__content">{{ message.content }}</p>
+      <p class="message-shortcut__content">{{ content }}</p>
     </div>
   </a>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'MessageShortcut',
   props: {
     message: {
       type: Object,
       default: () => ({
-        title: 'Tytuł wiadomości',
-        date: '01/01/2019',
+        firstName: 'Imię',
+        lastName: 'Nazwisko',
         content: 'To jest jakaś wiadomość. Lepiej na nią odpowiedz. Tak zrób.'
       })
+    }
+  },
+  computed: {
+    title () {
+      return this.message.firstName + ' ' + this.message.lastName
+    },
+    date () {
+      return moment(this.message.lastMessage.dateOfSending).format('YYYY-MM-DD HH:mm:ss')
+    },
+    content () {
+      return this.message.lastMessage.content
     }
   }
 }
@@ -57,7 +70,9 @@ export default {
     }
 
     &__content {
-
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 </style>

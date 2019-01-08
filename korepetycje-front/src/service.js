@@ -56,12 +56,46 @@ const create = {
   }).then(responseData).catch(handleErrors)
 }
 
-const calendar = {}
+const calendar = {
+  fetchAllData: token => axios.get('/api/CoachLesson/Calendar', {
+    params: {
+      DateFrom: '2019-01-01',
+      DateTo: '2020-01-01'
+    },
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  }).then(responseData).catch(handleErrors)
+}
+
+const messages = {
+  fetchAllConversations: token => axios.get('/api/Messages', {
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  }).then(responseData).catch(handleErrors),
+  fetchChatMessagesById: payload => axios.get(`/api/Messages/${ payload.id }`, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors),
+  sendMessage: payload => axios.post('/api/Messages', payload.data, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors),
+  deleteMessage: payload => axios.delete(`/api/Messages/${ payload.id }`, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
+}
 
 export default {
   auth,
   map,
   get,
   create,
-  calendar
+  calendar,
+  messages
 }

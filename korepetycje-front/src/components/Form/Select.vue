@@ -74,6 +74,8 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss" scoped>
   .select {
+    @include font-primary(14px);
+    font-weight: 400;
     color: $gray;
   }
 </style>

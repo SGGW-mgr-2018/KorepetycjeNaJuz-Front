@@ -46,6 +46,10 @@ export default {
     forceErrors: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
