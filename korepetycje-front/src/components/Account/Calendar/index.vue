@@ -15,9 +15,8 @@
         Lista korepetycji
       </h2>
       <p v-if="!getLessons" class="events-wrapper__empty-message">Pusto :(</p>
-      <div v-if="getLessons" class="events">
-        <event-component />
-        <event-component user-type="Korepetytor" />
+      <div v-if="selectedEvent" class="events">
+        <event-component :event="selectedEvent" />
       </div>
     </div>
   </div>
@@ -42,13 +41,10 @@ export default {
   data () {
     return {
       loading: false,
+      selectedEvent: null,
       config: {
         locale: 'pl',
-        defaultView: 'month',
-        eventRender (event, element) {
-          console.log('All event', event)
-          console.log('All event Element', element)
-        }
+        defaultView: 'month'
       }
     }
   },
@@ -63,8 +59,8 @@ export default {
   },
   methods: {
     ...mapActions(['fetchCalendarData']),
-    handleClick (event) {
-      console.log('Click', event)
+    handleClick (...args) {
+      console.log('Click', args)
     },
     refreshCalendar () {
       this.$refs.calendar.$emit('refresh-events')
@@ -81,6 +77,7 @@ export default {
         userType: lesson.userType,
         start: moment(lesson.dateStart),
         end: moment(lesson.dateEnd).add(lesson.time, 'm'),
+        time: lesson.time,
         coachFirstName: lesson.coachFirstName,
         coachLastName: lesson.coachLastName,
         coachId: lesson.coachId,
@@ -91,7 +88,7 @@ export default {
       this.$refs.calendar.$emit('render-event', event)
     },
     eventSelected (event) {
-      console.log('Event selected', event)
+      this.selectedEvent = event
     }
   }
 }
