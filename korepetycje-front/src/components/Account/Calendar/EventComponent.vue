@@ -2,36 +2,26 @@
   <div class="event" :class="eventClasses">
     <p class="event__user">{{ userType }}</p>
     <h2 class="event__title">
-      {{ title }}, {{ difficulty }}, {{ time }}
+      {{ title }}, {{ lessonLevels }}, {{ startDate }}
     </h2>
-    <p class="event__description">{{ description }}</p>
+    <div class="event__description">
+      <p>Czas trwania lekcji: <b>{{ time }}</b></p>
+      <p>{{ description }}</p>
+    </div>
+    <p v-if="!isTeacher">Zajęcia prowadzone przez: <b>{{ coach }}</b></p>
+    <p v-if="isTeacher">Uczeń: <b>{{ student }}</b></p>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'EventComponent',
   props: {
-    title: {
-      type: String,
-      default: 'Tytuł'
-    },
-    difficulty: {
-      type: String,
-      default: 'Poziom lekcji'
-    },
-    time: {
-      type: String,
-      default: 'Brak przedziału czasowego'
-    },
-    userType: {
-      type: String,
-      default: 'Użytkownik'
-    }
-  },
-  data () {
-    return {
-      description: 'To jest jakiś opis lekcji. Zapraszam na zajęcia. Poziom średnio-mistrzowski. Brak jedzenia.'
+    event: {
+      type: Object,
+      default: () => ({})
     }
   },
   computed: {
@@ -41,8 +31,36 @@ export default {
         'event--learner': !this.isTeacher
       }
     },
+    title () {
+      return this.event.title || 'Brak tytułu'
+    },
+    startDate () {
+      return moment(this.event.start).format('DD-MM-YYYY HH:MM:ss')
+    },
+    time () {
+      return this.event.time + ' minut'
+    },
+    lessonLevels () {
+      if (!this.event.levels) return 'Brak poziomu lekcji'
+      return this.event.levels.reduce((text, level) => {
+        text += level.name + ', '
+        return text.slice(0, -2)
+      }, '')
+    },
+    description () {
+      return this.event.description || 'Brak opisu lekcji'
+    },
+    userType () {
+      return this.isTeacher ? 'Korepetytor' : 'Uczeń'
+    },
+    coach () {
+      return this.event.coachFirstName + ' ' + this.event.coachLastName
+    },
+    student () {
+      return this.event.studentFirstName + ' ' + this.event.studentLastName
+    },
     isTeacher () {
-      return this.userType === 'Korepetytor'
+      return this.event.userType === 2
     }
   }
 }

@@ -77,5 +77,6 @@ export default {
     @include font-primary(14px);
     font-weight: 400;
     color: $gray;
+    border-radius: 4px;
   }
 </style>

@@ -66,8 +66,9 @@ const tab = [
   }
 
   .history-container{
-    max-height: 60vh;
+    max-height: 700px;
     max-width: 720px;
+    width: 100%;
     overflow-y: scroll;
   }
 </style>

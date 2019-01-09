@@ -7,7 +7,6 @@
     <full-calendar
       ref="calendar"
       :config="config"
-      :events="events"
       @day-click="handleClick"
       @event-selected="eventSelected"
     />
@@ -15,10 +14,9 @@
       <h2 class="events-wrapper__title">
         Lista korepetycji
       </h2>
-      <p v-if="!events" class="events-wrapper__empty-message">Pusto :(</p>
-      <div v-if="events" class="events">
-        <event-component />
-        <event-component user-type="Korepetytor" />
+      <p v-if="!getLessons" class="events-wrapper__empty-message">Pusto :(</p>
+      <div v-if="selectedEvent" class="events">
+        <event-component :event="selectedEvent" />
       </div>
     </div>
   </div>
@@ -29,6 +27,7 @@ import { FullCalendar } from 'vue-full-calendar'
 import ButtonComponent from '@/components/Button'
 import EventComponent from './EventComponent'
 import moment from 'moment'
+import { mapGetters, mapActions } from 'vuex'
 import 'fullcalendar/dist/fullcalendar.css'
 import 'fullcalendar/dist/locale/pl'
 
@@ -41,50 +40,55 @@ export default {
   },
   data () {
     return {
-      events: [
-        {
-          title: 'Test 1',
-          start: moment(),
-          end: moment().add(1, 'd')
-        },
-        {
-          title: 'Test 2',
-          start: moment().add(1, 'h'),
-          end: moment().add(1, 'd').add(1, 'h')
-        },
-        {
-          title: 'Kolejny test',
-          start: moment().add(2, 'd'),
-          end: moment().add(2, 'd').add(2, 'h')
-        }
-      ],
+      loading: false,
+      selectedEvent: null,
       config: {
         locale: 'pl',
-        defaultView: 'month',
-        eventRender (event, element) {
-          // console.log(event)
-        }
+        defaultView: 'month'
       }
     }
   },
+  computed: {
+    ...mapGetters(['getLessons'])
+  },
+  async mounted () {
+    this.loading = true
+    await this.fetchCalendarData()
+    this.loading = false
+    this.addLessons()
+  },
   methods: {
-    handleClick (event) {
-      console.log(event)
+    ...mapActions(['fetchCalendarData']),
+    handleClick (...args) {
+      console.log('Click', args)
     },
     refreshCalendar () {
       this.$refs.calendar.$emit('refresh-events')
     },
-    addEvent () {
+    addLessons () {
+      this.getLessons.forEach(this.addEvent)
+    },
+    addEvent (lesson) {
       const event = {
-        title: 'Losowy event',
-        description: 'To jest opis',
-        start: moment().add(2, 'h'),
-        end: moment().add(5, 'h')
+        title: lesson.lessonSubject,
+        description: lesson.description,
+        levels: lesson.lessonLevels,
+        ratePerHour: lesson.ratePerHour,
+        userType: lesson.userType,
+        start: moment(lesson.dateStart),
+        end: moment(lesson.dateEnd).add(lesson.time, 'm'),
+        time: lesson.time,
+        coachFirstName: lesson.coachFirstName,
+        coachLastName: lesson.coachLastName,
+        coachId: lesson.coachId,
+        studentFirstName: lesson.studentFirstName,
+        studentLastName: lesson.studentLastName,
+        studentId: lesson.studentId
       }
       this.$refs.calendar.$emit('render-event', event)
     },
     eventSelected (event) {
-      console.log(event)
+      this.selectedEvent = event
     }
   }
 }

@@ -90,7 +90,8 @@ export default {
     padding: 8px 0;
     font-size: 14px;
     font-weight: 400;
-    border: solid 1px #bfbfbf;
+    border: solid 1px #d0d0d0;
+    border-radius: 4px;
     padding-left: 10px;
 
     &:focus {

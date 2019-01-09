@@ -112,7 +112,8 @@ export default {
     max-width: 280px;
     width: 100%;
     height: 38px;
-    border: solid 1px #bfbfbf;
+    border: solid 1px #d0d0d0;
+    border-radius: 4px;
     padding-left: 10px;
 
     &.success {
