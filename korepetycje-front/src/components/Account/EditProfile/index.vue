@@ -161,13 +161,11 @@ export default {
     &__title {
       @include font-primary(36px);
       margin: 20px 0 -20px;
-      font-weight: 400;
       text-align: center;
       color: $violet;
 
       @include mobile {
         @include font-primary(28px);
-        font-weight: 400;
       }
     }
 
