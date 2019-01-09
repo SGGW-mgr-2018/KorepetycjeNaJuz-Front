@@ -10,12 +10,22 @@
           placeholder="WPISZ SWOJĄ LOKALIZACJĘ"
           @keyup.enter="searchLocation"
         >
-        <button-component class="search-bar__button" pink @click="searchLocation">
+        <button-component
+          class="search-bar__button"
+          :loading="searchingLoading"
+          pink
+          @click="searchLocation"
+        >
           Szukaj
         </button-component>
       </div>
       <div class="search-bar__label search-bar__label--smaller">lub</div>
-      <button-component pink class="button-cta" @click="addLesson">
+      <button-component
+        pink
+        class="button-cta"
+        :loading="redirectLoading"
+        @click="addLesson"
+      >
         Udziel korepetycji <span class="button-cta__strong">już teraz</span>
       </button-component>
     </div>
@@ -32,12 +42,15 @@ export default {
   },
   data () {
     return {
-      searchContent: ''
+      searchContent: '',
+      searchingLoading: false,
+      redirectLoading: false
     }
   },
   methods: {
     searchLocation () {
       if (this.searchContent !== '') {
+        this.searchingLoading = true
         this.$router.push({
           name: 'map',
           params: { searchInput: this.searchContent }
@@ -45,6 +58,7 @@ export default {
       }
     },
     addLesson () {
+      this.redirectLoading = true
       this.$router.push({
         name: 'nowa-lekcja'
       })
