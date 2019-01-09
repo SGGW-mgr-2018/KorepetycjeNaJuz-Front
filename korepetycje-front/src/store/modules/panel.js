@@ -17,7 +17,7 @@ const state = {
 
 const getters = {
   getLessons () {
-
+    return state.lessons
   },
   getAddresses (state) {
     return _uniqBy(state.addressBook, 'id')

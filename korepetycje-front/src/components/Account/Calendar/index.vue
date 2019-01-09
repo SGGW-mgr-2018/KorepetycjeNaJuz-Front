@@ -7,7 +7,6 @@
     <full-calendar
       ref="calendar"
       :config="config"
-      :events="events"
       @day-click="handleClick"
       @event-selected="eventSelected"
     />
@@ -15,8 +14,8 @@
       <h2 class="events-wrapper__title">
         Lista korepetycji
       </h2>
-      <p v-if="!events" class="events-wrapper__empty-message">Pusto :(</p>
-      <div v-if="events" class="events">
+      <p v-if="!getLessons" class="events-wrapper__empty-message">Pusto :(</p>
+      <div v-if="getLessons" class="events">
         <event-component />
         <event-component user-type="Korepetytor" />
       </div>
@@ -29,6 +28,7 @@ import { FullCalendar } from 'vue-full-calendar'
 import ButtonComponent from '@/components/Button'
 import EventComponent from './EventComponent'
 import moment from 'moment'
+import { mapGetters, mapActions } from 'vuex'
 import 'fullcalendar/dist/fullcalendar.css'
 import 'fullcalendar/dist/locale/pl'
 
@@ -41,23 +41,7 @@ export default {
   },
   data () {
     return {
-      events: [
-        {
-          title: 'Test 1',
-          start: moment(),
-          end: moment().add(1, 'd')
-        },
-        {
-          title: 'Test 2',
-          start: moment().add(1, 'h'),
-          end: moment().add(1, 'd').add(1, 'h')
-        },
-        {
-          title: 'Kolejny test',
-          start: moment().add(2, 'd'),
-          end: moment().add(2, 'd').add(2, 'h')
-        }
-      ],
+      loading: false,
       config: {
         locale: 'pl',
         defaultView: 'month',
@@ -67,19 +51,32 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters(['getLessons'])
+  },
+  async mounted () {
+    this.loading = true
+    await this.fetchCalendarData()
+    this.loading = false
+    this.addLessons()
+  },
   methods: {
+    ...mapActions(['fetchCalendarData']),
     handleClick (event) {
       console.log(event)
     },
     refreshCalendar () {
       this.$refs.calendar.$emit('refresh-events')
     },
-    addEvent () {
+    addLessons () {
+      this.getLessons.forEach(this.addEvent)
+    },
+    addEvent (lesson) {
       const event = {
-        title: 'Losowy event',
-        description: 'To jest opis',
-        start: moment().add(2, 'h'),
-        end: moment().add(5, 'h')
+        title: lesson.lessonSubject,
+        description: lesson.description,
+        start: moment(lesson.dateStart),
+        end: moment(lesson.dateEnd).add(lesson.time, 'm')
       }
       this.$refs.calendar.$emit('render-event', event)
     },
