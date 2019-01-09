@@ -46,7 +46,8 @@ export default {
         locale: 'pl',
         defaultView: 'month',
         eventRender (event, element) {
-          // console.log(event)
+          console.log('All event', event)
+          console.log('All event Element', element)
         }
       }
     }
@@ -63,7 +64,7 @@ export default {
   methods: {
     ...mapActions(['fetchCalendarData']),
     handleClick (event) {
-      console.log(event)
+      console.log('Click', event)
     },
     refreshCalendar () {
       this.$refs.calendar.$emit('refresh-events')
@@ -75,13 +76,22 @@ export default {
       const event = {
         title: lesson.lessonSubject,
         description: lesson.description,
+        levels: lesson.lessonLevels,
+        ratePerHour: lesson.ratePerHour,
+        userType: lesson.userType,
         start: moment(lesson.dateStart),
-        end: moment(lesson.dateEnd).add(lesson.time, 'm')
+        end: moment(lesson.dateEnd).add(lesson.time, 'm'),
+        coachFirstName: lesson.coachFirstName,
+        coachLastName: lesson.coachLastName,
+        coachId: lesson.coachId,
+        studentFirstName: lesson.studentFirstName,
+        studentLastName: lesson.studentLastName,
+        studentId: lesson.studentId
       }
       this.$refs.calendar.$emit('render-event', event)
     },
     eventSelected (event) {
-      console.log(event)
+      console.log('Event selected', event)
     }
   }
 }
