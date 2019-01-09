@@ -62,14 +62,6 @@ export default {
     isTeacher () {
       return this.event.userType === 2
     }
-  },
-  watch: {
-    event: {
-      immediate: true,
-      handler (value) {
-        console.log(value.userType)
-      }
-    }
   }
 }
 </script>
