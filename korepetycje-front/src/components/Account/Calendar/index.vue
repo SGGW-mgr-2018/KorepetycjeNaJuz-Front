@@ -3,7 +3,6 @@
     <button-component class="button-refresh" pink @click="refreshCalendar">
       Odśwież kalendarz
     </button-component>
-    <button @click="addEvent">Dodaj event</button>
     <full-calendar
       ref="calendar"
       :config="config"
