@@ -2,12 +2,10 @@
   <div id="map-div">
 
     <div id="div-search-panel">
-      <input
-        v-model="subject"
-        class="rounded"
-        placeholder="Wpisz przedmiot"
-        @input="setInput"
-      >
+      <select v-model="subject" class="select-subject" @change="searchLessons()">
+        <option selected value="0">Wybierz przedmiot</option>
+        <option v-for="item in subjects" :key="item.id" :value="item.id">{{ item.name }}</option>
+      </select>
       <select v-model="levelId" class="select-level" @change="getLessonsByLevel">
         <option value="0">Wybierz poziom</option>
         <option value="1">Szkoła podstawowa</option>
@@ -15,18 +13,6 @@
         <option value="3">Liceum rozszerzenie</option>
         <option value="4">Studia</option>
       </select>
-      <select class="select-subject">
-        <option>Wybierz przedmiot</option>
-        <option v-for="item in subjects" :key="item.id" :value="item.id">{{ item.name }}</option>
-      </select>
-      <div class="div_radios">
-        <span>
-          <input id="now" type="radio" name="choose" value="0"><label for="now">Ucz się teraz </label>
-        </span>
-        <span>
-          <input id="chooseDate" type="radio" name="choose" value="1"><label for="chooseDate">Chcę wybrać datę</label>
-        </span>
-      </div>
       <date-picker v-model="date" input-class="mx-input" range :lang="lang" @change="getLessonsByDate" />
       <!-- <img id="calendarImg" src="http://wsgastro.pl/wp-content/uploads/2013/10/icon-calendar.png"> -->
     </div>
@@ -37,7 +23,7 @@
 
 <script>
 import MapContainer from '@/components/MapComponent'
-import debounce from 'lodash.debounce'
+// import debounce from 'lodash.debounce'
 import DatePicker from 'vue2-datepicker'
 
 export default {
@@ -66,42 +52,38 @@ export default {
   },
   created () {
     this.$store.commit('SET_MENU_THEME', 'violet')
+    this.addSubjects()
+    const nowDate = new Date()
+    let nextDay = new Date()
+    nextDay = nextDay.setDate(nextDay.getDate() + 1)
+    this.date = [nowDate, nextDay]
+    this.getLessonsByDate()
   },
   methods: {
-    setInput () {
-      this.search(this.subject, this)
-    },
     getDate () {
       const date = this.date
       const from = (new Date(date[0]).getFullYear()) + '-' + (new Date(date[0]).getMonth() + 1) + '-' + ((new Date(date[0]).getDate() < 10) ? '0' + new Date(date[0]).getDate() : new Date(date[0]).getDate())
       const to = (new Date(date[1]).getFullYear()) + '-' + (new Date(date[1]).getMonth() + 1) + '-' + ((new Date(date[1]).getDate() < 10) ? '0' + new Date(date[1]).getDate() : new Date(date[1]).getDate())
       return [from, to]
     },
-    search: debounce((query, self) => {
-      self.searchLessons(query)
-    }, 500),
     async addSubjects () {
       this.subjects = await this.$store.dispatch('subjects', '')
     },
-    async searchSubjects () {
-      const payload = {
-        'name': this.subject
-      }
-      const subjects = await this.$store.dispatch('subjectsFilter', payload)
-      return subjects
-    },
     async searchLessons () {
       delete this.query.subjectId
-      this.searchSubjects()
-      const subs = this.$store.state.map.subjects
-      if (subs.length > 0) {
-        this.query.subjectId = subs[0].id
+      const idSub = this.subject
+      if (idSub !== 0 && idSub !== '0') {
+        this.query.subjectId = idSub
+        this.setQuery()
+      } else {
+        delete this.query.subjectId
         this.setQuery()
       }
     },
     getLessonsByDate () {
-      this.query.dateFrom = this.getDate()[0]
-      this.query.dateTo = this.getDate()[1]
+      const date = this.getDate()
+      this.query.dateFrom = date[0]
+      this.query.dateTo = date[1]
       this.setQuery()
     },
     getLessonsByLevel () {
@@ -158,7 +140,7 @@ export default {
   }
 
   .select-level, .select-subject {
-    width: 25%;
+    width: 32%;
     height: 31px;
     box-shadow: 0px 3px 7px 0 rgba(158, 158, 158, 0.49);
     background-color: white;
@@ -195,10 +177,6 @@ export default {
 
   ::-ms-input-placeholder{
     color: #c0c0c0;
-  }
-
-  .select-subject{
-    display: none;
   }
 
   .div_radios{
