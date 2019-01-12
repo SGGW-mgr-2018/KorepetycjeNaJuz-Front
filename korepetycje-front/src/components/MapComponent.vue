@@ -17,18 +17,22 @@
         :lat-lng="item.latlng"
         @click="openPopup($event)"
       >
-        <l-popup>
-          <div class="outside-popup-div">
-            <div class="subject-hour-div">{{ item.content.sub }} <br> {{ item.content.date }} {{ item.content.startDateHour }}.{{ item.content.startDateMinutes }} - {{ item.content.endDateHour }}.{{ item.content.endDateMinutes }}</div>
+        <l-popup class="popup-content">
+          <div
+            v-for="lesson in item.content"
+            :key="lesson.id"
+            class="outside-popup-div"
+          >
+            <div class="subject-hour-div">{{ lesson.sub }} <br> {{ lesson.date }} {{ lesson.startDateHour }}.{{ lesson.startDateMinutes }} - {{ lesson.endDateHour }}.{{ lesson.endDateMinutes }}</div>
             <div>
               <div class="image-popup-div">
                 <img class="image-popup" src="/img/personIcon.png">
               </div>
               <div>
-                <p class="content-popup">{{ (item.content.description) ? item.content.description : 'Brak opisu lekcji!!!' }}</p>
+                <p class="content-popup">{{ (lesson.description) ? lesson.description : 'Brak opisu lekcji!!!' }}</p>
               </div>
             </div>
-            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson(item.id)">
+            <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson(lesson.id)">
           </div>
         </l-popup>
       </l-marker>
@@ -110,27 +114,42 @@ export default {
         if (response.status === 200) {
           const data = response.data
           this.markers = []
-          console.log('Ilość lekcji : ' + data.length)
           const bounds = []
-          for (var i = 0; i < data.length; i++) {
-            const dStart = new Date(data[i].dateStart)
-            const dEnd = new Date(data[i].dateEnd)
-            this.markers.push({
-              id: data[i].id,
-              latlng: Leaflet.latLng(data[i].address.latitude, data[i].address.longitude),
-              content: {
-                sub: data[i].lessonSubject,
+
+          var groupedLessonsByLocation = groupBy(data, function (item) {
+            return [item.address.latitude, item.address.longitude]
+          })
+
+          groupedLessonsByLocation.forEach((item, index) => {
+            let lessons = []
+
+            for (let i in item) {
+              const dStart = new Date(item[i].dateStart)
+              const dEnd = new Date(item[i].dateEnd)
+
+              lessons.push({
+                id: item[i].id,
+                sub: item[i].lessonSubject,
                 startDateHour: dStart.getHours(),
                 endDateHour: dEnd.getHours(),
                 startDateMinutes: (dStart.getMinutes() < 10) ? ('0' + dStart.getMinutes()) : dStart.getMinutes(),
                 endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes(),
                 date: dStart.getFullYear() + '-' + dStart.getMonth() + 1 + '-' + ((dStart.getDate() < 10) ? '0' + dStart.getDate() : dStart.getDate()),
-                lessonDescription: data[i].description
-              },
+                lessonDescription: item[i].description
+              })
+            }
+
+            this.markers.push({
+              id: index,
+              latlng: Leaflet.latLng(item[0].address.latitude, item[0].address.longitude),
+              content: lessons,
               icon: this.defaultIcon
             })
-            bounds.push({ 'lat': data[i].address.latitude, 'lng': data[i].address.longitude })
-          }
+
+            bounds.push({ 'lat': item[0].address.latitude, 'lng': item[0].address.longitude })
+          })
+
+          console.log(this.markers)
           if (this.markers.length > 0) {
             this.map.fitBounds(bounds)
             this.map.setZoom(10)
@@ -139,7 +158,7 @@ export default {
           this.markers = []
         }
       } catch (error) {
-        console.log('Error getting lessons')
+        console.log(error)
       }
     }
   },
@@ -253,6 +272,19 @@ export default {
     }
   }
 }
+
+function groupBy (array, f) {
+  var groups = {}
+  array.forEach(function (o) {
+    var group = JSON.stringify(f(o))
+    groups[group] = groups[group] || []
+    groups[group].push(o)
+  })
+
+  return Object.keys(groups).map(function (group) {
+    return groups[group]
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -273,8 +305,14 @@ export default {
     visibility: hidden;
   }
 
+  .popup-content {
+    max-height: 300px;
+    overflow: auto;
+  }
+
   .outside-popup-div{
     padding:5px;
+    margin-bottom: 2em;
   }
 
   .subject-hour-div{
@@ -320,5 +358,6 @@ export default {
     margin: 0 auto;
     display: block;
     width:100%;
+    margin-top: 2em;
   }
 </style>
