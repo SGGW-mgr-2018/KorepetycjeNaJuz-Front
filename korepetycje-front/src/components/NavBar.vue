@@ -6,7 +6,9 @@
     @mouseleave="showedPopup = false"
   >
     <grid-container class="nav__wrapper">
-      <img src="/img/logo.png" alt="Logo" class="nav__logo">
+      <router-link to="/">
+        <img src="/img/logo.png" alt="Logo" class="nav__logo">
+      </router-link>
       <div ref="navbarDesktop" class="nav-links">
         <router-link to="/" class="nav-links__link">Główna</router-link>
         <div v-if="!userAuthenticated">
@@ -173,6 +175,7 @@ export default {
       position: relative;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
     &__logo {
