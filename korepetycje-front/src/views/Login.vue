@@ -23,15 +23,6 @@
           ZALOGUJ SIĘ
         </button-component>
       </div>
-      <h2 class="bottom">lub zaloguj się za pomocą</h2>
-      <div class="social-icons">
-        <a target="_blank" href="" class="icon">
-          <img src="/svg/facebook.svg" alt="facebook" class="icon">
-        </a>
-        <a target="_blank" href="" class="icon">
-          <img src="/svg/google-plus.svg" alt="google" class="icon">
-        </a>
-      </div>
       <h3>Nie masz konta?</h3>
       <button-component grey class="button-register" @click="goRegister">
         ZAREJESTRUJ SIĘ
@@ -149,14 +140,6 @@ export default {
   h2 {
     font-size: 18px;
     padding: 2px;
-
-    &.bottom {
-      padding: 36px 0 18px 0;
-
-      @include mobile {
-        padding: 20px 0 10px;
-      }
-    }
   }
 
   h3 {
@@ -225,21 +208,6 @@ export default {
   @include mobile {
     .pencil {
       display: none;
-    }
-  }
-
-  .social-icons {
-    display: flex;
-    justify-content: center;
-  }
-
-  .icon {
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-
-    & + .icon {
-      margin-left: 20px;
     }
   }
 

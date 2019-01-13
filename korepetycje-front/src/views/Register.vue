@@ -39,18 +39,6 @@
               Powiadomienia o zbliżających się lekcjach
             </li>
           </ul>
-          <p class="wrapper-right__title">
-            Nie chcesz uzupełniać formularza?
-          </p>
-          <p>Zaloguj się korzystając z Facebooka lub Google</p>
-          <div class="social-icons">
-            <a target="_blank" href="" class="icon">
-              <img src="/svg/facebook.svg" alt="facebook" class="icon">
-            </a>
-            <a target="_blank" href="" class="icon">
-              <img src="/svg/google-plus.svg" alt="google" class="icon">
-            </a>
-          </div>
         </div>
       </div>
     </grid-container>
@@ -273,21 +261,6 @@ export default {
 
     &__item {
       margin: 10px 0;
-    }
-  }
-
-  .social-icons {
-    display: flex;
-    justify-content: center;
-  }
-
-  .icon {
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-
-    & + .icon {
-      margin-left: 20px;
     }
   }
 
