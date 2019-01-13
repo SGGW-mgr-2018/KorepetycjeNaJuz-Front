@@ -39,15 +39,18 @@ const createStudentLesson = payload => ({
   coachLastName: payload.coachLastName
 })
 
-const createTeacherLesson = (payload, participantInfo = null) => ({
-  ...createBaseLesson(payload),
-  userType: 2,
-  studentId: _get(participantInfo, 'student.id', null),
-  studentFirstName: _get(participantInfo, 'student.firstName', null),
-  studentLastName: _get(participantInfo, 'student.lastName', null),
-  dateStart: _get(participantInfo, 'date', null) || payload.dateStart,
-  dateEnd: participantInfo ? moment(this.dateStart).add(participantInfo.numberOfHours, 'h') : payload.dateEnd
-})
+const createTeacherLesson = (payload, participantInfo = null) => {
+  const startDate = _get(participantInfo, 'date', null) || payload.dateStart
+  return {
+    ...createBaseLesson(payload),
+    userType: 2,
+    studentId: _get(participantInfo, 'student.id', null),
+    studentFirstName: _get(participantInfo, 'student.firstName', null),
+    studentLastName: _get(participantInfo, 'student.lastName', null),
+    dateStart: startDate,
+    dateEnd: participantInfo ? moment(startDate).add(participantInfo.numberOfHours, 'h') : payload.dateEnd
+  }
+}
 
 export {
   parseJwt,
