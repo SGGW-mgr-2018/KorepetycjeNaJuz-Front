@@ -39,7 +39,8 @@ const mutations = {
       } else {
         entry.lessons.forEach(lesson => {
           if (lesson !== null) {
-            lessons.push(createTeacherLesson(lesson.student))
+            console.log(createTeacherLesson(entry, lesson))
+            lessons.push(createTeacherLesson(entry, lesson))
           }
         })
       }

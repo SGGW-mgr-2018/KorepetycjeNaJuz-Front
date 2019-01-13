@@ -61,6 +61,7 @@ export default {
       this.errorsVisible = !!this.error
     },
     handleFocus () {
+      this.$emit('focus')
       this.errorsVisible = false
     }
   }

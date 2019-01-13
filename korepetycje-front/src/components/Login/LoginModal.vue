@@ -11,10 +11,6 @@
       <button-component class="login-modal__button" pink @click="login">
         Zaloguj się
       </button-component>
-      <div class="social-buttons">
-        <img src="/svg/facebook_icon.svg" alt="Facebook" class="social-buttons__button">
-        <img src="/svg/google_plus_icon.svg" alt="Google+" class="social-buttons__button">
-      </div>
     </div>
   </div>
 </template>
@@ -120,22 +116,6 @@ export default {
       font-size: 14px;
       padding: 8px 30px;
       margin: 9px auto;
-    }
-
-    .social-buttons {
-      display: flex;
-      justify-content: space-around;
-      margin: 0 50px;
-
-      &__button {
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-
-        &:hover {
-          opacity: .8;
-        }
-      }
     }
   }
 

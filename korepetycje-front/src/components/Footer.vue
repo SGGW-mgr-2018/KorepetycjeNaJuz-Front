@@ -13,9 +13,9 @@
           <router-link to="/" class="footer__link">Kontakt</router-link>
         </div>
       </div>
-      <div class="footer__top-section-right">
-        LOGO
-      </div>
+      <router-link to="/" class="footer__top-section-right">
+        <img src="/img/logo.png" alt="Logo" class="footer__logo">
+      </router-link>
     </div>
     <div class="footer__bottom-section">
       <p>&copy; 2018.
@@ -100,6 +100,16 @@ export default {
 
       p {
         margin: 0;
+      }
+    }
+
+    &__logo {
+      width: 80px;
+      height: 86px;
+
+      @include tablet {
+        width: 40px;
+        height: 43px;
       }
     }
   }

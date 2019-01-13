@@ -7,6 +7,7 @@
         :key="message.id"
         :message="message"
       />
+      <quick-reply :recipient-id="id" />
     </div>
   </div>
 </template>
@@ -16,10 +17,12 @@ import Message from './Message'
 import Loader from '@/components/Loader'
 import moment from 'moment'
 import { mapActions, mapGetters, mapState } from 'vuex'
+import QuickReply from './QuickReply'
 
 export default {
   name: 'Chat',
   components: {
+    QuickReply,
     Message,
     Loader
   },

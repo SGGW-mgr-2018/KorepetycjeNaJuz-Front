@@ -1,9 +1,8 @@
 <template>
   <div class="calendar">
-    <button-component class="button-refresh" pink @click="refreshCalendar">
-      Odśwież kalendarz
+    <button-component class="button-new-lesson" pink @click="newLesson">
+      Nowa lekcja
     </button-component>
-    <button @click="addEvent">Dodaj event</button>
     <full-calendar
       ref="calendar"
       :config="config"
@@ -62,8 +61,8 @@ export default {
     handleClick (...args) {
       console.log('Click', args)
     },
-    refreshCalendar () {
-      this.$refs.calendar.$emit('refresh-events')
+    newLesson () {
+      this.$router.push('/nowa-lekcja')
     },
     addLessons () {
       this.getLessons.forEach(this.addEvent)
@@ -89,6 +88,10 @@ export default {
     },
     eventSelected (event) {
       this.selectedEvent = event
+      const options = {
+        offset: -60
+      }
+      this.$scrollTo('.events-wrapper__title', 1200, options)
     }
   }
 }
@@ -114,5 +117,9 @@ export default {
         font-size: 24px;
       }
     }
+  }
+
+  .button-new-lesson {
+    margin-bottom: 20px;
   }
 </style>

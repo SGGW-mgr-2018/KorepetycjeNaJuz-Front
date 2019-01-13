@@ -6,7 +6,9 @@
     @mouseleave="showedPopup = false"
   >
     <grid-container class="nav__wrapper">
-      <img src="/img/logo.png" alt="Logo" class="nav__logo">
+      <router-link to="/">
+        <img src="/img/logo.png" alt="Logo" class="nav__logo">
+      </router-link>
       <div ref="navbarDesktop" class="nav-links">
         <router-link to="/" class="nav-links__link">Główna</router-link>
         <div v-if="!userAuthenticated">
@@ -95,7 +97,7 @@ export default {
   },
   computed: {
     navHeight () {
-      return this.$refs.navbar.clientHeight + 100
+      return this.$refs.navbar.clientHeight
     },
     isViolet () {
       return this.$store.state.global.menuTheme === 'violet'
@@ -117,22 +119,14 @@ export default {
     ...mapActions(['logout']),
     manageNavBar () {
       const windowScrollY = window.scrollY
-      if (windowScrollY <= this.navHeight) {
-        this.$refs.navbar.classList.remove('sticky')
-        this.$refs.navbar.classList.remove('slide-up')
-        this.savedPosition = 0
-        return
-      }
-      if (windowScrollY < this.savedPosition) {
+      if (windowScrollY > this.navHeight) {
         this.$refs.navbar.classList.add('sticky')
-        this.$refs.navbar.classList.remove('slide-up')
-      } else {
-        if (this.$refs.navbar.classList.contains('sticky')) {
-          this.$refs.navbar.classList.add('slide-up')
-        }
-        this.$refs.navbar.classList.remove('sticky')
+        this.$refs.navbar.classList.add('slide-up')
       }
-      this.savedPosition = windowScrollY
+      if (windowScrollY <= 0) {
+        this.$refs.navbar.classList.remove('sticky')
+        this.$refs.navbar.classList.remove('slide-up')
+      }
     },
     showHideBurgerMenu () {
       const width = window.innerWidth
@@ -152,7 +146,7 @@ export default {
 
 <style lang="scss" scoped>
   .nav {
-    padding: 20px 0;
+    padding: 5px 0;
     position: absolute;
     z-index: 10000;
     width: 100%;
@@ -170,8 +164,9 @@ export default {
 
     &.sticky {
       position: fixed;
-      background-color: #fff;
-      color: $violet;
+      background-color: $violet;
+      color: '#fff';
+      opacity: 0.8;
       animation: slide-down .2s;
       animation-fill-mode: forwards;
     }
@@ -180,6 +175,7 @@ export default {
       position: relative;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
     &__logo {
@@ -206,9 +202,12 @@ export default {
       text-decoration: none;
       color: #fff;
 
-      .sticky &,
       .violet &{
         color: $violet;
+      }
+
+      .sticky &{
+        color: white;
       }
 
       &:hover,
