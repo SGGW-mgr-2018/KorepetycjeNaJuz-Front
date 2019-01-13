@@ -6,7 +6,6 @@
     <full-calendar
       ref="calendar"
       :config="config"
-      @day-click="handleClick"
       @event-selected="eventSelected"
     />
     <div class="events-wrapper">
@@ -58,9 +57,6 @@ export default {
   },
   methods: {
     ...mapActions(['fetchCalendarData']),
-    handleClick (...args) {
-      console.log('Click', args)
-    },
     newLesson () {
       this.$router.push('/nowa-lekcja')
     },

@@ -4,10 +4,23 @@
 
 <script>
 import HistoryLessons from '@/components/HistoryLessonsComponent'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'History',
   components: {
     HistoryLessons
+  },
+  data () {
+    return {
+
+    }
+  },
+  async mounted () {
+    await this.fetchHistory()
+  },
+  methods: {
+    ...mapActions(['fetchHistory'])
   }
 }
 </script>

@@ -45,6 +45,11 @@ const get = {
     headers: {
       Authorization: 'Bearer ' + payload.token
     }
+  }).then(responseData).catch(handleErrors),
+  history: token => axios.get('/api/CoachLesson/History', {
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
   }).then(responseData).catch(handleErrors)
 }
 
