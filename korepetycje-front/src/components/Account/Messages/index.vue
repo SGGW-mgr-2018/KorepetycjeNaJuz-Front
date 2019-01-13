@@ -30,7 +30,11 @@
       <div v-if="activeStep === 1" key="message" class="message-wrapper">
         <button class="arrow-back" @click="showMessagesList">&larr;</button>
         <new-message v-if="action === 'newMessage'" />
-        <chat v-else :id="chatId" :recipient-title="recipient" />
+        <chat
+          v-else
+          :id="chatId"
+          :recipient-title="recipient"
+        />
       </div>
     </transition>
   </div>
