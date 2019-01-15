@@ -1,13 +1,9 @@
 <template>
   <div v-cloak class="history-container">
     <history-lesson
-      v-for="item in dataContainer"
-      :key="item.id"
-      :subject-name="item.sub_name"
-      :lesson-date="item.less_date"
-      :lesson-description="item.desc"
-      :is-opinion-set="item.opinion_set"
-      :stars-rate="item.stars_rate"
+      v-for="lesson in lessons"
+      :key="lesson.id"
+      :lesson="lesson"
     />
   </div>
 </template>
@@ -17,9 +13,15 @@ import HistoryLesson from '@/components/HistoryLessonComponent'
 export default {
   name: 'HistoryLessons',
   components: { HistoryLesson },
+  props: {
+    lessons: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
-      dataContainer: tab
+
     }
   }
 }
