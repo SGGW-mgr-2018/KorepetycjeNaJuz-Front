@@ -404,6 +404,7 @@ function groupBy (array, f) {
   }
 
   .button-popup{
+    cursor: pointer;
     color:white;
     padding: 10px;
     background: rgb(211,81,147);
