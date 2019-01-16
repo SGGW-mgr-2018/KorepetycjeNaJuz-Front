@@ -1,13 +1,27 @@
 <template>
-  <history-lessons class="history-lessons" />
+  <history-lessons class="history-lessons" :lessons="lessons" />
 </template>
 
 <script>
 import HistoryLessons from '@/components/HistoryLessonsComponent'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'History',
   components: {
     HistoryLessons
+  },
+
+  data () {
+    return {
+      lessons: []
+    }
+  },
+  async mounted () {
+    this.lessons = await this.fetchHistory()
+  },
+  methods: {
+    ...mapActions(['fetchHistory'])
   }
 }
 </script>

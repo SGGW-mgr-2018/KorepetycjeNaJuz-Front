@@ -1,12 +1,24 @@
 <template>
   <div class="history-lesson">
-    <img alt="LOGO" src="/img/fb_avatar.png" class="avatar-img">
-    <div class="history-lesson-header">{{ header_subjectName }}, {{ header_lessonDate }}</div>
-    <div class="history-lesson-description">{{ body_lessonDescription }}</div>
-    <button-component class="login-modal__button set-opinion-button" :class="{'invisible': opinionSet}" pink @click="enableRating()">
+    <div class="history-lesson__details">
+      <div class="history-lesson-header">{{ lesson.subjectName }}, {{ lesson.lessonLevelsName }}, {{ startDate }}</div>
+      <div class="history-lesson__small"> {{ lesson.coachFirstName }} {{ lesson.coachLastName }} </div>
+      <div v-if="lesson.description" class="history-lesson-description">{{ lesson.description }}</div>
+    </div>
+
+    <button-component
+      :class="{'invisible': isOpinionFromAPI || ratingMode}"
+      class="login-modal__button set-opinion-button"
+      pink
+      @click="enableRating()"
+    >
       WYSTAW OPINIĘ
     </button-component>
-    <div class="star-rating-div" :class="{'invisible': !opinionSet}">
+
+    <div
+      class="star-rating-div"
+      :class="{'invisible': !ratingMode && !isOpinionFromAPI}"
+    >
       <span class="your-opinion-label">Twoja opinia: </span>
       <star-rating
         class="stars_rating"
@@ -14,61 +26,60 @@
         :max-rating="5"
         :rtl="false"
         inactive-color="white"
-        border-color="#000"
-        :border-width="2"
         active-color="yellow"
-        :rounded-corners="true"
-        :star-size="15"
+        :star-size="20"
         :show-rating="false"
-        :rating="stars_rate"
+        :rating="lesson.ratingOfCoach"
+        :read-only="isOpinionFromAPI"
+        :border-width="2"
+        border-color="#000"
+        :rounded-corners="true"
+        :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
+        @rating-selected ="setRating"
       />
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import ButtonComponent from '@/components/Button'
 import StarRating from 'vue-star-rating'
 export default {
   name: 'HistoryLesson',
   components: { ButtonComponent, StarRating },
   props: {
-    subjectName: {
-      type: String,
-      default: ''
-    },
-    lessonDate: {
-      type: String,
-      default: ''
-    },
-    lessonDescription: {
-      type: String,
-      default: ''
-    },
-    isOpinionSet: {
-      type: Boolean,
-      default: false
-    },
-    starsRate: {
-      type: Number,
-      default: 0
+    lesson: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
     return {
-      header_subjectName: this.subjectName,
-      header_lessonDate: this.lessonDate,
-      body_lessonDescription: this.lessonDescription,
-      opinionSet: this.isOpinionSet,
-      stars_rate: this.starsRate
+      isOpinionFromAPI: false,
+      ratingMode: false
     }
   },
-  mounted () {
+  computed: {
+    startDate () {
+      return moment(this.lesson.dateStart).format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
+  created () {
+    this.isOpinionFromAPI = (this.lesson.ratingOfCoach !== null)
   },
   methods: {
     enableRating () {
-      this.opinionSet = !this.opinionSet
-      this.stars_rate = 0
+      this.ratingMode = true
+      this.lesson.ratingOfCoach = 0
+    },
+    async setRating (rating) {
+      const payload = {
+        lessonId: this.lesson.lessonId,
+        rating: rating
+      }
+      await this.$store.dispatch('rateCoach', payload)
+      this.isOpinionFromAPI = true
     }
   }
 }
@@ -78,12 +89,25 @@ export default {
   [v-cloak] {
     visibility: hidden;
   }
+
   .history-lesson{
-    height: 15vh;
-    margin-bottom: 10vh;
+    margin-bottom: 2em;
     max-width: 720px;
     width: 100%;
     padding-right: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .history-lesson__details {
+    flex: 1;
+
+    @include mobile{
+      flex: none;
+      width: 100%;
+    }
   }
 
   .avatar-img{
@@ -109,29 +133,16 @@ export default {
   }
 
   .history-lesson-description{
-    font-size: 12px;
-    font-family: Roboto;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
+    font-size: 0.9rem;
     text-align: justify;
     color: gray;
-    text-overflow: ellipsis;
-    overflow: auto;
-    max-height: 11vh;
     height: 100%;
-
-    @include mobile{
-    }
+    width: 90%;
+    margin-top: 1em;
   }
 
   .set-opinion-button{
-    float: right;
-    margin-top: 1vh;
-    font-size: 10px;
-    padding: 6px 15vh;
+    font-size: 0.7rem;
   }
 
   .invisible{
@@ -141,6 +152,11 @@ export default {
   .stars_rating{
     float: left;
     padding: 7px;
+
+    @include mobile{
+      flex: none;
+      width: 100%;
+    }
   }
 
   .your-opinion-label{

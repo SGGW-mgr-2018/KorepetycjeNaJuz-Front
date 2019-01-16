@@ -39,7 +39,6 @@ const mutations = {
       } else {
         entry.lessons.forEach(lesson => {
           if (lesson !== null) {
-            console.log(createTeacherLesson(entry, lesson))
             lessons.push(createTeacherLesson(entry, lesson))
           }
         })
@@ -98,11 +97,9 @@ const actions = {
     const { data } = await service.messages.fetchChatMessagesById(payload)
     commit('SET_FETCH_LOADING', false)
     commit('SET_CHAT_MESSAGES', data)
-    console.log(data)
   },
   async sendEmail (_, messageData) {
     const token = localStorage.getItem('token')
-    console.log(messageData)
     const payload = {
       data: {
         recipientId: +messageData.id,
@@ -112,6 +109,20 @@ const actions = {
     }
     const { data } = await service.messages.sendMessage(payload)
     return data
+  },
+  async fetchHistory () {
+    const token = localStorage.getItem('token')
+    const { data } = await service.get.history(token)
+    return data
+  },
+  async rateCoach ({ commit }, lessonData) {
+    const payload = {
+      token: localStorage.getItem('token'),
+      data: lessonData
+    }
+
+    const response = await service.rating.rateLesson(payload)
+    return response
   }
 }
 
