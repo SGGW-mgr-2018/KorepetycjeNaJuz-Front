@@ -25,7 +25,6 @@
           >
             <div class="subject-hour-div">{{ lesson.sub }} <br> {{ lesson.date }} {{ lesson.startDateHour }}.{{ lesson.startDateMinutes }} - {{ lesson.endDateHour }}.{{ lesson.endDateMinutes }}</div>
             <div class="lesson-description">
-              <div class="image-popup-div">
                 <div class="user-rating">
                   <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
                   <div v-if="lesson.coachRating === 0" class="rating-div">
@@ -336,15 +335,6 @@ function groupBy (array, f) {
     flex-wrap: wrap;
     width: 100%;
   }
-  .image-popup-div{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  .image-popup{
-    width: 40px;
-    height: 40px;
-  }
   .content-popup{
     padding: 0;
     margin: 5px;
@@ -358,15 +348,18 @@ function groupBy (array, f) {
     text-align: justify;
     color: #3d3d3d;
   }
+  
   .user-rating{
     display: flex;
     flex-direction: column;
   }
+
   .content-popup-name{
     padding: 0 0 0 5px;
     margin: 0;
     font-weight: 500
   }
+
   .rating-div {
     padding: 0 0 0 5px;
     font-family: Roboto;
@@ -374,6 +367,7 @@ function groupBy (array, f) {
     font-weight: 300;
     align-self: center;
   }
+
   .button-popup{
     cursor: pointer;
     color:white;
