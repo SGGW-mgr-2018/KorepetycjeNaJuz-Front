@@ -24,12 +24,13 @@
             class="outside-popup-div"
           >
             <div class="subject-hour-div">{{ lesson.sub }} <br> {{ lesson.date }} {{ lesson.startDateHour }}.{{ lesson.startDateMinutes }} - {{ lesson.endDateHour }}.{{ lesson.endDateMinutes }}</div>
-            <div>
+            <div class="lesson-description">
               <div class="image-popup-div">
                 <img class="image-popup" src="/img/personIcon.png">
+                <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
               </div>
               <div>
-                <p class="content-popup">{{ (lesson.description) ? lesson.description : 'Brak opisu lekcji!!!' }}</p>
+                <p class="content-popup">{{ (lesson.lessonDescription) ? lesson.lessonDescription : 'Brak opisu lekcji' }}</p>
               </div>
             </div>
             <input class="button-popup" type="button" value="ZAPISZ SIĘ NA LEKCJE" @click="setLesson(lesson.id)">
@@ -135,7 +136,9 @@ export default {
                 startDateMinutes: (dStart.getMinutes() < 10) ? ('0' + dStart.getMinutes()) : dStart.getMinutes(),
                 endDateMinutes: (dEnd.getMinutes() < 10) ? ('0' + dEnd.getMinutes()) : dEnd.getMinutes(),
                 date: dStart.getFullYear() + '-' + dStart.getMonth() + 1 + '-' + ((dStart.getDate() < 10) ? '0' + dStart.getDate() : dStart.getDate()),
-                lessonDescription: item[i].description
+                lessonDescription: item[i].description,
+                coachFirstName: item[i].coachFirstName,
+                coachLastName: item[i].coachLastName.slice(0, 1) + '.'
               })
             }
 
@@ -327,18 +330,26 @@ function groupBy (array, f) {
     color: #6b53ff;
   }
 
+  .lesson-description {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+
   .image-popup-div{
-    width: 20%;
-    float: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .image-popup{
-    max-width: 100%;
-    max-height: 100%;
-    padding-right: 10px;
+    width: 40px;
+    height: 40px;
   }
 
   .content-popup{
+    padding: 0;
+    margin: 5px;
     font-family: Roboto;
     font-size: 12px;
     font-weight: 300;
@@ -346,18 +357,23 @@ function groupBy (array, f) {
     font-stretch: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: justify;
+    //text-align: justify;
     color: #3d3d3d;
+  }
+
+  .content-popup-name{
+    padding: 0 0 0 5px;
+    font-weight: 500
   }
 
   .button-popup{
     color:white;
-    padding:10px;
+    padding: 10px;
     background: rgb(211,81,147);
     border-radius: 15px;
     margin: 0 auto;
     display: block;
     width:100%;
-    margin-top: 2em;
+    margin-top: 1em;
   }
 </style>
