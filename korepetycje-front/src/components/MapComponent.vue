@@ -25,24 +25,23 @@
           >
             <div class="subject-hour-div">{{ lesson.sub }} <br> {{ lesson.date }} {{ lesson.startDateHour }}.{{ lesson.startDateMinutes }} - {{ lesson.endDateHour }}.{{ lesson.endDateMinutes }}</div>
             <div class="lesson-description">
-                <div class="user-rating">
-                  <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
-                  <div v-if="lesson.coachRating === 0" class="rating-div">
-                    brak ocen
-                  </div>
-                  <div v-else class="rating-div">
-                    <star-rating
-                      class="stars_rating"
-                      :star-size="16"
-                      :increment="0.5"
-                      :max-rating="5"
-                      :show-rating="false"
-                      :active-color="yellow"
-                      border-color="#000"
-                      :rating="lesson.coachRating"
-                      :read-only="true"
-                    />
-                  </div>
+              <div class="user-rating">
+                <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
+                <div v-if="lesson.coachRating === 0" class="rating-div">
+                  brak ocen
+                </div>
+                <div v-else class="rating-div">
+                  <star-rating
+                    class="stars_rating"
+                    :star-size="16"
+                    :increment="0.5"
+                    :max-rating="5"
+                    :show-rating="false"
+                    active-color="yellow"
+                    border-color="#000"
+                    :rating="lesson.coachRating"
+                    :read-only="true"
+                  />
                 </div>
               </div>
               <div>
@@ -159,7 +158,7 @@ export default {
               content: lessons,
               icon: this.defaultIcon
             })
-            bounds.push({ 'lat': item[0].address.latitude, 'lng': item[0].address.longitude })
+            // bounds.push({ 'lat': item[0].address.latitude, 'lng': item[0].address.longitude })
           })
           console.log(this.markers)
           if (this.markers.length > 0) {
@@ -186,13 +185,11 @@ export default {
       const provider = new OpenStreetMapProvider()
       const searchControl = new GeoSearchControl({
         provider: provider,
-        showMarker: false,
-        searchLabel: 'Wpisz adres'
+        showMarker: false
       })
       this.map.addControl(searchControl)
     }
     this.loadData()
-    // this.setLesson(22)
   },
   methods: {
     ControlGps: Leaflet.Control.extend({
@@ -240,9 +237,6 @@ export default {
     },
     async setLesson (lessonId) {
       if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
-        // const response = await this.$store.dispatch('getUserData')
-        // console.log(response)
-        // alert(localStorage.getItem('token'))
         const payload = {
           coachLessonId: lessonId,
           token: localStorage.getItem('token')
@@ -254,7 +248,6 @@ export default {
     },
     async createLesson (payload) {
       const response = await this.$store.dispatch('signUpForLesson', payload)
-      console.log(response)
       if (response.status === 400) {
         alert('Jesteś już zapisany na tą lekcję.')
       } else if (response.status === 201) {
@@ -262,8 +255,6 @@ export default {
       }
     },
     loadData () {
-      // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
-      // https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=52.2021169&lon=20.94776
       this.$http.get('https://nominatim.openstreetmap.org/search/' + this.searchLabel + '?format=json&addressdetails=1&limit=1').then((response) => {
         const location = response.body
         const latLngs = [{ 'lat': location[0].lat, 'lng': location[0].lon }]
@@ -335,6 +326,15 @@ function groupBy (array, f) {
     flex-wrap: wrap;
     width: 100%;
   }
+  .image-popup-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .image-popup{
+    width: 40px;
+    height: 40px;
+  }
   .content-popup{
     padding: 0;
     margin: 5px;
@@ -348,18 +348,15 @@ function groupBy (array, f) {
     text-align: justify;
     color: #3d3d3d;
   }
-  
   .user-rating{
     display: flex;
-    flex-direction: column;
+    align-items: center;
   }
-
   .content-popup-name{
     padding: 0 0 0 5px;
     margin: 0;
     font-weight: 500
   }
-
   .rating-div {
     padding: 0 0 0 5px;
     font-family: Roboto;
@@ -367,7 +364,6 @@ function groupBy (array, f) {
     font-weight: 300;
     align-self: center;
   }
-
   .button-popup{
     cursor: pointer;
     color:white;
