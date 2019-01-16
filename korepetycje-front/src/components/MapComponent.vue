@@ -357,7 +357,7 @@ function groupBy (array, f) {
     font-stretch: normal;
     line-height: normal;
     letter-spacing: normal;
-    //text-align: justify;
+    text-align: justify;
     color: #3d3d3d;
   }
 
