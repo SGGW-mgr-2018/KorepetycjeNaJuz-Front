@@ -25,26 +25,23 @@
           >
             <div class="subject-hour-div">{{ lesson.sub }} <br> {{ lesson.date }} {{ lesson.startDateHour }}.{{ lesson.startDateMinutes }} - {{ lesson.endDateHour }}.{{ lesson.endDateMinutes }}</div>
             <div class="lesson-description">
-              <div class="image-popup-div">
-                <img class="image-popup" src="/img/personIcon.png">
-                <div class="user-rating">
-                  <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
-                  <div v-if="lesson.coachRating === 0" class="rating-div">
-                    brak ocen
-                  </div>
-                  <div v-else class="rating-div">
-                    <star-rating
-                      class="stars_rating"
-                      :star-size="16"
-                      :increment="0.5"
-                      :max-rating="5"
-                      :show-rating="false"
-                      :active-color="yellow"
-                      border-color="#000"
-                      :rating="lesson.coachRating"
-                      :read-only="true"
-                    />
-                  </div>
+              <div class="user-rating">
+                <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
+                <div v-if="lesson.coachRating === 0" class="rating-div">
+                  brak ocen
+                </div>
+                <div v-else class="rating-div">
+                  <star-rating
+                    class="stars_rating"
+                    :star-size="16"
+                    :increment="0.5"
+                    :max-rating="5"
+                    :show-rating="false"
+                    active-color="yellow"
+                    border-color="#000"
+                    :rating="lesson.coachRating"
+                    :read-only="true"
+                  />
                 </div>
               </div>
               <div>
@@ -79,9 +76,7 @@ import { LMap, LTileLayer, LPopup, LMarker } from 'vue2-leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch'
 import VueResource from 'vue-resource'
 import { mapState } from 'vuex'
-
 Vue.use(VueResource)
-
 export default {
   name: 'MapComponent',
   components: { LMap, LTileLayer, LPopup, LMarker, StarRating },
@@ -135,18 +130,14 @@ export default {
           const data = response.data
           this.markers = []
           const bounds = []
-
           var groupedLessonsByLocation = groupBy(data, function (item) {
             return [item.address.latitude, item.address.longitude]
           })
-
           groupedLessonsByLocation.forEach((item, index) => {
             let lessons = []
-
             for (let i in item) {
               const dStart = new Date(item[i].dateStart)
               const dEnd = new Date(item[i].dateEnd)
-
               lessons.push({
                 id: item[i].id,
                 sub: item[i].lessonSubject,
@@ -161,17 +152,14 @@ export default {
                 coachRating: item[i].coachRating
               })
             }
-
             this.markers.push({
               id: index,
               latlng: Leaflet.latLng(item[0].address.latitude, item[0].address.longitude),
               content: lessons,
               icon: this.defaultIcon
             })
-
-            bounds.push({ 'lat': item[0].address.latitude, 'lng': item[0].address.longitude })
+            // bounds.push({ 'lat': item[0].address.latitude, 'lng': item[0].address.longitude })
           })
-
           console.log(this.markers)
           if (this.markers.length > 0) {
             this.map.fitBounds(bounds)
@@ -191,21 +179,17 @@ export default {
   mounted () {
     this.map = this.$refs.map.mapObject
     this.map.addControl(new Leaflet.Control.Scale())
-
     if (this.searchMode) {
       this.map.addControl(new this.ControlGps())
       this.map.on('locationfound', this.onLocationFound)
       const provider = new OpenStreetMapProvider()
       const searchControl = new GeoSearchControl({
         provider: provider,
-        showMarker: false,
-        searchLabel: 'Wpisz adres'
+        showMarker: false
       })
       this.map.addControl(searchControl)
     }
-
     this.loadData()
-    // this.setLesson(22)
   },
   methods: {
     ControlGps: Leaflet.Control.extend({
@@ -231,7 +215,6 @@ export default {
         return container
       }
     }),
-
     onLocationFound (e) {
       // const radius = e.accuracy / 2
       this.markersLocation = []
@@ -254,14 +237,10 @@ export default {
     },
     async setLesson (lessonId) {
       if (typeof (this.$store.state.auth.user['id']) !== 'undefined') {
-        // const response = await this.$store.dispatch('getUserData')
-        // console.log(response)
-        // alert(localStorage.getItem('token'))
         const payload = {
           coachLessonId: lessonId,
           token: localStorage.getItem('token')
         }
-
         this.createLesson(payload)
       } else {
         alert('Musisz być zalogowany, aby zapisać się na lekcję!')
@@ -269,7 +248,6 @@ export default {
     },
     async createLesson (payload) {
       const response = await this.$store.dispatch('signUpForLesson', payload)
-      console.log(response)
       if (response.status === 400) {
         alert('Jesteś już zapisany na tą lekcję.')
       } else if (response.status === 201) {
@@ -277,8 +255,6 @@ export default {
       }
     },
     loadData () {
-      // https://nominatim.openstreetmap.org/search/Warszawa?format=json&addressdetails=1&limit=100
-      // https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=52.2021169&lon=20.94776
       this.$http.get('https://nominatim.openstreetmap.org/search/' + this.searchLabel + '?format=json&addressdetails=1&limit=1').then((response) => {
         const location = response.body
         const latLngs = [{ 'lat': location[0].lat, 'lng': location[0].lon }]
@@ -295,7 +271,6 @@ export default {
     }
   }
 }
-
 function groupBy (array, f) {
   var groups = {}
   array.forEach(function (o) {
@@ -303,7 +278,6 @@ function groupBy (array, f) {
     groups[group] = groups[group] || []
     groups[group].push(o)
   })
-
   return Object.keys(groups).map(function (group) {
     return groups[group]
   })
@@ -323,21 +297,17 @@ function groupBy (array, f) {
       width: 100%;
     }
   }
-
   [v-cloak] {
     visibility: hidden;
   }
-
   .popup-content {
     max-height: 300px;
     overflow: auto;
   }
-
   .outside-popup-div{
     padding:5px;
     margin-bottom: 2em;
   }
-
   .subject-hour-div{
     text-align: center;
     font-family: Roboto;
@@ -349,27 +319,22 @@ function groupBy (array, f) {
     letter-spacing: normal;
     color: #6b53ff;
   }
-
   .lesson-description {
     padding-top: 15px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
-
   }
-
   .image-popup-div{
     display: flex;
     flex-direction: row;
     align-items: center;
   }
-
   .image-popup{
     width: 40px;
     height: 40px;
   }
-
   .content-popup{
     padding: 0;
     margin: 5px;
@@ -383,18 +348,15 @@ function groupBy (array, f) {
     text-align: justify;
     color: #3d3d3d;
   }
-
   .user-rating{
     display: flex;
-    flex-direction: column;
+    align-items: center;
   }
-
   .content-popup-name{
     padding: 0 0 0 5px;
     margin: 0;
     font-weight: 500
   }
-
   .rating-div {
     padding: 0 0 0 5px;
     font-family: Roboto;
@@ -402,7 +364,6 @@ function groupBy (array, f) {
     font-weight: 300;
     align-self: center;
   }
-
   .button-popup{
     cursor: pointer;
     color:white;
