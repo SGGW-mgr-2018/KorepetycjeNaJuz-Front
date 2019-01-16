@@ -27,7 +27,7 @@
             <div class="lesson-description">
               <div class="image-popup-div">
                 <img class="image-popup" src="/img/personIcon.png">
-                <div user-rating>
+                <div class="user-rating">
                   <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
                   <div v-if="lesson.coachRating === 0" class="rating-div">
                     brak ocen
