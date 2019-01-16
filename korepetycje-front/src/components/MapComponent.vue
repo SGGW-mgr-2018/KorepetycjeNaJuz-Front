@@ -27,7 +27,25 @@
             <div class="lesson-description">
               <div class="image-popup-div">
                 <img class="image-popup" src="/img/personIcon.png">
-                <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
+                <div user-rating>
+                  <p class="content-popup-name">{{ lesson.coachFirstName }} {{ lesson.coachLastName }}</p>
+                  <div v-if="lesson.coachRating === 0" class="rating-div">
+                    brak ocen
+                  </div>
+                  <div v-else class="rating-div">
+                    <star-rating
+                      class="stars_rating"
+                      :star-size="16"
+                      :increment="0.5"
+                      :max-rating="5"
+                      :show-rating="false"
+                      :active-color="yellow"
+                      border-color="#000"
+                      :rating="lesson.coachRating"
+                      :read-only="true"
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <p class="content-popup">{{ (lesson.lessonDescription) ? lesson.lessonDescription : 'Brak opisu lekcji' }}</p>
@@ -56,6 +74,7 @@
 import Vue from 'vue'
 import Leaflet from 'leaflet'
 import Location from '@/assets/js/location.js'
+import StarRating from 'vue-star-rating'
 import { LMap, LTileLayer, LPopup, LMarker } from 'vue2-leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch'
 import VueResource from 'vue-resource'
@@ -65,7 +84,7 @@ Vue.use(VueResource)
 
 export default {
   name: 'MapComponent',
-  components: { LMap, LTileLayer, LPopup, LMarker },
+  components: { LMap, LTileLayer, LPopup, LMarker, StarRating },
   props: {
     searchMode: {
       type: Boolean,
@@ -138,7 +157,8 @@ export default {
                 date: dStart.getFullYear() + '-' + dStart.getMonth() + 1 + '-' + ((dStart.getDate() < 10) ? '0' + dStart.getDate() : dStart.getDate()),
                 lessonDescription: item[i].description,
                 coachFirstName: item[i].coachFirstName,
-                coachLastName: item[i].coachLastName.slice(0, 1) + '.'
+                coachLastName: item[i].coachLastName.slice(0, 1) + '.',
+                coachRating: item[i].coachRating
               })
             }
 
@@ -334,6 +354,9 @@ function groupBy (array, f) {
     padding-top: 15px;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+
   }
 
   .image-popup-div{
@@ -361,9 +384,23 @@ function groupBy (array, f) {
     color: #3d3d3d;
   }
 
+  .user-rating{
+    display: flex;
+    flex-direction: column;
+  }
+
   .content-popup-name{
     padding: 0 0 0 5px;
+    margin: 0;
     font-weight: 500
+  }
+
+  .rating-div {
+    padding: 0 0 0 5px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 300;
+    align-self: center;
   }
 
   .button-popup{
