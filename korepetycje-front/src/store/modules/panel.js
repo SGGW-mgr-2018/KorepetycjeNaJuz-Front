@@ -114,6 +114,15 @@ const actions = {
     const token = localStorage.getItem('token')
     const { data } = await service.get.history(token)
     return data
+  },
+  async rateCoach ({ commit }, lessonData) {
+    const payload = {
+      token: localStorage.getItem('token'),
+      data: lessonData
+    }
+
+    const response = await service.rating.rateLesson(payload)
+    return response
   }
 }
 

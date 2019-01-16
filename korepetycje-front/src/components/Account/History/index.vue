@@ -1,5 +1,5 @@
 <template>
-  <history-lessons class="history-lessons" />
+  <history-lessons class="history-lessons" :lessons="lessons" />
 </template>
 
 <script>
@@ -11,13 +11,14 @@ export default {
   components: {
     HistoryLessons
   },
+
   data () {
     return {
-
+      lessons: []
     }
   },
   async mounted () {
-    await this.fetchHistory()
+    this.lessons = await this.fetchHistory()
   },
   methods: {
     ...mapActions(['fetchHistory'])

@@ -96,11 +96,20 @@ const messages = {
   }).then(responseData).catch(handleErrors)
 }
 
+const rating = {
+  rateLesson: payload => axios.post('/api/Lesson/Rating/Post', payload.data, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token
+    }
+  }).then(responseData).catch(handleErrors)
+}
+
 export default {
   auth,
   map,
   get,
   create,
   calendar,
-  messages
+  messages,
+  rating
 }
